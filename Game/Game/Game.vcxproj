@@ -231,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Battler.cpp" />
+    <ClCompile Include="src\Field.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="src\Ability.h" />
     <ClInclude Include="src\Battler.h" />
     <ClInclude Include="src\Common.hpp" />
+    <ClInclude Include="src\Field.h" />
     <ClInclude Include="src\Game.hpp" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectManager.h" />

@@ -60,6 +60,23 @@ void Field::draw()
     }
 }
 
+void Field::draw(const int32 layerIndex)
+{
+    Size chipSize(0, 0);
+    for (int32 y = 0; y < _layers[layerIndex].height; ++y) {
+        for (int32 x = 0; x < _layers[layerIndex].width; ++x) {
+
+            const int32 index = y * _layers[layerIndex].width + x;
+            if (0 >= _layers[layerIndex].data[index]) {                       // マップデータがなければ次座標へ
+                continue;
+            }
+
+            FindTileToDisplay(_layers[layerIndex].data[index], chipSize)
+                .draw(x * (chipSize.x), y * (chipSize.y));
+        }
+    }
+}
+
 TextureRegion Field::FindTileToDisplay(const int32& index, Size& chipSize)
 {
     int32 offset = 0;

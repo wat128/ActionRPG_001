@@ -32,6 +32,9 @@ void Game::update()
 
 void Game::draw() const
 {
-	field.draw();
+	field.draw(0);
+	field.draw(1);
+	field.draw(2);
 	allyManager.draw();
+	field.draw(3);
 }

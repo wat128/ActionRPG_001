@@ -7,30 +7,47 @@ class GameObjectManager
 {
 public:
 	GameObjectManager()
-		: _objList(0)
+		: _objList()
 	{ }
+
+	~GameObjectManager()
+	{
+		for (auto obj : _objList) {
+			delete obj.second;
+		}
+	}
 
 	template <typename Type>
 	void spawn(const int32& value, const Vec2& pos)
 	{
 		Type* obj = new Type(value, pos);
-		_objList.push_back(obj);
+		_objList.emplace(obj->getName(), obj);
 	}
 
 	void update()
 	{
-		for (const auto& obj : _objList) {
-			obj->update();
+		for (auto obj : _objList) {
+			obj.second->update();
 		}
 	}
 	
 	void draw()
 	{
-		for (const auto& obj : _objList) {
-			obj->draw();
+		for (auto obj : _objList) {
+			obj.second->draw();
 		}
 	}
 
+	inline GameObject getObj(const String& index) const { return *(_objList.at(index)); }
+	
+	inline std::map<String, GameObject> getObjList() const { 
+		std::map<String, GameObject> temp;
+		for (auto obj : _objList) {
+			temp.emplace(obj.first, *(obj.second));
+		}
+		return temp;
+	}
+
 private:
-	Array<GameObject*> _objList;
+	std::map<String, GameObject*> _objList;
 };

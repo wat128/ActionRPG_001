@@ -53,7 +53,7 @@ void Field::draw()
                     continue;
                 }
 
-                FindTileToDisplay(layer.data[index], chipSize)
+                findTileToDisplay(layer.data[index], chipSize)
                     .draw(x * (chipSize.x), y * (chipSize.y));
             }
         }
@@ -71,13 +71,13 @@ void Field::draw(const int32 layerIndex)
                 continue;
             }
 
-            FindTileToDisplay(_layers[layerIndex].data[index], chipSize)
+            findTileToDisplay(_layers[layerIndex].data[index], chipSize)
                 .draw(x * (chipSize.x), y * (chipSize.y));
         }
     }
 }
 
-TextureRegion Field::FindTileToDisplay(const int32& index, Size& chipSize)
+TextureRegion Field::findTileToDisplay(const int32& index, Size& chipSize)
 {
     int32 offset = 0;
     for (auto& tile : _tiles) {

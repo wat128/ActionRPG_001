@@ -34,5 +34,5 @@ public:
     
     void draw(const int32 index);       // w’èƒŒƒCƒ„[‚Ì•`‰æ
 
-    TextureRegion FindTileToDisplay(const int32& index, Size& chipSize);
+    TextureRegion findTileToDisplay(const int32& index, Size& chipSize);
 };

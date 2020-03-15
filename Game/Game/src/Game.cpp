@@ -9,6 +9,7 @@
 
 GameObjectManager allyManager;	// ゲームクラスのメンバとする予定
 Field field;					// 上記同様暫定
+Camera2D camera(Vec2(0, 0), 1.5);
 
 Game::Game(const InitData& init)
 	: IScene(init)
@@ -20,7 +21,7 @@ Game::Game(const InitData& init)
 	Field temp(tiles, chipSizes, path);
 	field = temp;
 
-	allyManager.spawn<Player>(1, Vec2(300.1, 300.1));
+	allyManager.spawn<Player>(1, Vec2(0, 0));
 	//GameObjectManager enemyManager();
 }
 
@@ -32,9 +33,13 @@ void Game::update()
 
 void Game::draw() const
 {
-	field.draw(0);
-	field.draw(1);
-	field.draw(2);
-	allyManager.draw();
-	field.draw(3);
+	camera.setCenter(allyManager.getObj(U"Hero").getPos());
+	{
+		const auto t = camera.createTransformer();
+		field.draw(0);
+		field.draw(1);
+		field.draw(2);
+		allyManager.draw();
+		field.draw(3);
+	}
 }

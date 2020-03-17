@@ -21,7 +21,7 @@ void Main()
 		.setFadeColor(ColorF(1.0));
 
 	// （ゲームシーンから開始する場合はコメントを外す）
-	manager.init(State::Title);
+	manager.init(State::Game);
 	
 	while (System::Update())
 	{

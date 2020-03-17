@@ -6,27 +6,27 @@ class TiledTexture
 private:
     Texture _texture;
     Size _chipSize;
-    int32 _w, _h;     // チップ数
+    int32 _column, _row;     // チップ数
     int32 _sum;
 public:
     TiledTexture(const FilePath& path, const Size& chipSize)
         : _texture(path)
         , _chipSize(chipSize)
-        , _w(_texture.width() / chipSize.x)
-        , _h(_texture.height() / chipSize.y)
-        , _sum(_w* _h) {}
+        , _column(_texture.width() / chipSize.x)
+        , _row(_texture.height() / chipSize.y)
+        , _sum(_column* _row) {}
 
     TextureRegion getTile(const int& index)
     {
-        const int x = index % _w;
-        const int y = index / _w;
+        const int x = index % _column;
+        const int y = index / _column;
 
         return _texture(RectF(x * _chipSize.x, y * _chipSize.y, _chipSize));
     }
 
-    int32 width() const { return _w; }
+    int32 column() const { return _column; }
 
-    int32 height() const { return _h; }
+    int32 row() const { return _row; }
 
     int32 sum() const { return _sum; }
 

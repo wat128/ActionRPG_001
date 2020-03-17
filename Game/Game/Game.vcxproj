@@ -249,8 +249,8 @@
     <ClInclude Include="src\GameObjectManager.h" />
     <ClInclude Include="src\ObjData.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\TiledTexture.h" />
     <ClInclude Include="src\Title.hpp" />
-    <ClInclude Include="TiledTexture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

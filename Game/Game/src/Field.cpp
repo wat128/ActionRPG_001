@@ -40,7 +40,7 @@ Field::Field(const Array<FilePath> tileTexturePaths, const Array<Size>& chipSize
 
 }
 
-void Field::draw()
+void Field::draw(const bool worldPos)
 {
     Size chipSize(0, 0);
 
@@ -53,14 +53,21 @@ void Field::draw()
                     continue;
                 }
 
-                findTileToDisplay(layer.data[index], chipSize)
-                    .draw(x * (chipSize.x), y * (chipSize.y));
+                if (true == worldPos) {
+                    findTileToDisplay(layer.data[index], chipSize)
+                        .draw(x * chipSize.x - layer.width / 2 * chipSize.x,
+                              y * chipSize.y - layer.height / 2 * chipSize.y);
+                }
+                else {
+                    findTileToDisplay(layer.data[index], chipSize)
+                        .draw(x * (chipSize.x), y * (chipSize.y));
+                }
             }
         }
     }
 }
 
-void Field::draw(const int32 layerIndex)
+void Field::draw(const int32 layerIndex, const bool worldPos)
 {
     Size chipSize(0, 0);
     for (int32 y = 0; y < _layers[layerIndex].height; ++y) {
@@ -70,9 +77,15 @@ void Field::draw(const int32 layerIndex)
             if (0 >= _layers[layerIndex].data[index]) {                       // マップデータがなければ次座標へ
                 continue;
             }
-
-            findTileToDisplay(_layers[layerIndex].data[index], chipSize)
-                .draw(x * (chipSize.x), y * (chipSize.y));
+            if (true == worldPos) {
+                findTileToDisplay(_layers[layerIndex].data[index], chipSize)
+                    .draw(x * chipSize.x - _layers[layerIndex].width / 2 * chipSize.x,
+                          y * chipSize.y - _layers[layerIndex].height / 2 * chipSize.y);
+            }
+            else {
+                findTileToDisplay(_layers[layerIndex].data[index], chipSize)
+                    .draw(x * (chipSize.x), y * (chipSize.y));
+            }
         }
     }
 }

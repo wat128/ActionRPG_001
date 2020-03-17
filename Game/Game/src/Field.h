@@ -30,9 +30,9 @@ public:
 
     Field(const Array<FilePath> tileTexturePaths, const Array<Size>& chipSizes, const FilePath& mapDataPath);
     
-    void draw();                        // 全レイヤー描画
+    void draw(const bool worldPos = true);                      // 全レイヤー描画
     
-    void draw(const int32 index);       // 指定レイヤーの描画
+    void draw(const int32 index, const bool worldPos = true);   // 指定レイヤーの描画
 
     TextureRegion findTileToDisplay(const int32& index, Size& chipSize);
 };

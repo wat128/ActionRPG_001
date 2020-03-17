@@ -415,10 +415,10 @@
     <ClInclude Include="src\ObjData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TiledTexture.h">
+    <ClInclude Include="src\Field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Field.h">
+    <ClInclude Include="src\TiledTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

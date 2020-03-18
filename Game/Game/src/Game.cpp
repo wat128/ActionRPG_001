@@ -9,12 +9,14 @@
 
 
 enum FIELD { FIRST = 1, SECOND };	// テスト用：
-const int FIELD_NUM = FIRST;		// テスト用：フィールド切り替え（テスト用）
+const int FIELD_NUM = SECOND;		// テスト用：フィールド切り替え（テスト用）
 
 
 GameObjectManager allyManager;	// テスト用：ゲームクラスのメンバとする予定
 Field field;					// テスト用：
-Camera2D camera(Vec2(0, 0), 1.5);
+Camera2D camera(Vec2(0, 0),2.0);
+
+Vec2 cameraPos = { 0,0 };
 
 Game::Game(const InitData& init)
 	: IScene(init)
@@ -39,14 +41,25 @@ Game::Game(const InitData& init)
 }
 
 void Game::update()
-{
+{	
+	const int32 marginX = (field.w() - camera.getRegion().w) / 2;
+	const int32 marginY = (field.h() - camera.getRegion().h) / 2;
 
 	allyManager.update();
+
+	if (-marginX < allyManager.getObj(U"Hero").getPos().x
+		&& marginX > allyManager.getObj(U"Hero").getPos().x)
+		cameraPos.x = allyManager.getObj(U"Hero").getPos().x;
+
+	if (-marginY < allyManager.getObj(U"Hero").getPos().y
+		&& marginY > allyManager.getObj(U"Hero").getPos().y)
+		cameraPos.y = allyManager.getObj(U"Hero").getPos().y;
+
+	camera.setCenter(cameraPos);
 }
 
 void Game::draw() const
 {
-	camera.setCenter(allyManager.getObj(U"Hero").getPos());
 	{
 		const auto t = camera.createTransformer();
 		field.draw(0);

@@ -2,7 +2,7 @@
 
 Field::Field() {};
 
-Field::Field(const Array<FilePath> tileTexturePaths, const Array<Size>& chipSizes, const FilePath& mapDataPath)
+Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSizes, const FilePath& mapDataPath)
 {
     // タイルテクスチャの読み込み
     int32 index = 0;
@@ -36,11 +36,13 @@ Field::Field(const Array<FilePath> tileTexturePaths, const Array<Size>& chipSize
     }
 
     // 共通のマップ情報読み込み
-    //_square = Size({ mapData[U"tilewidth"].get<int32>(), mapData[U"tileheight"].get<int32>() });
+    _size = Size(
+        { mapData[U"tilewidth"].get<int32>() * mapData[U"width"].get<int32>()
+        , mapData[U"tileheight"].get<int32>()* mapData[U"height"].get<int32>() });
 
 }
 
-void Field::draw(const bool worldPos)
+void Field::draw(const bool& worldPos)
 {
     Size chipSize(0, 0);
 
@@ -67,7 +69,7 @@ void Field::draw(const bool worldPos)
     }
 }
 
-void Field::draw(const int32 layerIndex, const bool worldPos)
+void Field::draw(const int32& layerIndex, const bool& worldPos)
 {
     Size chipSize(0, 0);
     for (int32 y = 0; y < _layers[layerIndex].height; ++y) {

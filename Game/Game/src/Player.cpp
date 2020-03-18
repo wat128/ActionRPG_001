@@ -1,7 +1,5 @@
 #include "Player.h"
 
-Vec2 offset;
-Vec2 moved;
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
@@ -35,7 +33,7 @@ bool Player::recieveDamage()
 
 bool Player::move()
 {
-	offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
+	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() *(KeyShift.pressed() ? 0.5 : 1.0));
 	
 	// --- Õ“Ë”»’èˆ—À‘•—\’è --- //

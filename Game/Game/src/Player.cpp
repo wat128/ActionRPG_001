@@ -48,5 +48,6 @@ void Player::update()
 
 void Player::draw()
 {
-	RectF(_actor.pos, 100, 100)(_texture).draw();
+	RectF(100, 100)(_texture).drawAt(_actor.pos);
+	RectF(Arg::center(_actor.pos), 100, 100).drawFrame();	// テスト用：
 }

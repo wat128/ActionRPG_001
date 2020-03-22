@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Ability.h"
+#include "TiledGameObjectTexture.h"
 
 class Player : public GameObject
 {
@@ -17,5 +18,6 @@ public:
 	void draw() override;
 private:
 	Ability _ability;
+	TiledGameObjectTexture _tiledTexture;
 };
 

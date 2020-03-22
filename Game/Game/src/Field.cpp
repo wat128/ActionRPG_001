@@ -7,7 +7,7 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSiz
     // タイルテクスチャの読み込み
     int32 index = 0;
     for (const auto& path : tileTexturePaths) {
-        TiledTexture texture(path, chipSizes[index]);
+        TiledMapTexture texture(path, chipSizes[index]);
         _tiles.push_back(texture);
         ++index;
     }

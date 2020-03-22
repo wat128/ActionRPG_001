@@ -3,6 +3,11 @@
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
+	, _tiledTexture(
+		_texture,
+		ObjData::getInstance()->TextureCharaNum(value),
+		ObjData::getInstance()->TextureTileXYNum(value),
+		ObjData::getInstance()->TextureTileRegionWH(value))
 	, _ability(value)
 {}
 
@@ -35,10 +40,13 @@ bool Player::move()
 {
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() *(KeyShift.pressed() ? 0.5 : 1.0));
-	
+
 	// --- 衝突判定処理実装予定 --- //
 
 	_actor.setPos(_actor.pos + offset);
+
+	_tiledTexture.update(offset);
+
 	return true;
 }
 void Player::update()
@@ -48,6 +56,6 @@ void Player::update()
 
 void Player::draw()
 {
-	RectF(100, 100)(_texture).drawAt(_actor.pos);
-	RectF(Arg::center(_actor.pos), 100, 100).drawFrame();	// テスト用：
+	_tiledTexture.getTile().drawAt(_actor.pos);
+	RectF(Arg::center(_actor.pos), _actor.w, _actor.h).drawFrame();	// テスト用：
 }

@@ -36,7 +36,9 @@ Game::Game(const InitData& init)
 		Field temp(tiles, chipSizes, path);
 		field = temp;
 	}
+
 	allyManager.spawn<Player>(1, Vec2(0, 0));
+
 	//GameObjectManager enemyManager();
 }
 

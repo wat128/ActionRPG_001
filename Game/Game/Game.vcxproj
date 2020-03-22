@@ -237,6 +237,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ObjData.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\TiledGameObjectTexture.cpp" />
     <ClCompile Include="src\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +250,8 @@
     <ClInclude Include="src\GameObjectManager.h" />
     <ClInclude Include="src\ObjData.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\TiledGameObjectTexture.h" />
+    <ClInclude Include="src\TiledMapTexture.h" />
     <ClInclude Include="src\TiledTexture.h" />
     <ClInclude Include="src\Title.hpp" />
   </ItemGroup>

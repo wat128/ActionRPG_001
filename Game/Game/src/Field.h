@@ -1,5 +1,5 @@
 #pragma once
-# include "TiledTexture.h"
+# include "TiledMapTexture.h"
 
 struct Layer {
     Array<int32> data;
@@ -23,7 +23,7 @@ struct Layer {
 class Field
 {
 private:
-    Array<TiledTexture> _tiles;
+    Array<TiledMapTexture> _tiles;
     Array<Layer> _layers;
     Size _size;
 public:

@@ -38,4 +38,7 @@ void AssetRegist()
 	FontAsset::Register(U"Menu", 30, Typeface::Regular);
 	FontAsset::Register(U"Score", 36, Typeface::Bold);
 
+	TextureAsset::Register(U"horizon001", U"Asset/Background/horizon001.jpg");
+
+	AudioAsset::Register(U"MeridianChild", U"Asset/MeridianChild.mp3");	// テスト用：
 }

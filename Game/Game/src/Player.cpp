@@ -7,7 +7,8 @@ Player::Player(const int32& value, const Vec2& pos)
 		_texture,
 		ObjData::getInstance()->TextureCharaNum(value),
 		ObjData::getInstance()->TextureTileXYNum(value),
-		ObjData::getInstance()->TextureTileRegionWH(value))
+		ObjData::getInstance()->TextureTileRegionWH(value),
+		0.2) // 暫定(アニメーションレート)
 	, _ability(value)
 {}
 

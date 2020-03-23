@@ -9,15 +9,19 @@ private:
 	Vec2 _tileXYNum;
 	Vec2 _basePoint;
 	Vec2 _currentDirection;
-	//Stopwatch _animeTimer;		// アニメーションタイマー
+	int32 _count;
+	double _shiftRate;		// アニメ切り替え時間
+	double _timeAccum;		// 毎フレーム時間蓄積（アニメーション用）
+	bool _reverseAnime;
 
 public:
 	TiledGameObjectTexture();
 	TiledGameObjectTexture(
 		const Texture& texture,
 		const Size& textureCharaNum,
-		const Size& textureTileXYNum, 
-		const Size& textureTileRegionWH);
+		const Size& textureTileXYNum,
+		const Size& textureTileRegionWH,
+		const double& shiftRate = 0);
 
 	TextureRegion getTile();
 

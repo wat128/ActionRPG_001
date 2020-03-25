@@ -40,5 +40,5 @@ void AssetRegist()
 
 	TextureAsset::Register(U"horizon001", U"Asset/Background/horizon001.jpg");
 
-	AudioAsset::Register(U"MeridianChild", U"Asset/MeridianChild.mp3");	// テスト用：
+	AudioAsset::Register(U"MeridianChild", U"Asset/Audio/MeridianChild.mp3");	// テスト用：
 }

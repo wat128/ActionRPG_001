@@ -22,6 +22,7 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSiz
         for (const auto& tileData : layer[U"data"].arrayView()) {
             temp.data.push_back(tileData.get<int32>());
         }
+
         temp.height = layer[U"height"].get<int32>();
         temp.id = layer[U"id"].get<int32>();
         temp.name = layer[U"name"].get<String>();
@@ -31,6 +32,15 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSiz
         temp.width = layer[U"width"].get<int32>();
         temp.x = layer[U"x"].get<int32>();
         temp.y = layer[U"y"].get<int32>();
+
+        for (const auto& property : layer[U"properties"].arrayView()){
+            if (U"Collision" == property[U"name"].getString())
+                temp.isCollisionLayer = property[U"value"].get<bool>();
+            if (U"Hide" == property[U"name"].getString())
+                temp.isHideLayer = property[U"value"].get<bool>();
+            if (U"Lower" == property[U"name"].getString())
+                temp.isLowerLayer = property[U"value"].get<bool>();
+        }
 
         _layers.push_back(temp);
     }
@@ -42,11 +52,27 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSiz
 
 }
 
-void Field::draw(const bool& worldPos)
+void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
 {
     Size chipSize(0, 0);
 
+    Array<Layer> validLayer;
     for (const auto& layer : _layers) {
+        if (layer.isHideLayer || layer.isCollisionLayer)
+            continue;
+
+        if (lower && layer.isLowerLayer) {
+            validLayer.emplace_back(layer);
+            continue;
+        }
+
+        if (upper && !(layer.isLowerLayer)) {   // レイヤー順 ＝ 表示する順 と想定したうえでの処理。表示する順でないなら別途for文を用意する
+            validLayer.emplace_back(layer);
+        }
+    }
+
+    for (const auto& layer : validLayer) {
+        
         for (int32 y = 0; y < layer.height; ++y) {
             for (int32 x = 0; x < layer.width; ++x) {
 
@@ -71,6 +97,9 @@ void Field::draw(const bool& worldPos)
 
 void Field::draw(const int32& layerIndex, const bool& worldPos)
 {
+    if (_layers[layerIndex].isHideLayer || _layers[layerIndex].isCollisionLayer)
+        return;
+
     Size chipSize(0, 0);
     for (int32 y = 0; y < _layers[layerIndex].height; ++y) {
         for (int32 x = 0; x < _layers[layerIndex].width; ++x) {

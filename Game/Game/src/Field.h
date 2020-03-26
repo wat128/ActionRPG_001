@@ -12,6 +12,9 @@ struct Layer {
     int32 width;
     int32 x;
     int32 y;
+    bool isCollisionLayer;
+    bool isHideLayer;
+    bool isLowerLayer;
 };
 
 // --- 使用上の注意点 ---
@@ -31,9 +34,9 @@ public:
 
     Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSizes, const FilePath& mapDataPath);
     
-    void draw(const bool& worldPos = true);                      // 全レイヤー描画
+    void draw(const bool& lower = true, const bool& upper = true, const bool& worldPos = true);   // 下位上位レイヤー描画（デフォルト全レイヤー描画）
     
-    void draw(const int32& index, const bool& worldPos = true);   // 指定レイヤーの描画
+    void draw(const int32& index, const bool& worldPos = true);     // 指定レイヤーの描画
 
     TextureRegion findTileToDisplay(const int32& index, Size& chipSize);
 

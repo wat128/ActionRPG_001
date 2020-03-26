@@ -1,0 +1,3 @@
+value,name,mapDataPath,texturePath01,chipSize01,texturePath02,chipSize02,texturePath03,chipSize03,texturePath04,chipSize04,texturePath05,chipSize05,texturePath06,chipSize06,texturePath07,chipSize07,texturePath08,chipSize08,texturePath09,chipSize09
+0,テストマップ,Asset/Map/Data/Map001.json,Asset/Map/Texture/BrightForest-A2.png,"{8, 8}",Asset/Map/Texture/BrightForest-A5.png,"{8, 8}",Asset/Map/Texture/BrightForest-B.png,"{8, 8}",Asset/Map/Texture/Tent-F.png,"{8, 8}",,,,,,,,,,
+1,はじまりの街,Asset/Map/Data/Map001_1.json,Asset/Map/Texture/BrightForest-A1.png,"{16, 16}",Asset/Map/Texture/BrightForest-A2.png,"{16, 16}",Asset/Map/Texture/BrightForest-A5.png,"{16, 16}",Asset/Map/Texture/Tent-F.png,"{16, 16}",Asset/Map/Texture/BrightForest-B.png,"{16, 16}",,,,,,,,

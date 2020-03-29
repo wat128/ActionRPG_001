@@ -2,16 +2,8 @@
 
 Field::Field() {};
 
-Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSizes, const FilePath& mapDataPath)
+Field::Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath)
 {
-    // タイルテクスチャの読み込み
-    int32 index = 0;
-    for (const auto& path : tileTexturePaths) {
-        TiledMapTexture texture(path, chipSizes[index]);
-        _tiles.push_back(texture);
-        ++index;
-    }
-
     // マップデータ読み込み
     const JSONReader mapData(mapDataPath);
     if (!mapData)
@@ -46,16 +38,22 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const Array<Size>& chipSiz
     }
 
     // 共通のマップ情報読み込み
-    _size = Size(
+    _mapSize = Size(
         { mapData[U"tilewidth"].get<int32>() * mapData[U"width"].get<int32>()
         , mapData[U"tileheight"].get<int32>()* mapData[U"height"].get<int32>() });
+    
+    _tileSize = Size(mapData[U"tilewidth"].get<int32>(), mapData[U"tileheight"].get<int32>());
+    
+    // タイルテクスチャの読み込み
+    for (const auto& path : tileTexturePaths) {
+        TiledMapTexture texture(path, _tileSize);
+        _tiles.push_back(texture);
+    }
 
 }
 
 void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
 {
-    Size chipSize(0, 0);
-
     Array<Layer> validLayer;
     for (const auto& layer : _layers) {
         if (layer.isHideLayer || layer.isCollisionLayer)
@@ -82,13 +80,13 @@ void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
                 }
 
                 if (true == worldPos) {
-                    findTileToDisplay(layer.data[index], chipSize)
-                        .draw(x * chipSize.x - layer.width / 2 * chipSize.x,
-                              y * chipSize.y - layer.height / 2 * chipSize.y);
+                    findTileToDisplay(layer.data[index])
+                        .draw(x * _tileSize.x - layer.width / 2 * _tileSize.x,
+                              y * _tileSize.y - layer.height / 2 * _tileSize.y);
                 }
                 else {
-                    findTileToDisplay(layer.data[index], chipSize)
-                        .draw(x * (chipSize.x), y * (chipSize.y));
+                    findTileToDisplay(layer.data[index])
+                        .draw(x * (_tileSize.x), y * (_tileSize.y));
                 }
             }
         }
@@ -100,7 +98,6 @@ void Field::draw(const int32& layerIndex, const bool& worldPos)
     if (_layers[layerIndex].isHideLayer || _layers[layerIndex].isCollisionLayer)
         return;
 
-    Size chipSize(0, 0);
     for (int32 y = 0; y < _layers[layerIndex].height; ++y) {
         for (int32 x = 0; x < _layers[layerIndex].width; ++x) {
 
@@ -109,24 +106,23 @@ void Field::draw(const int32& layerIndex, const bool& worldPos)
                 continue;
             }
             if (true == worldPos) {
-                findTileToDisplay(_layers[layerIndex].data[index], chipSize)
-                    .draw(x * chipSize.x - _layers[layerIndex].width / 2 * chipSize.x,
-                          y * chipSize.y - _layers[layerIndex].height / 2 * chipSize.y);
+                findTileToDisplay(_layers[layerIndex].data[index])
+                    .draw(x * _tileSize.x - _layers[layerIndex].width / 2 * _tileSize.x,
+                          y * _tileSize.y - _layers[layerIndex].height / 2 * _tileSize.y);
             }
             else {
-                findTileToDisplay(_layers[layerIndex].data[index], chipSize)
-                    .draw(x * (chipSize.x), y * (chipSize.y));
+                findTileToDisplay(_layers[layerIndex].data[index])
+                    .draw(x * (_tileSize.x), y * (_tileSize.y));
             }
         }
     }
 }
 
-TextureRegion Field::findTileToDisplay(const int32& index, Size& chipSize)
+TextureRegion Field::findTileToDisplay(const int32& index)
 {
     int32 offset = 0;
     for (auto& tile : _tiles) {
         if (tile.sum() + offset > index) {
-            chipSize = tile.chipSize();
             return tile.getTile(index - 1 - offset);
         }
         offset += tile.sum();

@@ -5,15 +5,15 @@ class TiledMapTexture
 {
 private:
     Texture _texture;
-    Size _chipSize;
-    int32 _column, _row;     // チップ数
+    Size _tileSize;
+    int32 _column, _row;     // タイル数
     int32 _sum;
 public:
-    TiledMapTexture(const FilePath& path, const Size& chipSize)
+    TiledMapTexture(const FilePath& path, const Size& tileSize)
         : _texture(path)
-        , _chipSize(chipSize)
-        , _column(_texture.width() / chipSize.x)
-        , _row(_texture.height() / chipSize.y)
+        , _tileSize(tileSize)
+        , _column(_texture.width() / tileSize.x)
+        , _row(_texture.height() / tileSize.y)
         , _sum(_column* _row) {}
 
     TextureRegion getTile(const int& index)
@@ -21,7 +21,7 @@ public:
         const int x = index % _column;
         const int y = index / _column;
 
-        return _texture(RectF(x * _chipSize.x, y * _chipSize.y, _chipSize));
+        return _texture(RectF(x * _tileSize.x, y * _tileSize.y, _tileSize));
     }
 
     int32 column() const { return _column; }
@@ -30,7 +30,7 @@ public:
 
     int32 sum() const { return _sum; }
 
-    const Size& chipSize() const { return _chipSize; }
+    const Size& tileSize() const { return _tileSize; }
 
     const Texture& getTexture() const { return _texture; }
 };

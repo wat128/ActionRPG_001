@@ -5,7 +5,7 @@ class TiledGameObjectTexture
 {
 private:
 	Texture _texture;
-	Size _chipSize;
+	Size _tileSize;
 	Vec2 _tileXYNum;
 	Vec2 _basePoint;
 	Vec2 _currentDirection;

@@ -28,6 +28,5 @@ private:
 		NAME,
 		MAPDATA_PATH,
 		TEXTURE_PATH_BEGIN,
-		CHIPSIZE_BEGIN,
 	};
 };

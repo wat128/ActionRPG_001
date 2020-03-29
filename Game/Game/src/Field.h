@@ -27,16 +27,20 @@ class Field
 private:
     Array<TiledMapTexture> _tiles;
     Array<Layer> _layers;
+    Array<Rect> _collisions;
     Size _mapSize;
     Size _tileSize;
+    Size _tileNumWH;
 public:
     Field();
 
-    Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath);
+    Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos = true);
     
     void draw(const bool& lower = true, const bool& upper = true, const bool& worldPos = true);   // 下位上位レイヤー描画（デフォルト全レイヤー描画）
     
     void draw(const int32& index, const bool& worldPos = true);     // 指定レイヤーの描画
+
+    bool withinCollision(const Vec2& pos);
 
     TextureRegion findTileToDisplay(const int32& index);
 

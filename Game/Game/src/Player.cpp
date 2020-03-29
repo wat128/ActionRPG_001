@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "FieldManager.h"	// テスト用：
 
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
@@ -42,9 +43,10 @@ bool Player::move()
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() *(KeyShift.pressed() ? 0.5 : 1.0));
 
-	// --- 衝突判定処理実装予定 --- //
-
-	_actor.setPos(_actor.pos + offset);
+	// テスト用：暫定でフィールドクラスを直接コールしておく。いずれ橋渡し用のクラスを作成する。 // 
+	bool ret = FieldManager::getInstance()->getCurrentField().withinCollision(_actor.pos + offset);
+	if(!ret)
+		_actor.setPos(_actor.pos + offset);
 
 	_tiledTexture.update(offset);
 

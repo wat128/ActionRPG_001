@@ -2,13 +2,22 @@
 
 Field::Field() {};
 
-Field::Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath)
+Field::Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos)
 {
     // マップデータ読み込み
     const JSONReader mapData(mapDataPath);
     if (!mapData)
         throw Error(U"Failed to read mapDataFile.json");
 
+    // 共通のマップ情報読み込み
+    _mapSize = Size(
+        { mapData[U"tilewidth"].get<int32>() * mapData[U"width"].get<int32>()
+        , mapData[U"tileheight"].get<int32>()* mapData[U"height"].get<int32>() });
+    
+    _tileSize = Size(mapData[U"tilewidth"].get<int32>(), mapData[U"tileheight"].get<int32>());
+    _tileNumWH = Size(mapData[U"width"].get<int32>(), mapData[U"height"].get<int32>());
+
+    // 各レイヤーデータの読み込み
     for (const auto& layer : mapData[U"layers"].arrayView()) {
         Layer temp;
         for (const auto& tileData : layer[U"data"].arrayView()) {
@@ -37,19 +46,37 @@ Field::Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPat
         _layers.push_back(temp);
     }
 
-    // 共通のマップ情報読み込み
-    _mapSize = Size(
-        { mapData[U"tilewidth"].get<int32>() * mapData[U"width"].get<int32>()
-        , mapData[U"tileheight"].get<int32>()* mapData[U"height"].get<int32>() });
-    
-    _tileSize = Size(mapData[U"tilewidth"].get<int32>(), mapData[U"tileheight"].get<int32>());
-    
+    // コリジョンデータの読み込み
+    for (const auto& layer : _layers) {
+        if (!layer.isCollisionLayer)
+            continue;
+
+        for (int32 y = 0; y < layer.height; ++y) {
+            for (int32 x = 0; x < layer.width; ++x) {
+                if (0 >= layer.data[y * layer.width + x])
+                    continue;
+
+                if (true == worldPos) {
+                    _collisions.emplace_back(
+                        Rect(x * _tileSize.x - layer.width / 2 * _tileSize.x
+                            , y * _tileSize.y - layer.height / 2 * _tileSize.y
+                            , _tileSize));
+                }
+                else {
+                    _collisions.emplace_back(
+                        Rect(x * (_tileSize.x)
+                            , y * (_tileSize.y)
+                            , _tileSize));
+                }
+            }
+        }
+    }
+
     // タイルテクスチャの読み込み
     for (const auto& path : tileTexturePaths) {
         TiledMapTexture texture(path, _tileSize);
         _tiles.push_back(texture);
     }
-
 }
 
 void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
@@ -116,6 +143,18 @@ void Field::draw(const int32& layerIndex, const bool& worldPos)
             }
         }
     }
+}
+
+bool Field::withinCollision(const Vec2& pos)
+{
+    bool ret = false;
+    for (const auto& collision : _collisions) {
+        if (collision.intersects(pos)) {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
 }
 
 TextureRegion Field::findTileToDisplay(const int32& index)

@@ -1,6 +1,7 @@
 #pragma once
 #include <Siv3D.hpp>
 #include "ObjData.h"
+#include "TiledGameObjectTexture.h"
 
 class GameObject
 {

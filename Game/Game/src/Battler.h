@@ -17,10 +17,10 @@ public:
 	void update() override;
 	void draw() override;
 private:
+	Ability _ability;
+	TiledGameObjectTexture _tiledTexture;
 	const bool _isEnemy;
 	ActionPatternList _actionPattern;
-	//Ability _ability;
-
 };
 
 enum class ActionPatternList {

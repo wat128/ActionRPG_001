@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "FieldManager.h"	// テスト用：
+#include "FieldReferee.h"
 
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
@@ -43,14 +44,12 @@ bool Player::move()
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() *(KeyShift.pressed() ? 0.5 : 1.0));
 
-	// テスト用：暫定でフィールドクラスを直接コールしておく。いずれ橋渡し用のクラスを作成する。 // 
 	const RectF movedCollision(						// 移動後の衝突判定用
 		_actor.pos.x - _actor.w / 2 + offset.x
 		, _actor.pos.y - _actor.h + offset.y
 		, _actor.w, _actor.h);
 	
-	bool ret = FieldManager::getInstance()->getCurrentField()
-		.withinCollision(movedCollision);
+	bool ret = FieldReferee::getInstance()->isCollision(movedCollision);
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 
@@ -79,8 +78,4 @@ void Player::draw()
 	Print << U"_actor.size :" << _actor.size;
 	Print << U"_tiledTexture.size.w :" << _tiledTexture.getTile().size.x;
 	Print << U"_tiledTexture.size.h :" << _tiledTexture.getTile().size.y;
-
-
-	//_tiledTexture.getTile().drawAt(_actor.pos);
-	//RectF(Arg::center(_actor.pos), _actor.w, _actor.h).drawFrame();	// テスト用：
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Ability.h"
-#include "TiledGameObjectTexture.h"
 
 class Player : public GameObject
 {

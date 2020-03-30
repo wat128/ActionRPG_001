@@ -233,6 +233,7 @@
     <ClCompile Include="src\Battler.cpp" />
     <ClCompile Include="src\Field.cpp" />
     <ClCompile Include="src\FieldManager.cpp" />
+    <ClCompile Include="src\FieldReferee.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="src\Common.hpp" />
     <ClInclude Include="src\Field.h" />
     <ClInclude Include="src\FieldManager.h" />
+    <ClInclude Include="src\FieldReferee.h" />
     <ClInclude Include="src\Game.hpp" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectManager.h" />

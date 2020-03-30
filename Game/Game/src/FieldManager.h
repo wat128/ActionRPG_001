@@ -17,7 +17,7 @@ public:
 
 	inline Field getCurrentField() { return _fieldList[_currentField]; };
 	inline Array<GameObject*> getAllyList() { return _allyManager.getObjList(); };
-	//inline Array<GameObject*> getEnemyList() { return _enemyManager.getObjList(); };
+	inline Array<GameObject*> getEnemyList() { return _enemyManager.getObjList(); };
 
 	void transition(const String& fieldName);
 	void update();
@@ -30,7 +30,7 @@ private:
 	String _currentField;
 
 	GameObjectManager _allyManager;		// 味方キャラ管理用
-	//GameObjectManager _enemyManager;	// エネミー管理用
+	GameObjectManager _enemyManager;	// エネミー管理用
 
 	enum Info {
 		VALUE = 0,

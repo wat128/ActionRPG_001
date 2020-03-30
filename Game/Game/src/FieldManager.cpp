@@ -6,7 +6,7 @@ FieldManager::FieldManager()
 	: _fieldList()
 	, _currentField(U"テストマップ")
 	, _allyManager()
-	//, _enemyManager()
+	, _enemyManager()
 {
 	// フィールドマップデータ取得 & 生成
 	const int32 baseRow = 1;
@@ -32,7 +32,7 @@ FieldManager::FieldManager()
 
 	// テスト用：ゲームオブジェクト生成
 	_allyManager.spawn<Player>(1, Vec2(0, 0));
-	//_enemyManager.spawn<Battler>(10, Vec2(30, 0));
+	_enemyManager.spawn<Battler>(10, Vec2(30, 0));
 
 };
 
@@ -47,13 +47,13 @@ void FieldManager::transition(const String& fieldName)
 void FieldManager::update()
 {
 	_allyManager.update();
-	//_enemyManager.update();
+	_enemyManager.update();
 }
 
 void FieldManager::draw()
 {
 	getCurrentField().draw(true, false);
-	//_enemyManager.draw();
+	_enemyManager.draw();
 	_allyManager.draw();
 	getCurrentField().draw(false, true);
 }

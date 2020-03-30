@@ -8,4 +8,5 @@ Value,Name,Texture,TextureWH,TextureAllCharaNumXY,TextureCharaNumXY,TextureTileX
 7,test06,Asset/Resident/001.png,"{384, 256}","{4, 2}","{2, 2}","{3, 4}","{32, 32}","{32, 32}",Resident,0,0,0,0,0,0,0,0,0,0,0
 8,test07,Asset/Resident/001.png,"{384, 256}","{4, 2}","{3, 2}","{3, 4}","{32, 32}","{32, 32}",Resident,0,0,0,0,0,0,0,0,0,0,0
 9,test08,Asset/Resident/001.png,"{384, 256}","{4, 2}","{4, 2}","{3, 4}","{32, 32}","{32, 32}",Resident,0,0,0,0,0,0,0,0,0,0,0
+10,ワーウルフ,Asset/Battler/wereWolf01.png,"{183, 188}","{1, 1}","{1, 1}","{3, 4}","{61, 47}","{32, 10}",Beast,1,0,200,60,10,7,7,5,1,0x00000000,1
 1000,ポーション,,,,,,,,,,,,,,,,,,,

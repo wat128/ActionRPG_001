@@ -1,15 +1,7 @@
 
 # include "Game.hpp"
-# include "GameObject.h"
-# include "GameObjectManager.h"
-# include "Battler.h"
-# include "ObjData.h"
-# include "Player.h"
-# include "Field.h"
-
 # include "FieldManager.h"
 
-GameObjectManager allyManager;		// テスト用：ゲームクラスのメンバとする予定
 Camera2D camera(Vec2(0, 0),1.5);
 Vec2 cameraPos = { 0,0 };
 
@@ -20,33 +12,22 @@ Game::Game(const InitData& init)
 	AudioAsset(U"MeridianChild").play();
 
 	FieldManager::getInstance();
-
-	allyManager.spawn<Player>(1, Vec2(0, 0));
-
-	//GameObjectManager enemyManager();
 }
 
 void Game::update()
 {	
-	// テスト用：
-	if (MouseL.pressed())
-		FieldManager::getInstance()->transition(U"はじまりの街");
-	if (MouseR.pressed())
-		FieldManager::getInstance()->transition(U"テストマップ");
-
+	FieldManager::getInstance()->update();
+	
 	const double marginX = (FieldManager::getInstance()->getCurrentField().w() - camera.getRegion().w) / 2;
 	const double marginY = (FieldManager::getInstance()->getCurrentField().h() - camera.getRegion().h) / 2;
+	
+	if (-marginX < FieldManager::getInstance()->getAllyList().at(0)->getPos().x		//allyManagerの最初の要素はプレイヤーとする
+		&& marginX > FieldManager::getInstance()->getAllyList().at(0)->getPos().x)
+		cameraPos.x = FieldManager::getInstance()->getAllyList().at(0)->getPos().x;
 
-	allyManager.update();
-
-	if (-marginX < allyManager.getObj(U"Hero").getPos().x
-		&& marginX > allyManager.getObj(U"Hero").getPos().x)
-		cameraPos.x = allyManager.getObj(U"Hero").getPos().x;
-
-	if (-marginY < allyManager.getObj(U"Hero").getPos().y
-		&& marginY > allyManager.getObj(U"Hero").getPos().y)
-		cameraPos.y = allyManager.getObj(U"Hero").getPos().y;
-
+	if (-marginY < FieldManager::getInstance()->getAllyList().at(0)->getPos().y
+		&& marginY > FieldManager::getInstance()->getAllyList().at(0)->getPos().y)
+		cameraPos.y = FieldManager::getInstance()->getAllyList().at(0)->getPos().y;
 
 	camera.setCenter(cameraPos);
 }
@@ -57,8 +38,6 @@ void Game::draw() const
 	Scene::SetBackground(Palette::White);
 	{
 		const auto t = camera.createTransformer();
-		FieldManager::getInstance()->getCurrentField().draw(true, false);
-		allyManager.draw();
-		FieldManager::getInstance()->getCurrentField().draw(false, true);
+		FieldManager::getInstance()->draw();
 	}
 }

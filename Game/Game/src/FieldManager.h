@@ -1,5 +1,8 @@
 #pragma once
 # include "Field.h" 
+# include "GameObjectManager.h" 
+# include "Player.h"
+# include "Battler.h"
 
 class FieldManager
 {
@@ -13,15 +16,21 @@ public:
 	}
 
 	inline Field getCurrentField() { return _fieldList[_currentField]; };
+	inline Array<GameObject*> getAllyList() { return _allyManager.getObjList(); };
+	//inline Array<GameObject*> getEnemyList() { return _enemyManager.getObjList(); };
 
 	void transition(const String& fieldName);
-	
-	//メモ：Fieldクラスで座標を引数で受け、コリジョン判定をする関数を作成する
+	void update();
+	void draw();
+
 private:
 	FieldManager();
 	static FieldManager* _instance;
 	std::map<String, Field> _fieldList;
 	String _currentField;
+
+	GameObjectManager _allyManager;		// 味方キャラ管理用
+	//GameObjectManager _enemyManager;	// エネミー管理用
 
 	enum Info {
 		VALUE = 0,

@@ -13,7 +13,7 @@ public:
 	~GameObjectManager()
 	{
 		for (auto obj : _objList) {
-			delete obj.second;
+			delete obj;
 		}
 	}
 
@@ -21,33 +21,27 @@ public:
 	void spawn(const int32& value, const Vec2& pos)
 	{
 		Type* obj = new Type(value, pos);
-		_objList.emplace(obj->getName(), obj);
+		_objList.emplace_back(obj);
 	}
 
 	void update()
 	{
 		for (auto obj : _objList) {
-			obj.second->update();
+			obj->update();
 		}
 	}
 	
 	void draw()
 	{
 		for (auto obj : _objList) {
-			obj.second->draw();
+			obj->draw();
 		}
 	}
 
-	inline GameObject getObj(const String& index) const { return *(_objList.at(index)); }
+	inline GameObject* getObj(const int32& index) const { return _objList.at(index); }
 	
-	inline std::map<String, GameObject> getObjList() const { 
-		std::map<String, GameObject> temp;
-		for (auto obj : _objList) {
-			temp.emplace(obj.first, *(obj.second));
-		}
-		return temp;
-	}
+	inline Array<GameObject*> getObjList() const { return _objList;}
 
 private:
-	std::map<String, GameObject*> _objList;
+	Array<GameObject*> _objList;
 };

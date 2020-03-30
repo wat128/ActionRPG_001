@@ -5,8 +5,11 @@ FieldManager* FieldManager::_instance = nullptr;
 FieldManager::FieldManager()
 	: _fieldList()
 	, _currentField(U"テストマップ")
+	, _allyManager()
+	//, _enemyManager()
 {
-	const int32 baseRow = 1;	// 取得を始める行
+	// フィールドマップデータ取得 & 生成
+	const int32 baseRow = 1;
 
 	CSVData fieldData(U"Asset/FieldData.csv");
 	if (!fieldData)
@@ -26,6 +29,11 @@ FieldManager::FieldManager()
 			Parse<String>(fieldData[row][NAME]),
 			Field(tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
 	}
+
+	// テスト用：ゲームオブジェクト生成
+	_allyManager.spawn<Player>(1, Vec2(0, 0));
+	//_enemyManager.spawn<Battler>(10, Vec2(30, 0));
+
 };
 
 void FieldManager::transition(const String& fieldName)
@@ -34,4 +42,18 @@ void FieldManager::transition(const String& fieldName)
 		return;
 
 	_currentField = fieldName;
+}
+
+void FieldManager::update()
+{
+	_allyManager.update();
+	//_enemyManager.update();
+}
+
+void FieldManager::draw()
+{
+	getCurrentField().draw(true, false);
+	//_enemyManager.draw();
+	_allyManager.draw();
+	getCurrentField().draw(false, true);
 }

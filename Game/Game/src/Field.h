@@ -40,7 +40,18 @@ public:
     
     void draw(const int32& index, const bool& worldPos = true);     // w’èƒŒƒCƒ„[‚Ì•`‰æ
 
-    bool withinCollision(const Vec2& pos);
+    template <typename Shape>
+    bool withinCollision(const Shape& area)
+    {
+        bool ret = false;
+        for (const auto& collision : _collisions) {
+            if (collision.intersects(area)) {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
+    }
 
     TextureRegion findTileToDisplay(const int32& index);
 

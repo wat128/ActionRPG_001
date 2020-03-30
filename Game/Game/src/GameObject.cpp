@@ -8,7 +8,7 @@ GameObject::GameObject()
 { }
 
 GameObject::GameObject(const int32& value, const Vec2& pos)
-	: _actor(pos.x, pos.y, ObjData::getInstance()->CharaRegionWH(value).x, ObjData::getInstance()->CharaRegionWH(value).y)
+	: _actor(pos.x, pos.y, ObjData::getInstance()->Collision(value).x, ObjData::getInstance()->Collision(value).y)
 	, _name(ObjData::getInstance()->Name(value))
 	, _value(value)
 	, _texture(ObjData::getInstance()->TexturePass(value))

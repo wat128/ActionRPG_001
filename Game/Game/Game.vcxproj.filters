@@ -424,9 +424,6 @@
     <ClInclude Include="src\Field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TiledTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\TiledGameObjectTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>

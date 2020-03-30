@@ -254,7 +254,6 @@
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\TiledGameObjectTexture.h" />
     <ClInclude Include="src\TiledMapTexture.h" />
-    <ClInclude Include="src\TiledTexture.h" />
     <ClInclude Include="src\Title.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

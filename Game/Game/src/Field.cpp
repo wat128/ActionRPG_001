@@ -145,18 +145,6 @@ void Field::draw(const int32& layerIndex, const bool& worldPos)
     }
 }
 
-bool Field::withinCollision(const Vec2& pos)
-{
-    bool ret = false;
-    for (const auto& collision : _collisions) {
-        if (collision.intersects(pos)) {
-            ret = true;
-            break;
-        }
-    }
-    return ret;
-}
-
 TextureRegion Field::findTileToDisplay(const int32& index)
 {
     int32 offset = 0;

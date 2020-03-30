@@ -6,10 +6,10 @@ TiledGameObjectTexture::TiledGameObjectTexture(
 	const Texture& texture,
 	const Size& textureCharaNum,
 	const Size& textureTileXYNum,
-	const Size& textureTileRegionWH,
+	const Size& textureTileWH,
 	const double& shiftRate)
 	: _texture(texture) 
-	, _tileSize(textureTileRegionWH)
+	, _tileSize(textureTileWH)
 	, _tileXYNum(textureTileXYNum)
 	, _basePoint(
 		(_tileSize.x * _tileXYNum.x) * (textureCharaNum.x - 1),

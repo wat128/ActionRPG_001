@@ -21,7 +21,7 @@ Game::Game(const InitData& init)
 
 	FieldManager::getInstance();
 
-	allyManager.spawn<Player>(1, Vec2(0, -30));
+	allyManager.spawn<Player>(1, Vec2(0, 0));
 
 	//GameObjectManager enemyManager();
 }

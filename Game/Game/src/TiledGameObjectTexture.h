@@ -20,7 +20,7 @@ public:
 		const Texture& texture,
 		const Size& textureCharaNum,
 		const Size& textureTileXYNum,
-		const Size& textureTileRegionWH,
+		const Size& textureTileWH,
 		const double& shiftRate = 0);
 
 	TextureRegion getTile();

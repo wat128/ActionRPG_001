@@ -7,12 +7,12 @@
 class FieldManager
 {
 public:
-	inline static FieldManager* getInstance()
+	inline static FieldManager& getInstance()
 	{
 		if (!_instance) {
 			_instance = new FieldManager();
 		}
-		return _instance;
+		return *_instance;
 	}
 
 	inline Field getCurrentField() { return _fieldList[_currentField]; };

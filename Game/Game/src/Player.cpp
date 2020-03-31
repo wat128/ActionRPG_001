@@ -7,9 +7,9 @@ Player::Player(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
 	, _tiledTexture(
 		_texture,
-		ObjData::getInstance()->TextureCharaNum(value),
-		ObjData::getInstance()->TextureTileXYNum(value),
-		ObjData::getInstance()->TextureTileWH(value),
+		ObjData::getInstance().TextureCharaNum(value),
+		ObjData::getInstance().TextureTileXYNum(value),
+		ObjData::getInstance().TextureTileWH(value),
 		0.2) // 暫定(アニメーションレート)
 	, _ability(value)
 {}
@@ -49,7 +49,7 @@ bool Player::move()
 		, _actor.pos.y - _actor.h + offset.y
 		, _actor.w, _actor.h);
 	
-	bool ret = FieldReferee::getInstance()->isCollision(movedCollision);
+	bool ret = FieldReferee::getInstance().isCollision(movedCollision);
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 

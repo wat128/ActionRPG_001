@@ -38,7 +38,7 @@ public:
 		}
 	}
 
-	inline GameObject* getObj(const int32& index) const { return _objList.at(index); }
+	inline GameObject& getObj(const int32& index) const { return *(_objList.at(index)); }
 	
 	inline Array<GameObject*> getObjList() const { return _objList;}
 

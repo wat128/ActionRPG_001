@@ -4,12 +4,12 @@
 class ObjData
 {
 public:
-	inline static ObjData* getInstance()
+	inline static ObjData& getInstance()
 	{
 		if (!_instance) {
 			_instance = new ObjData();
 		}
-		return _instance;
+		return *_instance;
 	}
 
 	// ‹¤’Ê

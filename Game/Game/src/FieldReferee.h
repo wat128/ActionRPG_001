@@ -4,21 +4,21 @@
 class FieldReferee
 {
 public:
-	inline static FieldReferee* getInstance()
+	inline static FieldReferee& getInstance()
 	{
 		if (!_instance) {
 			_instance = new FieldReferee();
 		}
-		return _instance;
+		return *_instance;
 	}
 
 	template <typename Shape>
 	bool isCollision(const Shape& area) const
 	{
-		if(FieldManager::getInstance()->getCurrentField().withinCollision(area))
+		if(FieldManager::getInstance().getCurrentField().withinCollision(area))
 			return true;
 
-		Array<GameObject*> enemys = FieldManager::getInstance()->getEnemyList();
+		Array<GameObject*> enemys = FieldManager::getInstance().getEnemyList();
 		for (const auto& enemy : enemys) {
 			if (enemy->withinCollision(area))
 				return true;

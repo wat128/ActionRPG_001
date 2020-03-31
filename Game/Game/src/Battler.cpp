@@ -10,9 +10,9 @@ Battler::Battler(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
 	, _tiledTexture(
 		_texture,
-		ObjData::getInstance()->TextureCharaNum(value),
-		ObjData::getInstance()->TextureTileXYNum(value),
-		ObjData::getInstance()->TextureTileWH(value),
+		ObjData::getInstance().TextureCharaNum(value),
+		ObjData::getInstance().TextureTileXYNum(value),
+		ObjData::getInstance().TextureTileWH(value),
 		0.2) // 暫定(アニメーションレート)
 	, _ability(value)
 	,  _isEnemy(true) // 暫定

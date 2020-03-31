@@ -6,17 +6,17 @@ class Ability
 public:
 	Ability() {}
 	Ability(const int32& value)
-		: _level(ObjData::getInstance()->Level(value))
-		, _currentExp(ObjData::getInstance()->CurrentExp(value))
-		, _nextExp(ObjData::getInstance()->NextExp(value))
-		, _hp(ObjData::getInstance()->Hp(value))
-		, _mp(ObjData::getInstance()->Mp(value))
-		, _power(ObjData::getInstance()->Power(value))
-		, _physical(ObjData::getInstance()->Physical(value))
-		, _speed(ObjData::getInstance()->Speed(value))
-		, _knowledge(ObjData::getInstance()->Knowledge(value))
-		, _state(ObjData::getInstance()->State(value))
-		, _parsonality(ObjData::getInstance()->Parsonality(value))
+		: _level(ObjData::getInstance().Level(value))
+		, _currentExp(ObjData::getInstance().CurrentExp(value))
+		, _nextExp(ObjData::getInstance().NextExp(value))
+		, _hp(ObjData::getInstance().Hp(value))
+		, _mp(ObjData::getInstance().Mp(value))
+		, _power(ObjData::getInstance().Power(value))
+		, _physical(ObjData::getInstance().Physical(value))
+		, _speed(ObjData::getInstance().Speed(value))
+		, _knowledge(ObjData::getInstance().Knowledge(value))
+		, _state(ObjData::getInstance().State(value))
+		, _parsonality(ObjData::getInstance().Parsonality(value))
 	{
 	}
 

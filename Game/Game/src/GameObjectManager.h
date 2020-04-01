@@ -7,41 +7,37 @@ class GameObjectManager
 {
 public:
 	GameObjectManager()
-		: _objList()
+		: _objects()
 	{ }
 
 	~GameObjectManager()
-	{
-		for (auto obj : _objList) {
-			delete obj;
-		}
-	}
+	{ }
 
 	template <typename Type>
 	void spawn(const int32& value, const Vec2& pos)
 	{
-		Type* obj = new Type(value, pos);
-		_objList.emplace_back(obj);
+		std::shared_ptr<Type> obj = std::make_shared<Type>(value, pos);
+		_objects.emplace_back(obj);
 	}
 
 	void update()
 	{
-		for (auto obj : _objList) {
+		for (auto obj : _objects) {
 			obj->update();
 		}
 	}
 	
 	void draw()
 	{
-		for (auto obj : _objList) {
+		for (auto obj : _objects) {
 			obj->draw();
 		}
 	}
 
-	inline GameObject& getObj(const int32& index) const { return *(_objList.at(index)); }
+	inline GameObject& getObj(const int32& index) const { return *(_objects.at(index)); }
 	
-	inline Array<GameObject*> getObjList() const { return _objList;}
+	inline Array<std::shared_ptr<GameObject>> getObjects() const { return _objects;}
 
 private:
-	Array<GameObject*> _objList;
+	Array<std::shared_ptr<GameObject>> _objects;
 };

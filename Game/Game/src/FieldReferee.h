@@ -18,7 +18,7 @@ public:
 		if(FieldManager::getInstance().getCurrentField().withinCollision(area))
 			return true;
 
-		Array<GameObject*> enemys = FieldManager::getInstance().getEnemyList();
+		Array<std::shared_ptr<GameObject>> enemys = FieldManager::getInstance().getEnemys();
 		for (const auto& enemy : enemys) {
 			if (enemy->withinCollision(area))
 				return true;

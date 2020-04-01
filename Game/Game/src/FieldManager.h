@@ -15,9 +15,9 @@ public:
 		return *_instance;
 	}
 
-	inline Field getCurrentField() { return _fieldList[_currentField]; };
-	inline Array<GameObject*> getAllyList() { return _allyManager.getObjList(); };
-	inline Array<GameObject*> getEnemyList() { return _enemyManager.getObjList(); };
+	inline Field getCurrentField() { return _fields[_currentField]; };
+	inline Array<std::shared_ptr<GameObject>> getAllys() { return _allyManager.getObjects(); };
+	inline Array<std::shared_ptr<GameObject>> getEnemys() { return _enemyManager.getObjects(); };
 
 	void transition(const String& fieldName);
 	void update();
@@ -26,7 +26,7 @@ public:
 private:
 	FieldManager();
 	static FieldManager* _instance;
-	std::map<String, Field> _fieldList;
+	std::map<String, Field> _fields;
 	String _currentField;
 
 	GameObjectManager _allyManager;		// –¡•ûƒLƒƒƒ‰ŠÇ——p

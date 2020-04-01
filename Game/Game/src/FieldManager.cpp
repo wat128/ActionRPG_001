@@ -3,7 +3,7 @@
 FieldManager* FieldManager::_instance = nullptr;
 
 FieldManager::FieldManager()
-	: _fieldList()
+	: _fields()
 	, _currentField(U"テストマップ")
 	, _allyManager()
 	, _enemyManager()
@@ -25,7 +25,7 @@ FieldManager::FieldManager()
 			tilePaths.emplace_back(Parse<FilePath>(fieldData[row][column]));
 		}
 
-		_fieldList.emplace(
+		_fields.emplace(
 			Parse<String>(fieldData[row][NAME]),
 			Field(tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
 	}
@@ -38,7 +38,7 @@ FieldManager::FieldManager()
 
 void FieldManager::transition(const String& fieldName)
 {
-	if (0 >= _fieldList.count(fieldName))
+	if (0 >= _fields.count(fieldName))
 		return;
 
 	_currentField = fieldName;

@@ -27,12 +27,16 @@ public:
 		}
 	}
 	
-	void draw()
-	{
-		for (auto obj : _objects) {
-			obj->draw();
-		}
-	}
+	// -------------------------------------------------------------
+	// ¦ “G–¡•û–â‚í‚¸yÀ•W‚Ì’l‚ª‘å‚«‚¢‚à‚Ì‚ðŽè‘O‚É•`‰æ‚·‚é‚½‚ß‚É‚Í
+	//    –{ƒNƒ‰ƒX‚Ìdraw()‚Å‚ÍŽÀŒ»‚Å‚«‚È‚¢‚½‚ß”pŽ~
+	// -------------------------------------------------------------
+	//void draw()
+	//{
+	//	for (auto obj : _objects) {
+	//		obj->draw();
+	//	}
+	//}
 
 	inline GameObject& getObj(const int32& index) const { return *(_objects.at(index)); }
 	

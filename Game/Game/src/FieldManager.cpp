@@ -52,8 +52,25 @@ void FieldManager::update()
 
 void FieldManager::draw()
 {
+	const Array<std::shared_ptr<GameObject>> allys = _allyManager.getObjects();
+	const Array<std::shared_ptr<GameObject>> enemys = _enemyManager.getObjects();
+	Array<std::shared_ptr<GameObject>> displayOrder;
+
+	for (const auto& ally : allys)
+		displayOrder.emplace_back(ally);
+
+	for (const auto& enemy : enemys)
+		displayOrder.emplace_back(enemy);
+
+	displayOrder.sort_by([](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b)
+		{
+			return (a->getPos().y < b->getPos().y);
+		});
+
 	getCurrentField().draw(true, false);
-	_enemyManager.draw();
-	_allyManager.draw();
+	
+	for(const auto& obj : displayOrder)		// 描画（手前・奥）の関係から "GameObjectManager"が保持する
+		obj->draw();						// 各objectへ直接draw()。設計上再検討すべきか
+
 	getCurrentField().draw(false, true);
 }

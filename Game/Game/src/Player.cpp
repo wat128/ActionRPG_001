@@ -49,7 +49,7 @@ bool Player::move()
 		, _actor.pos.y - _actor.h + offset.y
 		, _actor.w, _actor.h);
 	
-	bool ret = FieldReferee::getInstance().isCollision(movedCollision);
+	bool ret = FieldReferee::getInstance().isCollision(movedCollision, this);
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 

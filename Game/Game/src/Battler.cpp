@@ -11,34 +11,35 @@ Battler::Battler(const int32& value, const Vec2& pos)
 	, _tiledTexture(
 		_texture,
 		ObjData::getInstance().TextureCharaNum(value),
-		ObjData::getInstance().TextureTileXYNum(value),
 		ObjData::getInstance().TextureTileWH(value),
-		0.2) // 暫定(アニメーションレート)
+		ObjData::getInstance().TextureTileXYNum(value),
+		ObjData::getInstance().TextureWalkTileXYNum(value),
+		{ 0,0 })	// 暫定（攻撃アニメ使用しない
 	, _ability(value)
-	,  _isEnemy(true) // 暫定
+	, _isEnemy(true) // 暫定
 {}
 
-bool Battler::attack()
+void Battler::attack()
 {
-	return false;
+
 }
 
-bool Battler::guard()
+void Battler::guard()
 {
-	return false;
+
 }
 
-bool Battler::skill()
+void Battler::skill()
 {
-	return false;
+
 }
 
-bool Battler::recieveDamage()
+void Battler::recieveDamage()
 {
-	return false;
+
 }
 
-bool Battler::move()
+void Battler::move()
 {
 	// テスト用：
 	int32 L, R, U, D;
@@ -59,9 +60,7 @@ bool Battler::move()
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 
-	_tiledTexture.update(offset);
-
-	return true;
+	_tiledTexture.walkAnime(offset, 0.2);	// 暫定(アニメーションレート)
 }
 
 void Battler::update()

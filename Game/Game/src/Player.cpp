@@ -8,38 +8,45 @@ Player::Player(const int32& value, const Vec2& pos)
 	, _tiledTexture(
 		_texture,
 		ObjData::getInstance().TextureCharaNum(value),
-		ObjData::getInstance().TextureTileXYNum(value),
 		ObjData::getInstance().TextureTileWH(value),
-		0.2) // 暫定(アニメーションレート)
+		ObjData::getInstance().TextureTileXYNum(value),
+		ObjData::getInstance().TextureWalkTileXYNum(value),
+		ObjData::getInstance().TextureAttackTileXYNum(value))
 	, _ability(value)
+	, _motion(Motion::Excutable)
 {}
 
-bool Player::attack()
+void Player::attack()
 {
-	return false;
+	TiledGameObjectTexture::RunningState ret = _tiledTexture.attackAnime({0.1, 0.07, 0.2}); // 暫定(攻撃アニメーションレート)
+
+	if (TiledGameObjectTexture::RunningState::Continue == ret)
+		_motion = Motion::Attacking;
+	else if (TiledGameObjectTexture::RunningState::Complete == ret)
+		_motion = Motion::Excutable;
 }
 
-bool Player::guard()
+void Player::guard()
 {
-	return false;
+
 }
 
-bool Player::skill()
+void Player::skill()
 {
-	return false;
+
 }
 
-bool Player::talk()
+void Player::talk()
 {
-	return false;
+
 }
 
-bool Player::recieveDamage()
+void Player::recieveDamage()
 {
-	return false;
+
 }
 
-bool Player::move()
+void Player::move()
 {
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() *(KeyShift.pressed() ? 0.5 : 1.0));
@@ -53,14 +60,17 @@ bool Player::move()
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 
-	_tiledTexture.update(offset);
-
-	return true;
+	_tiledTexture.walkAnime(offset, 0.2);	// 暫定(歩行アニメーションレート)
 }
 
 void Player::update()
 {
-	move();
+	if(Motion::Excutable ==_motion)
+		move();
+
+	if ((Motion::Excutable == _motion && KeyZ.pressed())
+		|| Motion::Attacking == _motion)
+		attack();
 }
 
 void Player::draw()

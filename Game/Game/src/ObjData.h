@@ -19,6 +19,8 @@ public:
 	inline Size TextureAllCharaNumXY(const int32& value) const	{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureAllCharaNumXY)]); }
 	inline Size TextureCharaNum(const int32& value) const		{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureCharaNum)]); }
 	inline Size TextureTileXYNum(const int32& value) const		{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureTileXYNum)]); }
+	inline Size TextureWalkTileXYNum(const int32& value) const	{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureWalkTileXYNum)]); }
+	inline Size TextureAttackTileXYNum(const int32& value) const{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureAttackTileXYNum)]); }
 	inline Size TextureTileWH(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureTileWH)]); }
 	inline Size Collision(const int32& value) const				{ return Parse<Size>(_data[value][static_cast <int32>(Info::Collision)]); }
 	inline String Type(const int32& value) const				{ return Parse<String>(_data[value][static_cast <int32>(Info::Type)]); }
@@ -52,6 +54,8 @@ private:
 		TextureAllCharaNumXY,		// テクスチャのキャラ数
 		TextureCharaNum,			// テクスチャから対象とするキャラ番号
 		TextureTileXYNum,			// １キャラのタイル数
+		TextureWalkTileXYNum,		// １キャラの移動モーションタイル数
+		TextureAttackTileXYNum,		// １キャラの攻撃モーションタイル数
 		TextureTileWH,				// １タイルのサイズ
 		Collision,					// オブジェクトの領域（当たり判定用）
 		Type,						

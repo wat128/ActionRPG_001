@@ -8,7 +8,7 @@ class GameObject
 public:
 	GameObject();
 	GameObject(const int32& value, const Vec2& pos);
-	virtual bool move();
+	virtual void move();
 	virtual void update();
 	virtual void draw();
 

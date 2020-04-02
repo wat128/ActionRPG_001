@@ -9,11 +9,11 @@ class Battler : public GameObject
 public:
 	Battler();
 	Battler(const int32& value, const Vec2& pos);
-	bool attack();
-	bool guard();
-	bool skill();
-	bool recieveDamage();
-	bool move() override;
+	void attack();
+	void guard();
+	void skill();
+	void recieveDamage();
+	void move() override;
 	void update() override;
 	void draw() override;
 private:

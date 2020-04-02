@@ -16,9 +16,9 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 	
 }
 
-bool GameObject::move()
+void GameObject::move()
 {
-	return false;
+
 }
 
 void GameObject::update()

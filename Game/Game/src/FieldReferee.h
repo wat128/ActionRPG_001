@@ -28,7 +28,7 @@ public:
 			if (ally.get() == ignoreObj)
 				continue;
 
-			if (ally->withinCollision(area))
+			if (ally->withinCollisionForMove(area))
 				return true;
 		}
 
@@ -37,7 +37,7 @@ public:
 			if (enemy.get() == ignoreObj)
 				continue;
 
-			if (enemy->withinCollision(area))
+			if (enemy->withinCollisionForMove(area))
 				return true;
 		}
 

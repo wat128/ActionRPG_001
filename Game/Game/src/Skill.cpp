@@ -41,7 +41,7 @@ Skill::State Slash::execute(RectF& actor, Direction& direction, const Ability ab
 
 	// キャラタイルのアニメ
 	if (!_isActiveTileAnime) {
-		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.1, 0.1 }); // 暫定(攻撃アニメーションレート)
+		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.05, 0.15 });
 		if (TiledGameObjectTexture::State::Complete == tileAnimeResult)
 			_isActiveTileAnime = true;
 	}
@@ -53,16 +53,16 @@ Skill::State Slash::execute(RectF& actor, Direction& direction, const Ability ab
 
 		switch (direction) {
 		case Direction::Down:
-			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h + actor.w / 2 }, EffectAnime::DisplayFormat::_90deg);
+			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 }, EffectAnime::DisplayFormat::_90deg);
 			break;
 		case Direction::Up:
-			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h - actor.w / 2 }, EffectAnime::DisplayFormat::_270deg);
+			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 }, EffectAnime::DisplayFormat::_270deg);
 			break;
 		case Direction::Left:
-			effectResult = _effect->update({ actor.pos.x - actor.w / 2, actor.pos.y - actor.h }, EffectAnime::DisplayFormat::MirFlipped);
+			effectResult = _effect->update({ actor.pos.x - actor.w / 4, actor.pos.y - actor.h / 2 }, EffectAnime::DisplayFormat::MirFlipped);
 			break;
 		case Direction::Right:
-			effectResult = _effect->update({ actor.pos.x + actor.w / 2, actor.pos.y - actor.h }, EffectAnime::DisplayFormat::NmlFlippedReverse);
+			effectResult = _effect->update({ actor.pos.x + actor.w / 4, actor.pos.y - actor.h / 2 }, EffectAnime::DisplayFormat::NmlFlippedReverse);
 			break;
 		default:
 			break;

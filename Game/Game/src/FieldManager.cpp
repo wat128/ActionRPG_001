@@ -32,7 +32,8 @@ FieldManager::FieldManager()
 
 	// テスト用：ゲームオブジェクト生成
 	_allyManager.spawn<Player>(1, Vec2(0, 0));
-	_enemyManager.spawn<Battler>(10, Vec2(30, 0));
+	_enemyManager.spawn<Battler>(10, Vec2(50, 0));
+	_enemyManager.spawn<Battler>(11, Vec2(-100, 0));
 
 };
 

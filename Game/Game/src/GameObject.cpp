@@ -7,10 +7,12 @@ GameObject::GameObject()
 	, _texture(nullptr)
 	, _tiledTexture()
 	, _direction(Direction::Down)
+	, _collision()
+	, _collisionForMove()
 { }
 
 GameObject::GameObject(const int32& value, const Vec2& pos)
-	: _actor(pos.x, pos.y, ObjData::getInstance().Collision(value).x, ObjData::getInstance().Collision(value).y)
+	: _actor(pos, ObjData::getInstance().TextureTileWH(value))
 	, _name(ObjData::getInstance().Name(value))
 	, _value(value)
 	, _texture(ObjData::getInstance().TexturePass(value))
@@ -22,6 +24,8 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 		ObjData::getInstance().TextureWalkTileXYNum(value),
 		ObjData::getInstance().TextureAttackTileXYNum(value))
 	, _direction(Direction::Down)
+	, _collision(ObjData::getInstance().Collision(value))
+	, _collisionForMove(ObjData::getInstance().CollisionForMove(value))
 {
 	
 }

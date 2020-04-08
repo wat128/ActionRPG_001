@@ -33,10 +33,10 @@ void Battler::move()
 	Vec2 offset = Vec2(R - L, D - U)
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() * (KeyShift.pressed() ? 0.5 : 1.0));
 
-	const RectF movedCollision(						// 移動後の衝突判定用
-		_actor.pos.x - _actor.w / 2 + offset.x
-		, _actor.pos.y - _actor.h + offset.y
-		, _actor.w, _actor.h);
+	const RectF movedCollision(						// 移動した場合の衝突判定用
+		_actor.pos.x - _collisionForMove.x / 2 + offset.x
+		, _actor.pos.y - _collisionForMove.y + offset.y
+		, _collisionForMove.x, _collisionForMove.y);
 
 	bool ret = FieldReferee::getInstance().isCollision(movedCollision , this);
 	if (!ret)
@@ -58,9 +58,23 @@ void Battler::update()
 
 void Battler::draw()
 {
+	// 足元を_actor.posとするため、描画位置調整
 	_tiledTexture.getTile()
-		.draw(_actor.pos.x - _tiledTexture.getTile().size.x / 2		// 足元を_actor.posとするため、描画位置調整
-			, _actor.pos.y - _tiledTexture.getTile().size.y);
-	RectF(_actor.pos.x - _actor.w / 2, _actor.pos.y - _actor.h, _actor.w, _actor.h).drawFrame();	// テスト用：
+		.draw(_actor.pos.x - _actor.w / 2
+			, _actor.pos.y - _actor.h);
+
+	// テスト用：移動用コリジョン
+	RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
+
+	// テスト用：ベース座標
 	Circle(_actor.pos, 2).draw(Palette::Red);
+
+	if (0 == _collision.y) {
+		// テスト用：コリジョン(Circle)
+		Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision.x).drawFrame(0.5, Palette::Orange);
+	}
+	else {
+		// テスト用：コリジョン(RectF)
+		RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision).drawFrame(0.5, Palette::Orange);
+	}
 }

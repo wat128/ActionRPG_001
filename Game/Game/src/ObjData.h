@@ -23,6 +23,7 @@ public:
 	inline Size TextureAttackTileXYNum(const int32& value) const{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureAttackTileXYNum)]); }
 	inline Size TextureTileWH(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureTileWH)]); }
 	inline Size Collision(const int32& value) const				{ return Parse<Size>(_data[value][static_cast <int32>(Info::Collision)]); }
+	inline Size CollisionForMove(const int32& value) const		{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionForMove)]); }
 	inline String Type(const int32& value) const				{ return Parse<String>(_data[value][static_cast <int32>(Info::Type)]); }
 	
 	// 戦闘系オブジェクト
@@ -57,7 +58,8 @@ private:
 		TextureWalkTileXYNum,		// １キャラの移動モーションタイル数
 		TextureAttackTileXYNum,		// １キャラの攻撃モーションタイル数
 		TextureTileWH,				// １タイルのサイズ
-		Collision,					// オブジェクトの領域（当たり判定用）
+		Collision,					// コリジョン（攻撃・話すetc...）
+		CollisionForMove,			// 移動用コリジョン
 		Type,						
 		Level,						
 		CurrentExp,					

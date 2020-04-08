@@ -16,9 +16,9 @@ public:
 	inline Vec2 getPos() const { return _actor.pos; }
 	
 	template<typename Shape>
-	bool withinCollision(const Shape& area) const
+	bool withinCollisionForMove(const Shape& area) const
 	{
-		RectF collision(_actor.pos.x - _actor.w / 2, _actor.pos.y - _actor.h, _actor.w, _actor.h);
+		RectF collision(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove);
 		if (collision.intersects(area))
 			return true;
 
@@ -31,5 +31,8 @@ protected:
 	const Texture _texture;
 	TiledGameObjectTexture _tiledTexture;
 	Direction _direction;
+	const Size _collision;
+	const Size _collisionForMove;
+
 };
 

@@ -41,10 +41,25 @@ protected:
 	bool _isActiveEffect;
 };
 
+/* --------------------------------------------------------------------------------------*/
+/*		ŠeƒXƒLƒ‹																	 */
+/* --------------------------------------------------------------------------------------*/
+
 class Slash : public Skill
 {
 public:
 	Slash();
+
+	//State execute(RectF& actor, Direction& direction, const Ability ability);
+	State execute(RectF& actor, Direction& direction, const Ability ability, TiledGameObjectTexture& tiledTexture);
+private:
+
+};
+
+class SonicBlade : public Skill
+{
+public:
+	SonicBlade();
 
 	//State execute(RectF& actor, Direction& direction, const Ability ability);
 	State execute(RectF& actor, Direction& direction, const Ability ability, TiledGameObjectTexture& tiledTexture);

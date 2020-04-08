@@ -8,29 +8,41 @@ Player::Player(const int32& value, const Vec2& pos)
 	, _motion(Motion::Excutable)
 {
 	_skills.emplace_back(std::make_unique<Slash>());
+	_skills.emplace_back(std::make_unique<SonicBlade>());
 }
 
 void Player::skill()
 {
 	Skill::State ret = Skill::State::Complete;
+	int32 skill = 0;	// 暫定
 
 	if ((Motion::Excutable == _motion && KeyD.pressed())
-		|| Motion::Executing_Skill1 == _motion)
-		ret = _skills.at(0)->execute(_actor,_direction, _ability, _tiledTexture);
+		|| Motion::Executing_Skill1 == _motion) {
+		ret = _skills.at(0)->execute(_actor, _direction, _ability, _tiledTexture);
+		skill = 1;
+	}
 
 	if ((Motion::Excutable == _motion && KeyS.pressed())
-		|| Motion::Executing_Skill2 == _motion)
+		|| Motion::Executing_Skill2 == _motion) {
 		ret = _skills.at(1)->execute(_actor, _direction, _ability, _tiledTexture);
+		skill = 2;
+	}
 
 	if ((Motion::Excutable == _motion && KeyA.pressed())
-		|| Motion::Executing_Skill3 == _motion)
+		|| Motion::Executing_Skill3 == _motion) {
 		ret = _skills.at(2)->execute(_actor, _direction, _ability, _tiledTexture);
+		skill = 3;
+	}
 
 	//テスト用：
-	if (Skill::State::Continue == ret)
-		_motion = Motion::Executing_Skill1;
-	else if (Skill::State::Complete == ret)
+	if (Skill::State::Continue == ret) {
+		if(1 == skill)		_motion = Motion::Executing_Skill1;
+		else if(2 == skill)	_motion = Motion::Executing_Skill2;
+		else if(3 == skill)	_motion = Motion::Executing_Skill3;
+	}
+	else if (Skill::State::Complete == ret) {
 		_motion = Motion::Excutable;
+	}
 }
 
 void Player::talk()

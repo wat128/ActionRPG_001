@@ -29,5 +29,7 @@ protected:
 	const String _name;
 	const int32 _value;
 	const Texture _texture;
+	TiledGameObjectTexture _tiledTexture;
+	Direction _direction;
 };
 

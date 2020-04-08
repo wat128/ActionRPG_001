@@ -3,6 +3,8 @@
 # include "GameObjectManager.h" 
 # include "Player.h"
 # include "Battler.h"
+# include "Common.hpp"
+# include "EffectManager.h"
 
 class FieldManager
 {
@@ -31,6 +33,7 @@ private:
 
 	GameObjectManager _allyManager;		// 味方キャラ管理用
 	GameObjectManager _enemyManager;	// エネミー管理用
+	EffectManager _effectManager;		// エフェクト管理用
 
 	enum Info {
 		VALUE = 0,

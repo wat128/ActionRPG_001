@@ -26,7 +26,7 @@ TiledGameObjectTexture::TiledGameObjectTexture(
 {};
 
 // タイルセットのX軸がアニメーションであることが前提
-void TiledGameObjectTexture::walkAnime(const Vec2& offset, const double& shiftRate)
+void TiledGameObjectTexture::walkAnime(const Direction& direction, const double& shiftRate)
 {
 	if (0 >= shiftRate) return;
 
@@ -39,26 +39,26 @@ void TiledGameObjectTexture::walkAnime(const Vec2& offset, const double& shiftRa
 		_walkTimeAccum = 0.0;
 	}
 	
-	if (0 > offset.x) {			// 左
+	if (Direction::Left == direction) {
 		_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
 		_currentPoint.y = _basePoint.y + (_tileSize.y * 1);
 	}
-	else if (0 < offset.x) {	// 右
+	else if (Direction::Right == direction) {
 		_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
 		_currentPoint.y = _basePoint.y + (_tileSize.y * 2);
 	}
 
-	if (0 > offset.y) {			// 下
-		_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
-		_currentPoint.y = _basePoint.y + (_tileSize.y * 3);
-	}
-	else if (0 < offset.y) {	// 上
+	if (Direction::Down == direction) {
 		_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
 		_currentPoint.y = _basePoint.y + (_tileSize.y * 0);
 	}
+	else if (Direction::Up == direction) {
+		_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
+		_currentPoint.y = _basePoint.y + (_tileSize.y * 3);
+	}
 }
 
-TiledGameObjectTexture::RunningState TiledGameObjectTexture::attackAnime(const Array<double>& shiftRates)
+TiledGameObjectTexture::State TiledGameObjectTexture::attackAnime(const Array<double>& shiftRates)
 {
 	_attackTimeAccum += Scene::DeltaTime();
 	if (_attackTimeAccum > shiftRates[_attackAnimeCount]) {
@@ -68,7 +68,7 @@ TiledGameObjectTexture::RunningState TiledGameObjectTexture::attackAnime(const A
 			_currentPoint.x = _basePoint.x + (_tileSize.x * _walkAnimeCount);
 			_attackTimeAccum = 0;
 			_attackAnimeCount = 0;
-			return RunningState::Complete;
+			return State::Complete;
 		}
 
 		++_attackAnimeCount;
@@ -78,10 +78,20 @@ TiledGameObjectTexture::RunningState TiledGameObjectTexture::attackAnime(const A
 	const int32 startPointOfAttackTile = _basePoint.x +_tileSize.x * _walkTileXYNum.x;
 	_currentPoint.x = startPointOfAttackTile + _tileSize.x * _attackAnimeCount;
 
-	return RunningState::Continue;
+	return State::Continue;
 }
 
 TextureRegion TiledGameObjectTexture::getTile()
 {
 	return _texture(_currentPoint, _tileSize);
+}
+
+void TiledGameObjectTexture::initialize()
+{
+	_currentPoint = { _basePoint.x + _tileSize.x, _basePoint.y };
+	_walkAnimeCount = 0;
+	_walkTimeAccum = 0;
+	_reverseAnime = false;
+	_attackAnimeCount = 0;
+	_attackTimeAccum = 0;
 }

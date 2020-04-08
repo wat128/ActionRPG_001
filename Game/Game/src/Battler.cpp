@@ -1,5 +1,4 @@
 #include "Battler.h"
-#include "FieldManager.h"	// テスト用：
 #include "FieldReferee.h"
 
 Battler::Battler()
@@ -8,26 +7,9 @@ Battler::Battler()
 
 Battler::Battler(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
-	, _tiledTexture(
-		_texture,
-		ObjData::getInstance().TextureCharaNum(value),
-		ObjData::getInstance().TextureTileWH(value),
-		ObjData::getInstance().TextureTileXYNum(value),
-		ObjData::getInstance().TextureWalkTileXYNum(value),
-		{ 0,0 })	// 暫定（攻撃アニメ使用しない
 	, _ability(value)
 	, _isEnemy(true) // 暫定
 {}
-
-void Battler::attack()
-{
-
-}
-
-void Battler::guard()
-{
-
-}
 
 void Battler::skill()
 {
@@ -43,10 +25,10 @@ void Battler::move()
 {
 	// テスト用：
 	int32 L, R, U, D;
-	KeyA.pressed() ?	L = 1 : L = 0;
-	KeyD.pressed() ?	R = 1 : R = 0;
-	KeyW.pressed() ?	U = 1 : U = 0;
-	KeyS.pressed() ?	D = 1 : D = 0;
+	KeyQ.pressed() ?	L = 1 : L = 0;
+	KeyR.pressed() ?	R = 1 : R = 0;
+	KeyE.pressed() ?	U = 1 : U = 0;
+	KeyW.pressed() ?	D = 1 : D = 0;
 
 	Vec2 offset = Vec2(R - L, D - U)
 		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() * (KeyShift.pressed() ? 0.5 : 1.0));
@@ -60,7 +42,13 @@ void Battler::move()
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 
-	_tiledTexture.walkAnime(offset, 0.2);	// 暫定(アニメーションレート)
+	if (0 > offset.x)		_direction = Direction::Left;
+	else if (0 < offset.x)	_direction = Direction::Right;
+	if (0 > offset.y)		_direction = Direction::Up;
+	else if (0 < offset.y)	_direction = Direction::Down;
+
+	if (offset.x != 0 || offset.y != 0)
+		_tiledTexture.walkAnime(_direction, 0.2);	// 暫定(歩行アニメーションレート)
 }
 
 void Battler::update()

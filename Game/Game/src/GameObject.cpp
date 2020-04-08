@@ -5,6 +5,8 @@ GameObject::GameObject()
 	, _name(U"No Name")
 	, _value(0)
 	, _texture(nullptr)
+	, _tiledTexture()
+	, _direction(Direction::Down)
 { }
 
 GameObject::GameObject(const int32& value, const Vec2& pos)
@@ -12,6 +14,14 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 	, _name(ObjData::getInstance().Name(value))
 	, _value(value)
 	, _texture(ObjData::getInstance().TexturePass(value))
+	, _tiledTexture(
+		_texture,
+		ObjData::getInstance().TextureCharaNum(value),
+		ObjData::getInstance().TextureTileWH(value),
+		ObjData::getInstance().TextureTileXYNum(value),
+		ObjData::getInstance().TextureWalkTileXYNum(value),
+		ObjData::getInstance().TextureAttackTileXYNum(value))
+	, _direction(Direction::Down)
 {
 	
 }

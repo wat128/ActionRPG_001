@@ -1,39 +1,36 @@
 #include "Player.h"
-#include "FieldManager.h"	// テスト用：
 #include "FieldReferee.h"
 
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
-	, _tiledTexture(
-		_texture,
-		ObjData::getInstance().TextureCharaNum(value),
-		ObjData::getInstance().TextureTileWH(value),
-		ObjData::getInstance().TextureTileXYNum(value),
-		ObjData::getInstance().TextureWalkTileXYNum(value),
-		ObjData::getInstance().TextureAttackTileXYNum(value))
 	, _ability(value)
 	, _motion(Motion::Excutable)
-{}
-
-void Player::attack()
 {
-	TiledGameObjectTexture::RunningState ret = _tiledTexture.attackAnime({0.1, 0.07, 0.2}); // 暫定(攻撃アニメーションレート)
-
-	if (TiledGameObjectTexture::RunningState::Continue == ret)
-		_motion = Motion::Attacking;
-	else if (TiledGameObjectTexture::RunningState::Complete == ret)
-		_motion = Motion::Excutable;
-}
-
-void Player::guard()
-{
-
+	_skills.emplace_back(std::make_unique<Slash>());
 }
 
 void Player::skill()
 {
+	Skill::State ret = Skill::State::Complete;
 
+	if ((Motion::Excutable == _motion && KeyD.pressed())
+		|| Motion::Executing_Skill1 == _motion)
+		ret = _skills.at(0)->execute(_actor,_direction, _ability, _tiledTexture);
+
+	if ((Motion::Excutable == _motion && KeyS.pressed())
+		|| Motion::Executing_Skill2 == _motion)
+		ret = _skills.at(1)->execute(_actor, _direction, _ability, _tiledTexture);
+
+	if ((Motion::Excutable == _motion && KeyA.pressed())
+		|| Motion::Executing_Skill3 == _motion)
+		ret = _skills.at(2)->execute(_actor, _direction, _ability, _tiledTexture);
+
+	//テスト用：
+	if (Skill::State::Continue == ret)
+		_motion = Motion::Executing_Skill1;
+	else if (Skill::State::Complete == ret)
+		_motion = Motion::Excutable;
 }
 
 void Player::talk()
@@ -60,7 +57,13 @@ void Player::move()
 	if (!ret)
 		_actor.setPos(_actor.pos + offset);
 
-	_tiledTexture.walkAnime(offset, 0.2);	// 暫定(歩行アニメーションレート)
+	if (0 > offset.x)		_direction = Direction::Left;
+	else if (0 < offset.x)	_direction = Direction::Right;
+	if (0 > offset.y)		_direction = Direction::Up;
+	else if (0 < offset.y)	_direction = Direction::Down;
+
+	if (offset.x != 0 || offset.y != 0) 
+		_tiledTexture.walkAnime(_direction, 0.2);	// 暫定(歩行アニメーションレート)
 }
 
 void Player::update()
@@ -68,9 +71,7 @@ void Player::update()
 	if(Motion::Excutable ==_motion)
 		move();
 
-	if ((Motion::Excutable == _motion && KeyZ.pressed())
-		|| Motion::Attacking == _motion)
-		attack();
+	skill();
 }
 
 void Player::draw()
@@ -79,7 +80,8 @@ void Player::draw()
 		.draw(_actor.pos.x - _tiledTexture.getTile().size.x / 2		// 足元を_actor.posとするため、描画位置調整
 			, _actor.pos.y - _tiledTexture.getTile().size.y);
 	RectF(_actor.pos.x - _actor.w / 2, _actor.pos.y - _actor.h, _actor.w, _actor.h).drawFrame();	// テスト用：
-	Circle(_actor.pos, 2).draw(Palette::Red);
+	Circle(_actor.pos, 2).draw(Palette::Red);	// テスト用：
+	Circle(_actor.pos.x, _actor.pos.y - _actor.h, 40).drawFrame(0.5, 0.5, Palette::Orange);	// テスト用：
 
 	ClearPrint();
 	Print << U"_actor.pos :" << _actor.pos;

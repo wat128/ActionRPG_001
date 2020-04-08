@@ -1,14 +1,15 @@
 #pragma once
 #include "GameObject.h"
 #include "Ability.h"
+#include "Skill.h"
+
+class Skill;
 
 class Player : public GameObject
 {
 public:
 	Player();
 	Player(const int32& value, const Vec2& pos);
-	void attack();
-	void guard();
 	void skill();
 	void recieveDamage();
 	void talk();
@@ -17,13 +18,13 @@ public:
 	void draw() override;
 private:
 	Ability _ability;
-	TiledGameObjectTexture _tiledTexture;
+	Array<std::unique_ptr<Skill>> _skills;
 	enum class Motion {
 		Excutable,
-		Attacking,
-		Guarding,
+		Executing_Skill1,
+		Executing_Skill2,
+		Executing_Skill3,
 		Talking,
-		Activating_Skill,
 	}_motion;
 };
 

@@ -48,6 +48,7 @@ void FieldManager::update()
 {
 	_allyManager.update();
 	_enemyManager.update();
+	_effectManager.update();
 }
 
 void FieldManager::draw()
@@ -73,4 +74,6 @@ void FieldManager::draw()
 		obj->draw();						// 各objectへ直接draw()。設計上再検討すべきか
 
 	getCurrentField().draw(false, true);
+	
+	_effectManager.draw(DisplayLayer::Middle);		// テスト用：　引数
 }

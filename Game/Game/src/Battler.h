@@ -10,12 +10,10 @@ public:
 	Battler();
 	Battler(const int32& value, const Vec2& pos);
 	void skill();
-	void recieveDamage();
 	void move() override;
 	void update() override;
 	void draw() override;
 private:
-	Ability _ability;
 	const bool _isEnemy;
 	ActionPatternList _actionPattern;
 };

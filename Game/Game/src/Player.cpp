@@ -4,7 +4,6 @@
 Player::Player() {}
 Player::Player(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
-	, _ability(value)
 	, _motion(Motion::Excutable)
 {
 	_skills.emplace_back(std::make_unique<Slash>());
@@ -50,11 +49,6 @@ void Player::talk()
 
 }
 
-void Player::recieveDamage()
-{
-
-}
-
 void Player::move()
 {
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
@@ -65,8 +59,8 @@ void Player::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 	
-	bool ret = FieldReferee::getInstance().isCollision(movedCollision, this);
-	if (!ret)
+	bool ret = FieldReferee::getInstance().canMove(movedCollision, shared_from_this());
+	if (ret)
 		_actor.setPos(_actor.pos + offset);
 
 	if (0 > offset.x)		_direction = Direction::Left;

@@ -7,16 +7,10 @@ Battler::Battler()
 
 Battler::Battler(const int32& value, const Vec2& pos)
 	: GameObject(value, pos)
-	, _ability(value)
 	, _isEnemy(true) // Žb’è
 {}
 
 void Battler::skill()
-{
-
-}
-
-void Battler::recieveDamage()
 {
 
 }
@@ -38,8 +32,8 @@ void Battler::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 
-	bool ret = FieldReferee::getInstance().isCollision(movedCollision , this);
-	if (!ret)
+	bool ret = FieldReferee::getInstance().canMove(movedCollision , shared_from_this());
+	if (ret)
 		_actor.setPos(_actor.pos + offset);
 
 	if (0 > offset.x)		_direction = Direction::Left;

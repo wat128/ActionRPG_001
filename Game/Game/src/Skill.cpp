@@ -1,5 +1,6 @@
 #pragma once
 #include "Skill.h"
+#include "FieldReferee.h"
 
 Skill::Skill() {}
 
@@ -23,6 +24,9 @@ Skill::Skill(
 /* ※：スキルの戻り値はキャラタイルアニメとエフェクトの両方が終了した際にCompleteを返す  */
 /* --------------------------------------------------------------------------------------*/
 
+/* --------------------------------------------------------------------------------------*/
+/*		ソードスキル																	 */
+/* --------------------------------------------------------------------------------------*/
 Slash::Slash()
 	: Skill(
 		U"Asset/Effect/sword01.png",	// テクスチャ 
@@ -93,7 +97,7 @@ SonicBlade::SonicBlade()
 		U"Asset/Effect/sword02.png",	// テクスチャ 
 		DisplayLayer::SecondTop,		// 表示レイヤー
 		{ 192, 192 },					// 1コマのサイズ
-		0.5,							// エフェクト終了までの時間   
+		0.7,							// エフェクト終了までの時間   
 		12,								// 全コマ数
 		5,								// 横のコマ数
 		3,								// 縦のコマ数
@@ -106,7 +110,7 @@ Skill::State SonicBlade::execute(RectF& actor, Direction& direction, const Abili
 
 	// キャラタイルのアニメ
 	if (!_isActiveTileAnime) {
-		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.05, 0.35 });
+		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.05, 0.55 });
 		if (TiledGameObjectTexture::State::Complete == tileAnimeResult)
 			_isActiveTileAnime = true;
 	}

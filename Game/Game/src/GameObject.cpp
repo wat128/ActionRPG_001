@@ -9,6 +9,7 @@ GameObject::GameObject()
 	, _direction(Direction::Down)
 	, _collision()
 	, _collisionForMove()
+	, _ability()
 { }
 
 GameObject::GameObject(const int32& value, const Vec2& pos)
@@ -26,8 +27,19 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 	, _direction(Direction::Down)
 	, _collision(ObjData::getInstance().Collision(value))
 	, _collisionForMove(ObjData::getInstance().CollisionForMove(value))
+	, _ability(value)
 {
 	
+}
+
+int32 GameObject::onDamage()
+{
+	return 0;
+}
+
+void GameObject::getExp()
+{
+
 }
 
 void GameObject::move()

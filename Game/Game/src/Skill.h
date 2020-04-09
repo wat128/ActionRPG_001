@@ -3,6 +3,7 @@
 #include "Ability.h"
 #include "EffectAnime.h"
 
+
 enum class DisplayLayer;
 class EffectAnime;
 
@@ -42,9 +43,8 @@ protected:
 };
 
 /* --------------------------------------------------------------------------------------*/
-/*		各スキル																	 */
+/*		ソードスキル																	 */
 /* --------------------------------------------------------------------------------------*/
-
 class Slash : public Skill
 {
 public:

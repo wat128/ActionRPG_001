@@ -14,34 +14,34 @@ public:
 
 	// 使用上メモ：ignoreObj に thisポインタを渡すことで自身のコリジョン判定を省略する
 	template <typename Shape>
-	bool isCollision(const Shape& area, const GameObject* ignoreObj) const
+	bool canMove(const Shape& area, const std::shared_ptr<GameObject> ignoreObj) const
 	{
 		if (!ignoreObj)
 			return false;
 
 		FieldManager fieldMng = FieldManager::getInstance();
 		if(fieldMng.getCurrentField().withinCollision(area))
-			return true;
+			return false;
 
 		const Array<std::shared_ptr<GameObject>> allys = fieldMng.getAllys();
 		for (const auto& ally : allys) {
-			if (ally.get() == ignoreObj)
+			if (ally == ignoreObj)
 				continue;
 
 			if (ally->withinCollisionForMove(area))
-				return true;
+				return false;
 		}
 
 		const Array<std::shared_ptr<GameObject>> enemys = fieldMng.getEnemys();
 		for (const auto& enemy : enemys) {
-			if (enemy.get() == ignoreObj)
+			if (enemy == ignoreObj)
 				continue;
 
 			if (enemy->withinCollisionForMove(area))
-				return true;
+				return false;
 		}
 
-		return false;
+		return true;
 	}
 
 private:

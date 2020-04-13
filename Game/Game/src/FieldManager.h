@@ -18,8 +18,8 @@ public:
 	}
 
 	inline Field getCurrentField() { return _fields[_currentField]; };
-	inline Array<std::shared_ptr<GameObject>> getAllys() { return _allyManager.getObjects(); };
-	inline Array<std::shared_ptr<GameObject>> getEnemys() { return _enemyManager.getObjects(); };
+	inline Array<std::shared_ptr<GameObject>> getAllys() const { return _allyManager.getObjects(); };
+	inline Array<std::shared_ptr<GameObject>> getEnemys() const { return _enemyManager.getObjects(); };
 
 	void transition(const String& fieldName);
 	void update();

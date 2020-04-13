@@ -35,5 +35,12 @@ enum class Direction {
 	Right
 };
 
+// 対象範囲
+enum class Group {
+	All,
+	Allys,
+	Enemys
+};
+
 // シーン管理クラス
 using MyApp = SceneManager<State, GameData>;

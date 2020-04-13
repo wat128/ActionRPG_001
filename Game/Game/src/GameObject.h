@@ -3,14 +3,19 @@
 #include "ObjData.h"
 #include "TiledGameObjectTexture.h"
 #include "Ability.h"
+#include "Skill.h"
+#include "ObjectBase.h"
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	GameObject();
 	GameObject(const int32& value, const Vec2& pos);
-	virtual int32 onDamage();
-	virtual void getExp();
+	~GameObject();
+
+	virtual int32 onDamage(const Skill::Data& data);
+	void recieveExp(const int32& exp);
+	inline Ability getAbility() const { return _ability; };
 	virtual void move();
 	virtual void update();
 	virtual void draw();

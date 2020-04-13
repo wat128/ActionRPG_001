@@ -1,4 +1,5 @@
 # include "FieldManager.h"
+# include "FieldReferee.h"
 
 FieldManager* FieldManager::_instance = nullptr;
 
@@ -7,6 +8,7 @@ FieldManager::FieldManager()
 	, _currentField(U"テストマップ")
 	, _allyManager()
 	, _enemyManager()
+	, _effectManager()
 {
 	// フィールドマップデータ取得 & 生成
 	const int32 baseRow = 1;
@@ -32,6 +34,8 @@ FieldManager::FieldManager()
 
 	// テスト用：ゲームオブジェクト生成
 	_allyManager.spawn<Player>(1, Vec2(0, 0));
+	_allyManager.spawn<Player>(10, Vec2(100, 20));
+	_allyManager.spawn<Player>(11, Vec2(-100, 100));
 	_enemyManager.spawn<Battler>(10, Vec2(50, 0));
 	_enemyManager.spawn<Battler>(11, Vec2(-100, 0));
 
@@ -47,6 +51,7 @@ void FieldManager::transition(const String& fieldName)
 
 void FieldManager::update()
 {
+	FieldReferee::getInstance().executeQueue();
 	_allyManager.update();
 	_enemyManager.update();
 	_effectManager.update();

@@ -28,18 +28,22 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 	, _collision(ObjData::getInstance().Collision(value))
 	, _collisionForMove(ObjData::getInstance().CollisionForMove(value))
 	, _ability(value)
+{ }
+
+GameObject::~GameObject() {}
+
+int32 GameObject::onDamage(const Skill::Data& data)
 {
-	
+	// テスト用：暫定処理
+	_ability._hp -= data.power;
+
+	return 20;
 }
 
-int32 GameObject::onDamage()
+void GameObject::recieveExp(const int32& exp)
 {
-	return 0;
-}
-
-void GameObject::getExp()
-{
-
+	// テスト用：暫定処理
+	_ability._currentExp += exp;
 }
 
 void GameObject::move()
@@ -53,5 +57,4 @@ void GameObject::update()
 
 void GameObject::draw()
 {
-	
 }

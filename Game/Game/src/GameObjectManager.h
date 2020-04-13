@@ -2,7 +2,6 @@
 #include <Siv3D.hpp>
 #include "GameObject.h"
 
-
 class GameObjectManager
 {
 public:
@@ -22,6 +21,8 @@ public:
 
 	void update()
 	{
+		_objects.remove_if([](std::shared_ptr<GameObject> obj) { return obj->getAbility()._hp <= 0; });
+
 		for (auto obj : _objects) {
 			obj->update();
 		}
@@ -38,7 +39,7 @@ public:
 	//	}
 	//}
 
-	inline GameObject& getObj(const int32& index) const { return *(_objects.at(index)); }
+	inline GameObject getObj(const int32& index) const { return *(_objects.at(index)); }
 	
 	inline Array<std::shared_ptr<GameObject>> getObjects() const { return _objects;}
 

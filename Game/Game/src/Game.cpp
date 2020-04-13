@@ -15,7 +15,7 @@ Game::Game(const InitData& init)
 
 void Game::update()
 {
-	FieldManager fieldManager = FieldManager::getInstance();
+	FieldManager& fieldManager = FieldManager::getInstance();
 	fieldManager.update();
 	
 	const double marginX = (fieldManager.getCurrentField().w() - camera.getRegion().w) / 2;

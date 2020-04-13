@@ -25,7 +25,7 @@ void Battler::move()
 	KeyW.pressed() ?	D = 1 : D = 0;
 
 	Vec2 offset = Vec2(R - L, D - U)
-		.setLength((Scene::DeltaTime() + 0.5) * _ability.getSpeed() * (KeyShift.pressed() ? 0.5 : 1.0));
+		.setLength((Scene::DeltaTime() + 0.5) * _ability._speed * (KeyShift.pressed() ? 0.5 : 1.0));
 
 	const RectF movedCollision(						// ˆÚ“®‚µ‚½ê‡‚ÌÕ“Ë”»’è—p
 		_actor.pos.x - _collisionForMove.x / 2 + offset.x

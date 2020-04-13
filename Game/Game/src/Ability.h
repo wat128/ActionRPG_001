@@ -47,5 +47,3 @@ struct Ability
 	//inline int32  getParsonality() const	{ return _parsonality; }
 
 	//void update(const int32& value); //レベルアップ処理 プレイヤークラスupdateでコール
-
-

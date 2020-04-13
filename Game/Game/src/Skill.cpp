@@ -137,7 +137,8 @@ Skill::State Slash::execute(
 			_isActiveEffect = true;
 	}
 	
-	if (_isActiveTileAnime && _isActiveEffect) {			// 初期化処理
+	// 初期化処理
+	if (_isActiveTileAnime && _isActiveEffect) {
 		skillResult = Skill::State::Complete;
 		_isActiveTileAnime = false;
 		_isActiveEffect = false;
@@ -164,7 +165,7 @@ SonicBlade::SonicBlade()
 				5,							// 横のコマ数
 				3,							// 縦のコマ数
 				Size(250, 60)},				// エフェクトの表示領域	
-		Data(U"月閃衝", Data::Genre::Physical, 30, 0x00000000, Size(250, 60), 1))
+		Data(U"月閃衝", Data::Genre::Physical, 60, 0x00000000, Size(240, 20), 1))
 
 {}
 
@@ -187,35 +188,58 @@ Skill::State SonicBlade::execute(
 
 	// エフェクト & スキル当たり判定
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
-	const int32 margin = 10;
+	const int32 margin = 120;
 
 	if (!_isActiveEffect) {
 
 		switch (direction) {
 		case Direction::Down:
-			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + 140 },
-				EffectAnime::DisplayFormat::_90deg, actor.pos.y + 1);
+			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin },
+				EffectAnime::DisplayFormat::_90deg, actor.pos.y, DisplayLayer::SecondTop);
 
-			// 暫定
 			if (_data.attackNum > _attackNumAccum) {
-				const Circle skillRegion(
-					actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 - margin, _data.region.x);
+				const RectF skillRegion(
+					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin), _data.region.y, _data.region.x);
 
 				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
 				++_attackNumAccum;
 			}
 			break;
 		case Direction::Up:
-			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - 140 },
-				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1);
+			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin },
+				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1, DisplayLayer::Middle);
+
+			if (_data.attackNum > _attackNumAccum) {
+				const RectF skillRegion(
+					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin), _data.region.y, _data.region.x);
+
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				++_attackNumAccum;
+			}
 			break;
 		case Direction::Left:
-			effectResult = _effect->update({ actor.pos.x - actor.w / 4 - 130, actor.pos.y - actor.h / 2 },
-				EffectAnime::DisplayFormat::Mirror, actor.pos.y + 30);
+			effectResult = _effect->update({ actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2 },
+				EffectAnime::DisplayFormat::Mirror, actor.pos.y + 30, DisplayLayer::Middle);
+
+			if (_data.attackNum > _attackNumAccum) {
+				const RectF skillRegion(
+					Arg::center(actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2), _data.region.x, _data.region.y);
+
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				++_attackNumAccum;
+			}
 			break;
 		case Direction::Right:
-			effectResult = _effect->update({ actor.pos.x + actor.w / 4 + 130, actor.pos.y - actor.h / 2 },
-				EffectAnime::DisplayFormat::Normal, actor.pos.y + 30);
+			effectResult = _effect->update({ actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2 },
+				EffectAnime::DisplayFormat::Normal, actor.pos.y + 30, DisplayLayer::Middle);
+
+			if (_data.attackNum > _attackNumAccum) {
+				const RectF skillRegion(
+					Arg::center(actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2), _data.region.x, _data.region.y);
+
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				++_attackNumAccum;
+			}
 			break;
 		default:
 			break;
@@ -225,6 +249,7 @@ Skill::State SonicBlade::execute(
 			_isActiveEffect = true;
 	}
 
+	// 初期化処理
 	if (_isActiveTileAnime && _isActiveEffect) {
 		skillResult = Skill::State::Complete;
 		_isActiveTileAnime = false;

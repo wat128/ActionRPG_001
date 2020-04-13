@@ -104,7 +104,7 @@ void Player::draw()
 	/*----------------------------------------------------------------------------*/
 	/*		テスト用															　*/
 	/*----------------------------------------------------------------------------*/
-#if 1 
+#if 1
 	{
 		// テスト用：移動用コリジョン
 		RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
@@ -117,7 +117,7 @@ void Player::draw()
 
 		// テスト用：ソードスキル１の領域確認用
 
-		//距離確認　Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), 40).drawFrame(0.5, 0.5, Palette::Red);
+		//Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), 40).drawFrame(0.5, 0.5, Palette::Red);
 		//const int32 margin = 10;
 		//switch (_direction) {
 		//case Direction::Down:
@@ -135,21 +135,22 @@ void Player::draw()
 		//}
 
 		// テスト用：ソードスキル２の領域確認用
-		const Size size(240, 20);
-		switch (_direction) {
-		case Direction::Down:
-			const RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2 - _actor.w / 4 + 140), size.y, size.x).drawFrame();
-			break;
-			//case Direction::Up:
-			//	const Circle(_actor.pos.x, _actor.pos.y - _actor.h / 2 - _actor.w / 4 - margin, 20).drawFrame();
-			//	break;
-			//case Direction::Left:
-			//	const Circle(_actor.pos.x - _actor.w / 4 - margin, _actor.pos.y - _actor.h / 2, 20).drawFrame();
-			//	break;
-			//case Direction::Right:
-			//	const Circle(_actor.pos.x + _actor.w / 4 + margin, _actor.pos.y - _actor.h / 2, 20).drawFrame();
-			//	break;
-		}
+		//const Size size(240, 20);
+		//const int32 margin = 120;
+		//switch (_direction) {
+		//case Direction::Down:
+		//	const RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2 + _actor.w / 4 + margin), size.y, size.x).drawFrame();
+		//	break;
+		//case Direction::Up:
+		//	const RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2 - _actor.w / 4 - margin), size.y, size.x).drawFrame();
+		//	break;
+		//case Direction::Left:
+		//	const RectF(Arg::center(_actor.pos.x - _actor.w / 4 - margin, _actor.pos.y - _actor.h / 2), size.x, size.y).drawFrame();
+		//	break;
+		//case Direction::Right:
+		//	const RectF(Arg::center(_actor.pos.x + _actor.w / 4 + margin, _actor.pos.y - _actor.h / 2), size.x, size.y).drawFrame();
+		//	break;
+		//}
 
 		// テスト用：
 		ClearPrint();

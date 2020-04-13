@@ -14,6 +14,5 @@ void EffectManager::draw(const DisplayLayer layer)
 {
 	for (const auto& effect : _effects) {
 		effect->draw();
-		Print << U"use_count :" << effect.use_count();	// テスト用：
 	}
 }

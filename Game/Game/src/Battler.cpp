@@ -57,18 +57,25 @@ void Battler::draw()
 		.draw(_actor.pos.x - _actor.w / 2
 			, _actor.pos.y - _actor.h);
 
-	// テスト用：移動用コリジョン
-	RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
+	/*----------------------------------------------------------------------------*/
+	/*		テスト用															　*/
+	/*----------------------------------------------------------------------------*/
+#if 1
+	{
+		// テスト用：移動用コリジョン
+		RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
 
-	// テスト用：ベース座標
-	Circle(_actor.pos, 2).draw(Palette::Red);
+		// テスト用：ベース座標
+		Circle(_actor.pos, 2).draw(Palette::Red);
 
-	if (0 == _collision.y) {
-		// テスト用：コリジョン(Circle)
-		Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision.x).drawFrame(0.5, Palette::Orange);
+		if (0 == _collision.y) {
+			// テスト用：コリジョン(Circle)
+			Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision.x).drawFrame(0.5, Palette::Orange);
+		}
+		else {
+			// テスト用：コリジョン(RectF)
+			RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision).drawFrame(0.5, Palette::Orange);
+		}
 	}
-	else {
-		// テスト用：コリジョン(RectF)
-		RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision).drawFrame(0.5, Palette::Orange);
-	}
+#endif
 }

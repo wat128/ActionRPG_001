@@ -74,10 +74,15 @@ TiledGameObjectTexture::State TiledGameObjectTexture::attackAnime(const Array<do
 		++_attackAnimeCount;
 		_attackTimeAccum = 0.0;
 	}
-
-	const int32 startPointOfAttackTile = _basePoint.x +_tileSize.x * _walkTileXYNum.x;
-	_currentPoint.x = startPointOfAttackTile + _tileSize.x * _attackAnimeCount;
-
+	
+	if (0 == _attackTileXYNum.x && 0 == _attackTileXYNum.y)		// 歩行アニメでタイル位置を設定
+	{
+		_currentPoint.x = _basePoint.x + _tileSize.x * _attackAnimeCount;
+	}
+	else {	// 攻撃用アニメでタイル位置を設定
+		const int32 startPointOfAttackTile = _basePoint.x + _tileSize.x * _walkTileXYNum.x;
+		_currentPoint.x = startPointOfAttackTile + _tileSize.x * _attackAnimeCount;
+	}
 	return State::Continue;
 }
 

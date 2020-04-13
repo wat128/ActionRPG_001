@@ -90,6 +90,8 @@ void Player::update()
 		move();
 
 	skill();
+
+	_dispPriority = _actor.pos.y;
 }
 
 void Player::draw()

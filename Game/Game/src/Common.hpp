@@ -19,6 +19,7 @@ struct GameData
 // 表示レイヤー
 enum class DisplayLayer
 {
+	Ignore,
 	Top,
 	SecondTop,
 	Middle,			// キャラクターと同等のレイヤー
@@ -41,6 +42,8 @@ enum class Group {
 	Allys,
 	Enemys
 };
+
+const int32 IGNORE = -9999999;
 
 // シーン管理クラス
 using MyApp = SceneManager<State, GameData>;

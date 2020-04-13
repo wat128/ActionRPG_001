@@ -6,7 +6,7 @@
 #include "Skill.h"
 #include "ObjectBase.h"
 
-class GameObject : public std::enable_shared_from_this<GameObject>
+class GameObject : public std::enable_shared_from_this<GameObject>, public ObjectBase
 {
 public:
 	GameObject();

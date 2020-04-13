@@ -1,5 +1,6 @@
 # include "FieldManager.h"
 # include "FieldReferee.h"
+# include "ObjectBase.h"
 
 FieldManager* FieldManager::_instance = nullptr;
 
@@ -61,7 +62,8 @@ void FieldManager::draw()
 {
 	const Array<std::shared_ptr<GameObject>> allys = _allyManager.getObjects();
 	const Array<std::shared_ptr<GameObject>> enemys = _enemyManager.getObjects();
-	Array<std::shared_ptr<GameObject>> displayOrder;
+	const Array<std::shared_ptr<EffectAnime>> effects = _effectManager.getEffects();
+	Array<std::shared_ptr<ObjectBase>> displayOrder;
 
 	for (const auto& ally : allys)
 		displayOrder.emplace_back(ally);
@@ -69,17 +71,27 @@ void FieldManager::draw()
 	for (const auto& enemy : enemys)
 		displayOrder.emplace_back(enemy);
 
-	displayOrder.sort_by([](const std::shared_ptr<GameObject>& a, const std::shared_ptr<GameObject>& b)
+	for (const auto& effect : effects) {
+		if(effect->getLayer() == DisplayLayer::Middle)
+			displayOrder.emplace_back(effect);
+	}
+
+	displayOrder.sort_by([](const std::shared_ptr<ObjectBase> a, const std::shared_ptr<ObjectBase> b)
 		{
-			return (a->getPos().y < b->getPos().y);
+			return a->_dispPriority < b->_dispPriority;
 		});
 
 	getCurrentField().draw(true, false);
-	
-	for(const auto& obj : displayOrder)		// 描画（手前・奥）の関係から "GameObjectManager"が保持する
-		obj->draw();						// 各objectへ直接draw()。設計上再検討すべきか
+
+	_effectManager.draw(DisplayLayer::Bottom);
+	_effectManager.draw(DisplayLayer::SecondBottom);
+
+	for (const auto& obj : displayOrder)
+		obj->draw();
+
+	_effectManager.draw(DisplayLayer::SecondTop);
+	_effectManager.draw(DisplayLayer::Top);
 
 	getCurrentField().draw(false, true);
-	
-	_effectManager.draw(DisplayLayer::Middle);		// テスト用：　引数
-}
+
+}	

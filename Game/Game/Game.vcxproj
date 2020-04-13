@@ -240,6 +240,7 @@
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ObjData.cpp" />
+    <ClCompile Include="src\ObjectBase.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Skill.cpp" />
     <ClCompile Include="src\TiledGameObjectTexture.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectManager.h" />
     <ClInclude Include="src\ObjData.h" />
+    <ClInclude Include="src\ObjectBase.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\EffectAnime.h" />
     <ClInclude Include="src\Skill.h" />

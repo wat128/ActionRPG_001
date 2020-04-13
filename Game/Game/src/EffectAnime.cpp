@@ -1,7 +1,8 @@
 #include "EffectAnime.h"
 
 EffectAnime::EffectAnime()
-    : _texture()
+    : ObjectBase(0)
+    , _texture()
     , _layer()
     , _tileSize()
     , _endTime()
@@ -26,7 +27,8 @@ EffectAnime::EffectAnime(
     const int32 xNum,
     const int32 yNum,
     const Size region)
-    : _texture(textureStr)
+    : ObjectBase(0)
+    , _texture(textureStr)
     , _layer(layer)
     , _tileSize(tileSize)
     , _endTime(endTime)
@@ -42,11 +44,14 @@ EffectAnime::EffectAnime(
     , _format(DisplayFormat::Normal)
 {}
 
-EffectAnime::State EffectAnime::update(const Vec2& pos, const DisplayFormat& format)
+EffectAnime::State EffectAnime::update(const Vec2& pos, const DisplayFormat& format, const int32& dispPriority, const DisplayLayer& layer)
 {
     _pos = pos;
     _accum += Scene::DeltaTime();
     _format = format;
+    dispPriority == IGNORE ? _dispPriority = _pos.y : _dispPriority = dispPriority;
+    if (DisplayLayer::Ignore != layer)
+        _layer = layer;
 
     switch(_format) {
     case DisplayFormat::Normal:
@@ -122,7 +127,6 @@ EffectAnime::State EffectAnime::update(const Vec2& pos, const DisplayFormat& for
         break;
     }
     
-
     return EffectAnime::State::Continue;
 }
 

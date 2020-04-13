@@ -1,12 +1,14 @@
 #pragma once
 #include "EffectManager.h"
+#include "ObjectBase.h"
 
 enum class DisplayLayer;
 
 // 一定時間でコマを切り替えるエフェクト / 本クラス継承で可変コマ切り替えのエフェクト等が実装可能
-class EffectAnime : public std::enable_shared_from_this<EffectAnime>
+class EffectAnime : public std::enable_shared_from_this<EffectAnime>, public ObjectBase
 {
 public:
+
     enum class State {
         Complete,
         Continue,
@@ -43,15 +45,22 @@ public:
         const int32 yNum,
         const Size region);
 
-    virtual EffectAnime::State update(const Vec2& pos, const DisplayFormat& format);
+    virtual EffectAnime::State update(
+        const Vec2& pos,
+        const DisplayFormat& format,
+        const int32& dispPriority = IGNORE,
+        const DisplayLayer& layer = DisplayLayer::Ignore);
+
     virtual void draw();
 
     bool isActive() const { return _isActive; }
     void initialize();           // 本クラス内で変更されるメンバを初期化する
 
+    inline DisplayLayer getLayer() const { return _layer; }
+
 private:
     const Texture _texture;     // テクスチャ
-    const DisplayLayer _layer;  // 表示レイヤー
+    DisplayLayer _layer;        // 表示レイヤー
     const Size _tileSize;       // 1コマのサイズ
     const double _endTime;      // エフェクト終了までの時間   
     const int32 _maxCount;      // 全コマ数

@@ -41,7 +41,7 @@ Slash::Slash()
 	: Skill(
 		EffectData
 			{ U"Asset/Effect/sword01.png",	// テクスチャ 
-				DisplayLayer::SecondTop,	// 表示レイヤー
+				DisplayLayer::Middle,		// 表示レイヤー
 				{ 192, 192 },				// 1コマのサイズ
 				0.3,						// エフェクト終了までの時間   
 				8,							// 全コマ数
@@ -77,7 +77,7 @@ Skill::State Slash::execute(
 		switch (direction) {
 		case Direction::Down:
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 }, 
-				EffectAnime::DisplayFormat::_90deg);
+				EffectAnime::DisplayFormat::_90deg, actor.pos.y, DisplayLayer::SecondTop);
 
 			if (_data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
@@ -90,7 +90,7 @@ Skill::State Slash::execute(
 		
 		case Direction::Up:
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 }, 
-				EffectAnime::DisplayFormat::_270deg);
+				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1, DisplayLayer::Middle);
 
 			if (_data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
@@ -104,7 +104,7 @@ Skill::State Slash::execute(
 		case Direction::Left:
 
 			effectResult = _effect->update({ actor.pos.x - actor.w / 4, actor.pos.y - actor.h / 2 }, 
-				EffectAnime::DisplayFormat::MirFlipped);
+				EffectAnime::DisplayFormat::MirFlipped, actor.pos.y + 30, DisplayLayer::Middle);
 
 			if (_data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
@@ -118,7 +118,7 @@ Skill::State Slash::execute(
 		case Direction::Right:
 
 			effectResult = _effect->update({ actor.pos.x + actor.w / 4, actor.pos.y - actor.h / 2 },
-				EffectAnime::DisplayFormat::NmlFlippedReverse);
+				EffectAnime::DisplayFormat::NmlFlippedReverse, actor.pos.y + 30, DisplayLayer::Middle);
 			
 			if (_data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
@@ -157,7 +157,7 @@ SonicBlade::SonicBlade()
 	: Skill(
 		EffectData
 			{ U"Asset/Effect/sword02.png",	// テクスチャ 
-				DisplayLayer::SecondTop,	// 表示レイヤー
+				DisplayLayer::Middle,		// 表示レイヤー
 				{ 192, 192 },				// 1コマのサイズ
 				0.7,						// エフェクト終了までの時間   
 				12,							// 全コマ数
@@ -194,7 +194,7 @@ Skill::State SonicBlade::execute(
 		switch (direction) {
 		case Direction::Down:
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + 140 },
-				EffectAnime::DisplayFormat::_90deg);
+				EffectAnime::DisplayFormat::_90deg, actor.pos.y + 1);
 
 			// 暫定
 			if (_data.attackNum > _attackNumAccum) {
@@ -207,15 +207,15 @@ Skill::State SonicBlade::execute(
 			break;
 		case Direction::Up:
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - 140 },
-				EffectAnime::DisplayFormat::_270deg);
+				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1);
 			break;
 		case Direction::Left:
 			effectResult = _effect->update({ actor.pos.x - actor.w / 4 - 130, actor.pos.y - actor.h / 2 },
-				EffectAnime::DisplayFormat::Mirror);
+				EffectAnime::DisplayFormat::Mirror, actor.pos.y + 30);
 			break;
 		case Direction::Right:
 			effectResult = _effect->update({ actor.pos.x + actor.w / 4 + 130, actor.pos.y - actor.h / 2 },
-				EffectAnime::DisplayFormat::Normal);
+				EffectAnime::DisplayFormat::Normal, actor.pos.y + 30);
 			break;
 		default:
 			break;

@@ -48,6 +48,8 @@ void Battler::move()
 void Battler::update()
 {
 	move();
+
+	_dispPriority = _actor.pos.y;
 }
 
 void Battler::draw()

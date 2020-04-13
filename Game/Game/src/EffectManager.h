@@ -15,7 +15,9 @@ public:
 	}
 
 	void update();
-	void draw(const DisplayLayer layer);
+	void draw(const DisplayLayer& layer);
+
+	inline Array<std::shared_ptr<EffectAnime>> getEffects() const { return _effects; }
 
 private:
 	static Array<std::shared_ptr<EffectAnime>> _effects;

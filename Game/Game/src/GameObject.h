@@ -59,5 +59,6 @@ protected:
 	const Size _collisionForMove;
 	Ability _ability;
 
+	double _HurtTime;
 };
 

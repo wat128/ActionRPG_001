@@ -60,6 +60,8 @@ Skill::State Slash::execute(
 	std::function<void(const int32)> func)
 {
 	Skill::State skillResult = Skill::State::Complete;
+	if (_data.attackNum > _attackNumAccum)
+		AudioAsset(U"Sword01").playOneShot(0.7);
 
 	// キャラタイルのアニメ
 	if (!_isActiveTileAnime) {
@@ -178,6 +180,8 @@ Skill::State SonicBlade::execute(
 	std::function<void(const int32)> func)
 {
 	Skill::State skillResult = Skill::State::Complete;
+	if (_data.attackNum > _attackNumAccum)
+		AudioAsset(U"Sword02").playOneShot(0.2);
 
 	// キャラタイルのアニメ
 	if (!_isActiveTileAnime) {

@@ -11,6 +11,7 @@ GameObject::GameObject()
 	, _collision()
 	, _collisionForMove()
 	, _ability()
+	, _HurtTime(0)
 { }
 
 GameObject::GameObject(const int32& value, const Vec2& pos)
@@ -30,6 +31,7 @@ GameObject::GameObject(const int32& value, const Vec2& pos)
 	, _collision(ObjData::getInstance().Collision(value))
 	, _collisionForMove(ObjData::getInstance().CollisionForMove(value))
 	, _ability(value)
+	, _HurtTime(0)
 { }
 
 GameObject::~GameObject() {}
@@ -37,7 +39,12 @@ GameObject::~GameObject() {}
 int32 GameObject::onDamage(const Skill::Data& data)
 {
 	// テスト用：暫定処理
+	AudioAsset(U"Damage01").playOneShot(0.7);
+	
 	_ability._hp -= data.power;
+	if (0 < _ability._hp) {
+		_HurtTime = HURTTIME;
+	}
 
 	return 20;
 }

@@ -44,6 +44,8 @@ enum class Group {
 };
 
 const int32 IGNORE = -9999999;
+const double HURTTIME = 0.3;
+const HSV HURT_COLOR = { 0, 0.5, 1, 1 };
 
 // シーン管理クラス
 using MyApp = SceneManager<State, GameData>;

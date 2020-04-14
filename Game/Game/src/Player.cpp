@@ -91,15 +91,25 @@ void Player::update()
 
 	skill();
 
+	if (0 < _HurtTime)
+		_HurtTime -= Scene::DeltaTime();
+
 	_dispPriority = _actor.pos.y;
 }
 
 void Player::draw()
 {
-	// 足元を_actor.posとするため、描画位置調整
-	_tiledTexture.getTile()
-		.draw(_actor.pos.x - _actor.w / 2
-			, _actor.pos.y - _actor.h);
+	if (0 < _HurtTime) {
+		_tiledTexture.getTile()
+			.draw(_actor.pos.x - _actor.w / 2
+				, _actor.pos.y - _actor.h
+				, HURT_COLOR);
+	}
+	else {
+		_tiledTexture.getTile()
+			.draw(_actor.pos.x - _actor.w / 2
+				, _actor.pos.y - _actor.h);
+	}
 
 	/*----------------------------------------------------------------------------*/
 	/*		テスト用															　*/

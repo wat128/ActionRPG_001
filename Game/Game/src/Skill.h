@@ -54,13 +54,13 @@ public:
 			Dark,						// 闇
 		}const type;			// 技タイプ	
 
-		const int32 power;		// 威力 ("+"ダメージ / "-"回復)
+		int32 power;			// 威力 ("+"ダメージ / "-"回復)
 		struct Buff {
-			double atk;
-			double def;
-			double mat;
-			double mdf;
-			double spd;
+			double attack;
+			double defense;
+			double agility;
+			double intel;
+			double resist;
 			double time;				// 秒単位
 		}const buff;			// バフデバフ（"1"が基準 ："1.1"バフ / "0.9"デバフ）
 

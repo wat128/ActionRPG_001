@@ -67,8 +67,14 @@ void Player::talk()
 
 void Player::move()
 {
+	double speed;
+	if (_ability.agility.current < 500)
+		speed = _ability.agility.current;
+	else
+		speed = 500;
+
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
-		.setLength((Scene::DeltaTime() + 0.5) * _ability._speed * (KeyShift.pressed() ? 0.5 : 1.0));
+		.setLength((Scene::DeltaTime() + 2.5) + speed * 0.003);
 
 	const RectF movedCollision(						// 移動した場合の衝突判定用
 		_actor.pos.x - _collisionForMove.x / 2 + offset.x
@@ -98,6 +104,7 @@ void Player::update()
 	if (0 < _HurtTime)
 		_HurtTime -= Scene::DeltaTime();
 
+	_ability.update();
 	_dispPriority = _actor.pos.y;
 }
 
@@ -175,11 +182,12 @@ void Player::draw()
 		Print << U"_tiledTexture.size :" << _tiledTexture.getTile().size;
 		Print << U"Hero_use_count :" << FieldManager::getInstance().getAllys().at(0).use_count();
 		if (!FieldManager::getInstance().getEnemys().empty())
-			Print << U"モンスター[0] _ HP :" << FieldManager::getInstance().getEnemys().at(0)->getAbility()._hp;
+			Print << U"モンスター[0] _ HP :" << FieldManager::getInstance().getEnemys().at(0)->getAbility().hp.current;
 		else
 			Print << U"モンスター無し";
-		Print << U"Hero_EXP :" << FieldManager::getInstance().getAllys().at(0)->getAbility()._currentExp;
+		Print << U"Hero_EXP :" << FieldManager::getInstance().getAllys().at(0)->getAbility().currentExp;
 		//Print << U"WolF_use_count :" << FieldManager::getInstance().getEnemys().at(0).use_count();
+		Print << U"Hero_attackBuffTime :" << FieldManager::getInstance().getAllys().at(0)->getAbility().attack.buffTime;
 	}
 #endif
 }

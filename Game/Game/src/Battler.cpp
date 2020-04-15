@@ -24,8 +24,14 @@ void Battler::move()
 	KeyE.pressed() ?	U = 1 : U = 0;
 	KeyW.pressed() ?	D = 1 : D = 0;
 
+	double speed;
+	if (_ability.agility.current < 500)
+		speed = _ability.agility.current;
+	else
+		speed = 500;
+
 	Vec2 offset = Vec2(R - L, D - U)
-		.setLength((Scene::DeltaTime() + 0.5) * _ability._speed * (KeyShift.pressed() ? 0.5 : 1.0));
+		.setLength((Scene::DeltaTime() + 2.5) + speed * 0.003);
 
 	const RectF movedCollision(						// ˆÚ“®‚µ‚½ê‡‚ÌÕ“Ë”»’è—p
 		_actor.pos.x - _collisionForMove.x / 2 + offset.x
@@ -52,8 +58,8 @@ void Battler::update()
 	if (0 < _HurtTime)
 		_HurtTime -= Scene::DeltaTime();
 
+	_ability.update();
 	_dispPriority = _actor.pos.y;
-	
 }
 
 void Battler::draw()

@@ -21,7 +21,7 @@ public:
 
 	void update()
 	{
-		_objects.remove_if([](std::shared_ptr<GameObject> obj) { return obj->getAbility()._hp <= 0; });
+		_objects.remove_if([](std::shared_ptr<GameObject> obj) { return obj->getAbility().hp.current <= 0; });
 
 		for (auto obj : _objects) {
 			obj->update();

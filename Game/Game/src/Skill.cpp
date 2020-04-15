@@ -48,7 +48,7 @@ Slash::Slash()
 				5,							// 横のコマ数
 				2,							// 縦のコマ数
 				Size(80, 40) },				// エフェクトの表示領域						
-		Data(U"スラッシュ", Data::Genre::Physical, Data::Type::Slash, 30, {0}, 0x00000000, Size(20, 0), 1))
+		Data(U"スラッシュ", Data::Genre::Physical, Data::Type::Slash, 10, {0}, 0x00000000, Size(20, 0), 1))
 {}
 
 Skill::State Slash::execute(
@@ -60,7 +60,12 @@ Skill::State Slash::execute(
 	std::function<void(const int32)> func)
 {
 	Skill::State skillResult = Skill::State::Complete;
-	if (_data.attackNum > _attackNumAccum)
+
+	// 威力計算
+	Data data = _data;
+	data.power += ability.attack.current;
+
+	if (data.attackNum > _attackNumAccum)
 		AudioAsset(U"Sword01").playOneShot(0.7);
 
 	// キャラタイルのアニメ
@@ -81,11 +86,11 @@ Skill::State Slash::execute(
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 }, 
 				EffectAnime::DisplayFormat::_90deg, actor.pos.y, DisplayLayer::SecondTop);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
-					actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 - margin, _data.region.x);
+					actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 - margin, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -94,11 +99,11 @@ Skill::State Slash::execute(
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 }, 
 				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1, DisplayLayer::Middle);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
-					actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin, _data.region.x);
+					actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -108,11 +113,11 @@ Skill::State Slash::execute(
 			effectResult = _effect->update({ actor.pos.x - actor.w / 4, actor.pos.y - actor.h / 2 }, 
 				EffectAnime::DisplayFormat::MirFlipped, actor.pos.y + 30, DisplayLayer::Middle);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
-					actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2, _data.region.x);
+					actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -122,11 +127,11 @@ Skill::State Slash::execute(
 			effectResult = _effect->update({ actor.pos.x + actor.w / 4, actor.pos.y - actor.h / 2 },
 				EffectAnime::DisplayFormat::NmlFlippedReverse, actor.pos.y + 30, DisplayLayer::Middle);
 			
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
-					actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2, _data.region.x);
+					actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -167,7 +172,7 @@ SonicBlade::SonicBlade()
 				5,							// 横のコマ数
 				3,							// 縦のコマ数
 				Size(250, 60)},				// エフェクトの表示領域	
-		Data(U"月閃衝", Data::Genre::Physical, Data::Type::Slash, 60, { 0 }, 0x00000000, Size(240, 20), 1))
+		Data(U"月閃衝", Data::Genre::Physical, Data::Type::Slash, 30, { 0 }, 0x00000000, Size(240, 20), 1))
 {}
 
 Skill::State SonicBlade::execute(
@@ -179,7 +184,12 @@ Skill::State SonicBlade::execute(
 	std::function<void(const int32)> func)
 {
 	Skill::State skillResult = Skill::State::Complete;
-	if (_data.attackNum > _attackNumAccum)
+
+	// 威力計算
+	Data data = _data;
+	data.power += ability.attack.current;
+
+	if (data.attackNum > _attackNumAccum)
 		AudioAsset(U"Sword02").playOneShot(0.2);
 
 	// キャラタイルのアニメ
@@ -200,11 +210,11 @@ Skill::State SonicBlade::execute(
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin },
 				EffectAnime::DisplayFormat::_90deg, actor.pos.y, DisplayLayer::SecondTop);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const RectF skillRegion(
-					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin), _data.region.y, _data.region.x);
+					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin), data.region.y, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -212,11 +222,11 @@ Skill::State SonicBlade::execute(
 			effectResult = _effect->update({ actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin },
 				EffectAnime::DisplayFormat::_270deg, actor.pos.y - 1, DisplayLayer::Middle);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const RectF skillRegion(
-					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin), _data.region.y, _data.region.x);
+					Arg::center(actor.pos.x, actor.pos.y - actor.h / 2 - actor.w / 4 - margin), data.region.y, data.region.x);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -224,11 +234,11 @@ Skill::State SonicBlade::execute(
 			effectResult = _effect->update({ actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2 },
 				EffectAnime::DisplayFormat::Mirror, actor.pos.y + 30, DisplayLayer::Middle);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const RectF skillRegion(
-					Arg::center(actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2), _data.region.x, _data.region.y);
+					Arg::center(actor.pos.x - actor.w / 4 - margin, actor.pos.y - actor.h / 2), data.region.x, data.region.y);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;
@@ -236,11 +246,11 @@ Skill::State SonicBlade::execute(
 			effectResult = _effect->update({ actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2 },
 				EffectAnime::DisplayFormat::Normal, actor.pos.y + 30, DisplayLayer::Middle);
 
-			if (_data.attackNum > _attackNumAccum) {
+			if (data.attackNum > _attackNumAccum) {
 				const RectF skillRegion(
-					Arg::center(actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2), _data.region.x, _data.region.y);
+					Arg::center(actor.pos.x + actor.w / 4 + margin, actor.pos.y - actor.h / 2), data.region.x, data.region.y);
 
-				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data, func);
+				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;
 			}
 			break;

@@ -4,46 +4,85 @@
 
 struct Ability
 {
-	int32 _level;
-	int32 _currentExp;
-	int32 _nextExp;
-	int32 _hp;
-	int32 _mp;
-	int32 _power;
-	int32 _physical;
-	int32 _speed;
-	int32 _knowledge;
-	int32 _state;
-	int32 _parsonality;
+	struct Param {
+		int32 base;
+		int32 current;
+		double buff;
+		double buffTime;
+	};
+
+	int32 level;
+	int32 currentExp;
+	int32 nextExp;
+	Param hp;				// HP
+	Param mp;				// MP
+	Param attack;			// 攻撃力
+	Param defense;			// 防御力
+	Param agility;			// 素早さ（回避・命中・移動スピード）
+	Param intel;			// 魔法攻撃力
+	Param resist;			// 魔法防御力
+	int32 state;			// 状態
+	int32 parsonality;		// 性格（行動パターンに影響（予定））
 
 	Ability() {}
 	Ability(const int32& value)
-		: _level(ObjData::getInstance().Level(value))
-		, _currentExp(ObjData::getInstance().CurrentExp(value))
-		, _nextExp(ObjData::getInstance().NextExp(value))
-		, _hp(ObjData::getInstance().Hp(value))
-		, _mp(ObjData::getInstance().Mp(value))
-		, _power(ObjData::getInstance().Power(value))
-		, _physical(ObjData::getInstance().Physical(value))
-		, _speed(ObjData::getInstance().Speed(value))
-		, _knowledge(ObjData::getInstance().Knowledge(value))
-		, _state(ObjData::getInstance().State(value))
-		, _parsonality(ObjData::getInstance().Parsonality(value))
+		: level(ObjData::getInstance().level(value))
+		, currentExp(ObjData::getInstance().currentExp(value))
+		, nextExp(ObjData::getInstance().nextExp(value))
+		, hp({ ObjData::getInstance().hp(value), ObjData::getInstance().hp(value), 1, 0 })
+		, mp({ ObjData::getInstance().mp(value), ObjData::getInstance().mp(value), 1, 0 })
+		, attack({ ObjData::getInstance().attack(value), ObjData::getInstance().attack(value), 1, 0 })
+		, defense({ ObjData::getInstance().defense(value), ObjData::getInstance().defense(value), 1, 0 })
+		, agility({ ObjData::getInstance().agility(value), ObjData::getInstance().agility(value), 1, 0 })
+		, intel({ ObjData::getInstance().intel(value), ObjData::getInstance().intel(value), 1, 0 })
+		, resist({ ObjData::getInstance().resist(value), ObjData::getInstance().resist(value), 1, 0 })
+		, state(ObjData::getInstance().state(value))
+		, parsonality(ObjData::getInstance().parsonality(value))
+	{ }
+
+	void update()
 	{
+		const double delta = Scene::DeltaTime();
+		if (0 >= attack.buffTime) {
+			attack.current = attack.base;
+			attack.buff = 1;
+			attack.buffTime = 0;
+		}
+		else
+			attack.buffTime -= delta;
+
+		if (0 >= defense.buffTime) {
+			defense.current = defense.base;
+			defense.buff = 1;
+			defense.buffTime = 0;
+		}
+		else
+			defense.buffTime -= delta;
+
+		if (0 >= agility.buffTime) {
+			agility.current = agility.base;
+			agility.buff = 1;
+			agility.buffTime = 0;
+		}
+		else
+			agility.buffTime -= delta;
+
+		if (0 >= intel.buffTime) {
+			intel.current = intel.base;
+			intel.buff = 1;
+			intel.buffTime = 0;
+		}
+		else
+			intel.buffTime -= delta;
+
+		if (0 >= resist.buffTime) {
+			resist.current = resist.base;
+			resist.buff = 1;
+			resist.buffTime = 0;
+		}
+		else
+			resist.buffTime -= delta;
+
+		return;
 	}
-
 };
-
-	//inline int32  getLevel() const			{ return _level; }
-	//inline int32  getCurrentExp() const		{ return _currentExp; }
-	//inline int32  getNextExp() const		{ return _nextExp; }
-	//inline int32  getHp() const				{ return _hp; }
-	//inline int32  getMp() const				{ return _mp; }
-	//inline int32  getPower() const			{ return _power; }
-	//inline int32  getPhysical() const		{ return _physical; }
-	//inline int32  getSpeed() const			{ return _speed; }
-	//inline int32  getKnowledge() const		{ return _knowledge; }
-	//inline int32  getState() const			{ return _state; }
-	//inline int32  getParsonality() const	{ return _parsonality; }
-
-	//void update(const int32& value); //レベルアップ処理 プレイヤークラスupdateでコール

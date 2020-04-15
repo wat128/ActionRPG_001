@@ -9,6 +9,7 @@ Player::Player(const int32& value, const Vec2& pos)
 {
 	_skills.emplace_back(std::make_unique<Slash>());
 	_skills.emplace_back(std::make_unique<SonicBlade>());
+	_skills.emplace_back(std::make_unique<BuildUp>());
 }
 
 void Player::skill()
@@ -38,6 +39,9 @@ void Player::skill()
 			[&](const int32& exp) { this->recieveExp(exp); });
 		break;
 	case Skill::Data::Genre::AssistMyself:
+		ret = _skills.at(index)->execute(_ability, Group::Allys,
+			FieldReferee::getInstance().findMyIndex(shared_from_this(), Group::Allys), _tiledTexture);
+		break;
 	case Skill::Data::Genre::AssistSomeone:
 	case Skill::Data::Genre::SingleEffect:
 	case Skill::Data::Genre::AreaOfEffect:

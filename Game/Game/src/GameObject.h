@@ -22,6 +22,7 @@ public:
 
 	inline String getName() const { return _name; }
 	inline Vec2 getPos() const { return _actor.pos; }
+	inline Vec2 getSize() const { return _actor.size; }
 	
 	template<typename Shape>
 	bool withinCollision(const Shape& area) const

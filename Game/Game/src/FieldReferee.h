@@ -15,7 +15,10 @@ public:
 
 	// 指定領域内に他コリジョンがあるかを判定し、あればキューに追加する
 	template <typename Shape>
-	void hitConfirm(const Shape& area, const Group& targetGroup, const Skill::Data& data, std::function<void(const int32)> func)
+	void hitConfirm(const Shape& area, 
+		const Group& targetGroup, 
+		const Skill::Data& data, 
+		std::function<void(const int32)> func = [](const int32& a){ return; })
 	{
 		bool ret = false;
 		FieldManager& fieldMng = FieldManager::getInstance();
@@ -100,6 +103,28 @@ public:
 			}
 		}
 		return index;
+	}
+	
+	// 指定グループの指定インデックスのオブジェクトを取得する。当てはまらないならnullptr。
+	std::shared_ptr<GameObject> getObj(const int32& index, const Group& group) const
+	{
+		FieldManager& fieldMng = FieldManager::getInstance();
+
+		if (Group::Allys == group) {
+			if (index >= fieldMng.getAllys().size())
+				return nullptr;
+			else
+				return fieldMng.getAllys().at(index);
+		}
+
+		if (Group::Enemys == group) {
+			if (index >= fieldMng.getEnemys().size())
+				return nullptr;
+			else
+				return fieldMng.getEnemys().at(index);
+		}
+
+		return nullptr;
 	}
 
 	void executeQueue()

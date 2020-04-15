@@ -30,44 +30,78 @@ public:
 
 	struct Data {
 		const String name;		// 技名
+
 		enum class Genre {
 			Physical,					// 物理技
-			AssistMyself,				// 自分への補助技
-			AssistSomeone,				// 他への補助技
-			SingleEffect,				// 他への単体魔法技
-			AreaOfEffect,				// 他を中心とした魔法技
-			AreaOfEffectFocusingMyself	// 自を中心とした魔法技
+			AssistMyself,				// 補助技（自）
+			AssistSomeone,				// 補助技（他）
+			SingleEffect,				// 単体魔法（他）
+			AreaOfEffect,				// 範囲魔法（他中心）
+			AreaOfEffectFocusingMyself	// 範囲魔法技（自中心）
 		}const genre;			// 技の分類
-		//const Type type;		// 攻撃属性： 斬、打、突、火、水、…、無	
+
+		enum class Type {
+			Void,						// 無
+			Slash,						// 斬		
+			Strike,						// 打
+			Spear,						// 突
+			Fire,						// 炎
+			Water,						// 水
+			Thunder,					// 雷
+			Wind,						// 風
+			Earth,						// 土
+			Shine,						// 光
+			Dark,						// 闇
+		}const type;			// 技タイプ	
+
 		const int32 power;		// 威力 ("+"ダメージ / "-"回復)
+		struct Buff {
+			double atk;
+			double def;
+			double mat;
+			double mdf;
+			double spd;
+			double time;				// 秒単位
+		}const buff;			// バフデバフ（"1"が基準 ："1.1"バフ / "0.9"デバフ）
+
 		const int32 state;		// 状態異常： 0x00000000 ～ 0x11111111
 		const Size region;		// 技の当たり判定領域
 		const int32  attackNum;	// 攻撃回数
-		Data(const String& n, const Genre& g, const int32& p, const int32& s, const Size& r, const int32& a);
+
+		Data(const String& n, const Genre& g, const Type& t, const int32& p, const Buff& b, const int32& s, const Size& r, const int32& a);
 	}_data;
 
 	Skill();
 
 	Skill(const EffectData& eData, const Data& sData);	//このコンストラクタに渡す引数によりエフェクトが実現
-
-
+	
 	virtual State execute(
 		RectF& actor,
 		Direction& direction,
-		const Ability ability,
+		const Ability& ability,
 		const Group& targetGroup,
 		TiledGameObjectTexture& tiledTexture,
 		std::function<void(const int32)> func)
 	{
 		return State::Complete;
 	}
+
 	virtual State execute(
 		Circle& actor,
 		Direction& direction,
-		const Ability ability,
+		const Ability& ability,
 		const Group& targetGroup,
 		TiledGameObjectTexture& tiledTexture,
 		std::function<void(const int32)> func)
+	{
+		return State::Complete;
+	}
+
+	virtual State execute(
+		const Ability& ability,
+		const Group& targetGroup,
+		const int32& target,
+		TiledGameObjectTexture& tiledTexture)
 	{
 		return State::Complete;
 	}
@@ -91,7 +125,7 @@ public:
 	State execute(
 		RectF& actor,
 		Direction& direction,
-		const Ability ability,
+		const Ability& ability,
 		const Group& targetGroup,
 		TiledGameObjectTexture& tiledTexture,
 		std::function<void(const int32)> func);
@@ -107,10 +141,28 @@ public:
 	//State execute(RectF& actor, Direction& direction, const Ability ability);
 	State execute(RectF& actor,
 		Direction& direction,
-		const Ability ability,
+		const Ability& ability,
 		const Group& targetGroup,
 		TiledGameObjectTexture& tiledTexture,
 		std::function<void(const int32)> func);
+private:
+
+};
+
+/* --------------------------------------------------------------------------------------*/
+/*		バフ・回復スキル（使用者のみ）													 */
+/* --------------------------------------------------------------------------------------*/
+
+class BuildUp : public Skill
+{
+public:
+	BuildUp();
+
+	State execute(
+		const Ability& ability,
+		const Group& targetGroup,
+		const int32 &target,
+		TiledGameObjectTexture& tiledTexture);
 private:
 
 };

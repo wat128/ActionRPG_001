@@ -297,7 +297,7 @@ BuildUp::BuildUp()
 			5,							// 横のコマ数
 			3,							// 縦のコマ数
 			Size(100, 100) },			// エフェクトの表示領域	
-		Data(U"昇華", Data::Genre::AssistMyself, Data::Type::Void, 0, {1.1,0,0,0,0,30}, 0x00000000, Size(1, 1), 1))
+		Data(U"昇華", Data::Genre::AssistMyself, Data::Type::Void, 0, {1.1,0,0,0,0,20}, 0x00000000, Size(1, 1), 1))
 {}
 
 Skill::State BuildUp::execute(

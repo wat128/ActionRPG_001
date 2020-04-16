@@ -85,4 +85,51 @@ struct Ability
 
 		return;
 	}
+
+	// バフのアイコンを描画する
+	void drawBuff(const RectF& actor)
+	{
+		const int32 iconSize = 5;
+		int32 num = 0;
+		Array<HSV> color;
+
+		if (0 < attack.buffTime) {
+			1 < attack.buff ? color << HSV(0, 100, 100, 0.6) : color << HSV(0, 100, 50, 0.6);
+			++num;
+		}
+		if (0 < defense.buffTime) {
+			1 < defense.buff ? color << HSV(240, 100, 100, 0.6) : color << HSV(240, 100, 50, 0.6);
+			++num;
+		}
+		if (0 < agility.buffTime) {
+			1 < agility.buff ? color << HSV(120, 100, 100, 0.6) : color << HSV(120, 100, 50, 0.6);
+			++num;
+		}
+		if (0 < intel.buffTime) {
+			1 < intel.buff ? color << HSV(300, 100, 100, 0.6) : color << HSV(300, 100, 50, 0.6);
+			++num;
+		}
+		if (0 < resist.buffTime) {
+			1 < resist.buff ? color << HSV(60, 100, 100, 0.6) : color << HSV(60, 100, 50, 0.6);
+			++num;
+		}
+
+		for (int32 i = 0; i < num; ++i) {
+			if (color.at(i).v == 100) {	//バフ
+				Triangle(
+					actor.pos.x - (iconSize / 2 * num - 1) + iconSize * i,
+					actor.pos.y - actor.h - 3, iconSize)
+					.draw(color.at(i));
+			}
+			else {	// デバフ
+				Triangle(
+					actor.pos.x - (iconSize / 2 * num - 1) + iconSize * i,
+					actor.pos.y - actor.h - 3, iconSize)
+					.rotated(180_deg)
+					.draw(color.at(i));
+			}
+		}
+
+		return;
+	}
 };

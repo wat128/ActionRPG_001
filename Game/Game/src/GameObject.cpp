@@ -63,17 +63,17 @@ int32 GameObject::onDamage(const Skill::Data& data)
 			_ability.defense.buffTime = data.buff.time;
 		}
 		if (0 < data.buff.agility) {
-			_ability.agility.current = _ability.attack.base * data.buff.agility;
+			_ability.agility.current = _ability.agility.base * data.buff.agility;
 			_ability.agility.buff = data.buff.agility;
 			_ability.agility.buffTime = data.buff.time;
 		}
 		if (0 < data.buff.intel) {
-			_ability.intel.current = _ability.attack.base * data.buff.intel;
+			_ability.intel.current = _ability.intel.base * data.buff.intel;
 			_ability.intel.buff = data.buff.intel;
 			_ability.intel.buffTime = data.buff.time;
 		}
 		if (0 < data.buff.resist) {
-			_ability.resist.current = _ability.attack.base * data.buff.resist;
+			_ability.resist.current = _ability.resist.base * data.buff.resist;
 			_ability.resist.buff = data.buff.resist;
 			_ability.resist.buffTime = data.buff.time;
 		}

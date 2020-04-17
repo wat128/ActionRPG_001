@@ -303,12 +303,12 @@ BuildUp::BuildUp()
 Skill::State BuildUp::execute(
 	const Ability& ability,
 	const Group& targetGroup,
-	const int32& target,
+	const uint32& target,
 	TiledGameObjectTexture& tiledTexture)
 {
 	Skill::State skillResult = Skill::State::Complete;
 	
-	const auto actor = FieldReferee::getInstance().getObj(target, targetGroup);
+	const auto actor = FieldReferee::getInstance().getObj(target);
 	if (!actor) {								// nullptr‚È‚çƒXƒLƒ‹I—¹
 		skillResult = Skill::State::Complete;
 		_isActiveEffect = false;

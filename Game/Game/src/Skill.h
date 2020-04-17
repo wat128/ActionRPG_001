@@ -100,7 +100,7 @@ public:
 	virtual State execute(
 		const Ability& ability,
 		const Group& targetGroup,
-		const int32& target,
+		const uint32& target,
 		TiledGameObjectTexture& tiledTexture)
 	{
 		return State::Complete;
@@ -161,7 +161,7 @@ public:
 	State execute(
 		const Ability& ability,
 		const Group& targetGroup,
-		const int32 &target,
+		const uint32 &target,
 		TiledGameObjectTexture& tiledTexture);
 private:
 

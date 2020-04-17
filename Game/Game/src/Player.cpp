@@ -39,8 +39,7 @@ void Player::skill()
 			[&](const int32& exp) { this->recieveExp(exp); });
 		break;
 	case Skill::Data::Genre::AssistMyself:
-		ret = _skills.at(index)->execute(_ability, Group::Allys,
-			FieldReferee::getInstance().findMyIndex(shared_from_this(), Group::Allys), _tiledTexture);
+		ret = _skills.at(index)->execute(_ability, Group::Allys, _handle, _tiledTexture);
 		break;
 	case Skill::Data::Genre::AssistSomeone:
 	case Skill::Data::Genre::SingleEffect:
@@ -81,7 +80,7 @@ void Player::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 	
-	bool ret = FieldReferee::getInstance().canMove(movedCollision, shared_from_this());
+	bool ret = FieldReferee::getInstance().canMove(movedCollision, _handle);
 	if (ret)
 		_actor.setPos(_actor.pos + offset);
 

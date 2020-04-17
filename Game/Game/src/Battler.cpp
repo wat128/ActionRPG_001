@@ -38,7 +38,7 @@ void Battler::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 
-	bool ret = FieldReferee::getInstance().canMove(movedCollision , shared_from_this());
+	bool ret = FieldReferee::getInstance().canMove(movedCollision , _handle);
 	if (ret)
 		_actor.setPos(_actor.pos + offset);
 

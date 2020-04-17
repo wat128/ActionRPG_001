@@ -41,10 +41,8 @@ public:
 
 	// 使用上メモ：ignoreObj に thisポインタを渡すことで自身のコリジョン判定を省略する
 	template <typename Shape>
-	bool canMove(const Shape& area, const std::shared_ptr<GameObject> ignoreObj) const
+	bool canMove(const Shape& area, const uint32& ignoreObj) const
 	{
-		if (!ignoreObj)
-			return false;
 
 		FieldManager& fieldMng = FieldManager::getInstance();
 		if(fieldMng.getCurrentField().withinCollision(area))
@@ -52,7 +50,7 @@ public:
 
 		const Array<std::shared_ptr<GameObject>> allys = fieldMng.getAllys();
 		for (const auto& ally : allys) {
-			if (ally == ignoreObj)
+			if (ally->_handle == ignoreObj)
 				continue;
 
 			if (ally->withinCollisionForMove(area))
@@ -61,7 +59,7 @@ public:
 
 		const Array<std::shared_ptr<GameObject>> enemys = fieldMng.getEnemys();
 		for (const auto& enemy : enemys) {
-			if (enemy == ignoreObj)
+			if (enemy->_handle == ignoreObj)
 				continue;
 
 			if (enemy->withinCollisionForMove(area))
@@ -71,57 +69,19 @@ public:
 		return true;
 	}
 
-	// 自分のインデックスを取得する。scopeはAllys, Enemysのみ有効。その他の場合-1を返す。
-	int32 findMyIndex(const std::shared_ptr<GameObject>& target,const Group& group)
-	{
-		FieldManager& fieldMng = FieldManager::getInstance();
-		int32 index = -1;
-		int32 accum = 0;
-
-		if (Group::Allys == group) {
-			const Array<std::shared_ptr<GameObject>> allys = fieldMng.getAllys();
-			for (const auto& ally : allys) {
-				if (ally != target) {
-					++accum;
-					continue;
-				}
-				else if (ally == target) {
-					index = accum;
-				}
-			}
-		}
-		else if (Group::Enemys == group) {
-			const Array<std::shared_ptr<GameObject>> enemys = fieldMng.getEnemys();
-			for (const auto& enemy : enemys) {
-				if (enemy != target) {
-					++accum;
-					continue;
-				}
-				else if (enemy == target) {
-					index = accum;
-				}
-			}
-		}
-		return index;
-	}
-	
-	// 指定グループの指定インデックスのオブジェクトを取得する。当てはまらないならnullptr。
-	std::shared_ptr<GameObject> getObj(const int32& index, const Group& group) const
+	// ハンドル値をもつオブジェクトを取得する。なければnullptrを返す。
+	std::shared_ptr<GameObject> getObj(const uint32& handle) const
 	{
 		FieldManager& fieldMng = FieldManager::getInstance();
 
-		if (Group::Allys == group) {
-			if (index >= fieldMng.getAllys().size())
-				return nullptr;
-			else
-				return fieldMng.getAllys().at(index);
+		for (const auto& ally : fieldMng.getAllys()) {
+			if (ally->_handle == handle)
+				return ally;
 		}
 
-		if (Group::Enemys == group) {
-			if (index >= fieldMng.getEnemys().size())
-				return nullptr;
-			else
-				return fieldMng.getEnemys().at(index);
+		for (const auto& enemy : fieldMng.getEnemys()) {
+			if (enemy->_handle == handle)
+				return enemy;
 		}
 
 		return nullptr;

@@ -1,27 +1,27 @@
 #pragma once
 # include "Common.hpp"
 
+static uint32 handleForSetting = 0;
+
 class ObjectBase
 {
 public:
 	ObjectBase()
-		: _handle(_handleForSetting)
+		: _handle(handleForSetting)
 		, _dispPriority(0)
 	{
-		++_handleForSetting;
+		++handleForSetting;
 	};
 
 	ObjectBase(const int32& dispPriority)
-		: _handle(_handleForSetting)
+		: _handle(handleForSetting)
 		, _dispPriority(dispPriority)
 	{
-		++_handleForSetting;
+		++handleForSetting;
 	};
 
 	virtual void draw() {};
 
 	const uint32 _handle;
 	int32 _dispPriority;	// âÊñ ï\é¶ÇÃóDêÊìx
-private:
-	static uint32 _handleForSetting;
 };

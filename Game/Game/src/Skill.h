@@ -14,7 +14,8 @@ class Skill
 public:
 	enum class State {
 		Complete,
-		Continue,
+		Chanting,
+		Executing,
 	};
 
 	struct EffectData {
@@ -55,6 +56,7 @@ public:
 		}const type;			// 技タイプ	
 
 		int32 power;			// 威力 ("+"ダメージ / "-"回復)
+		double chantTime;		// 詠唱時間
 		struct Buff {
 			double attack;
 			double defense;
@@ -68,7 +70,7 @@ public:
 		const Size region;		// 技の当たり判定領域
 		const int32  attackNum;	// 攻撃回数
 
-		Data(const String& n, const Genre& g, const Type& t, const int32& p, const Buff& b, const int32& s, const Size& r, const int32& a);
+		Data(const String& n, const Genre& g, const Type& t, const int32& p, const double& c, const Buff& b, const int32& s, const Size& r, const int32& a);
 	}_data;
 
 	Skill();
@@ -98,6 +100,7 @@ public:
 	}
 
 	virtual State execute(
+		RectF& actor,
 		const Ability& ability,
 		const Group& targetGroup,
 		const uint32& target,
@@ -159,10 +162,30 @@ public:
 	BuildUp();
 
 	State execute(
+		RectF& actor,
 		const Ability& ability,
 		const Group& targetGroup,
 		const uint32 &target,
 		TiledGameObjectTexture& tiledTexture);
 private:
 
+};
+
+/* --------------------------------------------------------------------------------------*/
+/*		バフ・回復スキル（チーム内）													 */
+/* --------------------------------------------------------------------------------------*/
+
+class Heal : public Skill
+{
+public:
+	Heal();
+
+	State execute(
+		RectF& actor,
+		const Ability& ability,
+		const Group& targetGroup,
+		const uint32& target,
+		TiledGameObjectTexture& tiledTexture);
+private:
+	double _chantTimeAccum;
 };

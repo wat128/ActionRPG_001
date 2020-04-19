@@ -1,7 +1,7 @@
 #pragma once
 # include "Common.hpp"
 
-static uint32 handleForSetting = 0;
+static uint32 handleForSetting = 1;
 
 class ObjectBase
 {

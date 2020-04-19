@@ -2,13 +2,13 @@
 #include "Skill.h"
 #include "FieldReferee.h"
 
-Skill::Data::Data(const String& n, const Genre& g, const Type& t, const int32& p, const Buff& b, const int32& s, const Size& r, const int32& a)
-	: name(n), genre(g), type(t), power(p), buff(b), state(s), region(r), attackNum(a)
+Skill::Data::Data(const String& n, const Genre& g, const Type& t, const int32& p, const double& c, const Buff& b, const int32& s, const Size& r, const int32& a)
+	: name(n), genre(g), type(t), power(p), chantTime(c), buff(b), state(s), region(r), attackNum(a)
 {}
 
 Skill::Skill()
 	: _effect(nullptr)
-	, _data(U"", Data::Genre::Physical, Data::Type::Void, 0, { 0 }, 0, { 0, 0 }, 0)
+	, _data(U"", Data::Genre::Physical, Data::Type::Void, 0, 0, { 0 }, 0, { 0, 0 }, 0)
 	, _isActiveTileAnime(false)
 	, _isActiveEffect(false)
 	, _attackNumAccum(0)
@@ -16,7 +16,7 @@ Skill::Skill()
 
 Skill::Skill(const EffectData& eData, const Data& sData)
 	: _effect(std::make_shared<EffectAnime>(eData.textureStr, eData.layer, eData.tileSize, eData.endTime, eData.maxCount, eData.xNum, eData.yNum, eData.displayRegion))
-	, _data(sData.name, sData.genre, sData.type, sData.power, sData.buff, sData.state, sData.region, sData.attackNum)
+	, _data(sData.name, sData.genre, sData.type, sData.power, sData.chantTime, sData.buff, sData.state, sData.region, sData.attackNum)
 	, _isActiveTileAnime(false)
 	, _isActiveEffect(false)
 	, _attackNumAccum(0)
@@ -48,7 +48,7 @@ Slash::Slash()
 				5,							// 横のコマ数
 				2,							// 縦のコマ数
 				Size(80, 40) },				// エフェクトの表示領域						
-		Data(U"スラッシュ", Data::Genre::Physical, Data::Type::Slash, 10, {0}, 0x00000000, Size(20, 0), 1))
+		Data(U"スラッシュ", Data::Genre::Physical, Data::Type::Slash, 10, 0, {0}, 0x00000000, Size(20, 0), 1))
 {}
 
 Skill::State Slash::execute(
@@ -152,7 +152,7 @@ Skill::State Slash::execute(
 		_attackNumAccum = 0;
 	}
 	else if (!_isActiveTileAnime || !_isActiveEffect) {
-		skillResult = Skill::State::Continue;
+		skillResult = Skill::State::Executing;
 	}
 
 	return skillResult;
@@ -172,7 +172,7 @@ SonicBlade::SonicBlade()
 				5,							// 横のコマ数
 				3,							// 縦のコマ数
 				Size(250, 60)},				// エフェクトの表示領域	
-		Data(U"月閃衝", Data::Genre::Physical, Data::Type::Slash, 30, { 0 }, 0x00000000, Size(240, 20), 1))
+		Data(U"月閃衝", Data::Genre::Physical, Data::Type::Slash, 30, 0, { 0 }, 0x00000000, Size(240, 20), 1))
 {}
 
 Skill::State SonicBlade::execute(
@@ -270,7 +270,7 @@ Skill::State SonicBlade::execute(
 		_attackNumAccum = 0;
 	}
 	else if (!_isActiveTileAnime || !_isActiveEffect) {
-		skillResult = Skill::State::Continue;
+		skillResult = Skill::State::Executing;
 	}
 
 	return skillResult;
@@ -297,10 +297,11 @@ BuildUp::BuildUp()
 			5,							// 横のコマ数
 			3,							// 縦のコマ数
 			Size(100, 100) },			// エフェクトの表示領域	
-		Data(U"昇華", Data::Genre::AssistMyself, Data::Type::Void, 0, {1.1,0,0,0,0,20}, 0x00000000, Size(1, 1), 1))
+		Data(U"昇華", Data::Genre::AssistMyself, Data::Type::Void, 0, 0, {1.1,0,0,0,0,20}, 0x00000000, Size(1, 1), 1))
 {}
 
 Skill::State BuildUp::execute(
+	RectF& actor,
 	const Ability& ability,
 	const Group& targetGroup,
 	const uint32& target,
@@ -308,8 +309,8 @@ Skill::State BuildUp::execute(
 {
 	Skill::State skillResult = Skill::State::Complete;
 	
-	const auto actor = FieldReferee::getInstance().getObj(target);
-	if (!actor) {								// nullptrならスキル終了
+	const auto targetObj = FieldReferee::getInstance().getObj(target);
+	if (!targetObj) {							// nullptrならスキル終了
 		skillResult = Skill::State::Complete;
 		_isActiveEffect = false;
 		_attackNumAccum = 0;
@@ -320,8 +321,8 @@ Skill::State BuildUp::execute(
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
 
 	if (!_isActiveEffect) {
-		const auto pos = actor->getPos();
-		const auto size = actor->getSize();
+		const auto pos = targetObj->getPos();
+		const auto size = targetObj->getSize();
 
 		effectResult = _effect->update({ pos.x, pos.y - size.y / 2},
 			EffectAnime::DisplayFormat::Normal, pos.y, DisplayLayer::SecondTop);
@@ -347,7 +348,94 @@ Skill::State BuildUp::execute(
 		_attackNumAccum = 0;
 	}
 	else if (!_isActiveEffect) {
-		skillResult = Skill::State::Continue;
+		skillResult = Skill::State::Executing;
+	}
+
+	return skillResult;
+}
+
+/* --------------------------------------------------------------------------------------*/
+/*																						 */
+/*		バフ・回復スキル（チーム内）													 */
+/*																						 */
+/* --------------------------------------------------------------------------------------*/
+
+/* --------------------------------------------------------------------------------------*/
+/*		ヒール																			 */
+/* --------------------------------------------------------------------------------------*/
+
+Heal::Heal()
+	: Skill(
+		EffectData
+		{ U"Asset/Effect/Recovery01.png",	// テクスチャ 
+			DisplayLayer::SecondTop,		// 表示レイヤー
+			{ 192, 192 },					// 1コマのサイズ
+			0.7,							// エフェクト終了までの時間   
+			15,								// 全コマ数
+			5,								// 横のコマ数
+			3,								// 縦のコマ数
+			Size(100, 100) },				// エフェクトの表示領域	
+		Data(U"ヒール", Data::Genre::AssistSomeone, Data::Type::Void, -30, 3, { 0 }, 0x00000000, Size(1, 1), 1))
+	, _chantTimeAccum(0)
+{}
+
+Skill::State Heal::execute(
+	RectF& actor,
+	const Ability& ability,
+	const Group& targetGroup,
+	const uint32& target,
+	TiledGameObjectTexture& tiledTexture)
+{
+	Skill::State skillResult = Skill::State::Complete;
+
+	// 詠唱処理
+	if (_chantTimeAccum < _data.chantTime) {
+		_chantTimeAccum += Scene::DeltaTime();
+		skillResult = Skill::State::Chanting;
+		return skillResult;
+	}
+
+	const auto targetObj = FieldReferee::getInstance().getObj(target);
+	if (!targetObj) {								// nullptrならスキル終了
+		skillResult = Skill::State::Complete;
+		_isActiveEffect = false;
+		_attackNumAccum = 0;
+		return skillResult;
+	}
+
+	// エフェクト & スキル当たり判定
+	EffectAnime::State effectResult = EffectAnime::State::Complete;
+
+	if (!_isActiveEffect) {
+		const auto pos = targetObj->getPos();
+		const auto size = targetObj->getSize();
+
+		effectResult = _effect->update({ pos.x, pos.y - size.y / 2 },
+			EffectAnime::DisplayFormat::Normal, pos.y, DisplayLayer::SecondTop);
+
+		if (_data.attackNum > _attackNumAccum) {
+			AudioAsset(U"Recovery01").playOneShot(0.2);
+
+			const RectF skillRegion(
+				Arg::center(pos.x, pos.y - size.y / 2 + size.x / 4), _data.region);
+
+			FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, _data);
+			++_attackNumAccum;
+		}
+
+		if (EffectAnime::State::Complete == effectResult)
+			_isActiveEffect = true;
+	}
+
+	// 初期化処理
+	if (_isActiveEffect) {
+		skillResult = Skill::State::Complete;
+		_isActiveEffect = false;
+		_attackNumAccum = 0;
+		_chantTimeAccum = 0;
+	}
+	else if (!_isActiveEffect) {
+		skillResult = Skill::State::Executing;
 	}
 
 	return skillResult;

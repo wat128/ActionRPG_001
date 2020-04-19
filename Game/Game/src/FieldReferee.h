@@ -39,7 +39,7 @@ public:
 		}
 	}
 
-	// 使用上メモ：ignoreObj に thisポインタを渡すことで自身のコリジョン判定を省略する
+	// 使用上メモ：ignoreObj に 自身のハンドルをを渡すことで自身のコリジョン判定を省略する
 	template <typename Shape>
 	bool canMove(const Shape& area, const uint32& ignoreObj) const
 	{
@@ -85,6 +85,56 @@ public:
 		}
 
 		return nullptr;
+	}
+
+	// region内にhandleをもつバトルオブジェクトが存在するかを取得する
+	bool exists(const uint32& handle, const RectF& region, const Group& targetGroup = Group::All)
+	{
+		FieldManager& fieldMng = FieldManager::getInstance();
+
+		if (Group::Allys == targetGroup || Group::All == targetGroup) {
+			for (const auto& ally : fieldMng.getAllys()) {
+				if (!region.intersects(ally->getPos()))
+					continue;
+
+				if (ally->_handle == handle)
+					return true;
+			}
+		}
+
+		if (Group::Enemys == targetGroup || Group::All == targetGroup) {
+			for (const auto& enemy : fieldMng.getEnemys()) {
+				if (!region.intersects(enemy->getPos()))
+					continue;
+
+				if (enemy->_handle == handle)
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+	// region内にいるバトルオブジェクトのハンドルリストを取得する
+	Array<uint32> getObjHandle(const RectF& region, const Group& targetGroup = Group::All) 
+	{
+		Array<uint32> handles;
+		FieldManager& fieldMng = FieldManager::getInstance();
+
+		if (Group::Allys == targetGroup || Group::All == targetGroup) {
+			for (const auto& ally : fieldMng.getAllys()) {
+				if (region.intersects(ally->getPos()))
+					handles.emplace_back(ally->_handle);
+			}
+		}
+
+		if (Group::Enemys == targetGroup || Group::All == targetGroup) {
+			for (const auto& enemy : fieldMng.getEnemys()) {
+				if (region.intersects(enemy->getPos()))
+					handles.emplace_back(enemy->_handle);
+			}
+		}
+		return handles;
 	}
 
 	void executeQueue()

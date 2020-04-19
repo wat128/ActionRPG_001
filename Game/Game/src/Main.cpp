@@ -44,6 +44,7 @@ void AssetRegist()
 	AudioAsset::Register(U"Damage01", U"Asset/Audio/Damage/01.mp3");
 	AudioAsset::Register(U"Sword01", U"Asset/Audio/Sword/01.mp3");
 	AudioAsset::Register(U"Sword02", U"Asset/Audio/Sword/02.mp3");
+	AudioAsset::Register(U"Recovery01", U"Asset/Audio/Recovery/01.mp3");
 	AudioAsset::Register(U"Buff01", U"Asset/Audio/Buff/B01.mp3");
 	AudioAsset::Register(U"Debuff01", U"Asset/Audio/Buff/D01.mp3");
 }

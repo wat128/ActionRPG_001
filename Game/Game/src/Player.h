@@ -3,6 +3,9 @@
 #include "Skill.h"
 
 class Skill;
+namespace {
+	void setTarget(const RectF& region, const Group& targetGroup, uint32& targetHndl);
+}
 
 class Player : public GameObject
 {
@@ -14,14 +17,22 @@ public:
 	void move() override;
 	void update() override;
 	void draw() override;
+	uint32 _targetHndl;		// スキルやアイテムのターゲット（※：必要なら基底クラスに移動）
 private:
 	Array<std::unique_ptr<Skill>> _skills;
 	enum class Motion {
 		Excutable,
-		Executing_Skill1,
-		Executing_Skill2,
-		Executing_Skill3,
+		Chanting_S1,
+		Executing_S1,
+		Chanting_S2,
+		Executing_S2,
+		Chanting_S3,
+		Executing_S3,
 		Talking,
 	}_motion;
+
+	ParticleSystem2D _chantEffect;
+	ParticleSystem2DParameters _chantEffectParam;
+
 };
 

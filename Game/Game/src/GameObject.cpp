@@ -49,6 +49,11 @@ int32 GameObject::onDamage(const Skill::Data& data)
 			_HurtTime = HURTTIME;
 		}
 	}
+	else if (0 > data.power) {
+		_ability.hp.current -= damage;
+		if (_ability.hp.current > _ability.hp.base)
+			_ability.hp.current = _ability.hp.base;
+	}
 
 	// ƒoƒtˆ—
 	if (0 < data.buff.time) {

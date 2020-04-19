@@ -111,8 +111,8 @@ public:
 
 protected:
 	std::shared_ptr<EffectAnime> _effect;
-	bool _isActiveTileAnime;		// タイルアニメ実行中か
-	bool _isActiveEffect;			// エフェクトアニメ実行流か
+	bool _TileAnimeComplete;		// タイルアニメは完了したか
+	bool _effectComplete;			// エフェクトアニメ完了したか
 	int32 _attackNumAccum;			// 攻撃判定を行った回数
 };
 

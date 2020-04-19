@@ -7,8 +7,8 @@ Vec2 cameraPos = { 0,0 };
 Game::Game(const InitData& init)
 	: IScene(init)
 {
-	AudioAsset(U"MeridianChild").setLoop(true);
-	AudioAsset(U"MeridianChild").play();
+	//AudioAsset(U"MeridianChild").setLoop(true);
+	//AudioAsset(U"MeridianChild").play();
 
 	FieldManager::getInstance();
 }

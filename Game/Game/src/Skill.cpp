@@ -9,16 +9,16 @@ Skill::Data::Data(const String& n, const Genre& g, const Type& t, const int32& p
 Skill::Skill()
 	: _effect(nullptr)
 	, _data(U"", Data::Genre::Physical, Data::Type::Void, 0, 0, { 0 }, 0, { 0, 0 }, 0)
-	, _isActiveTileAnime(false)
-	, _isActiveEffect(false)
+	, _TileAnimeComplete(false)
+	, _effectComplete(false)
 	, _attackNumAccum(0)
 {}
 
 Skill::Skill(const EffectData& eData, const Data& sData)
 	: _effect(std::make_shared<EffectAnime>(eData.textureStr, eData.layer, eData.tileSize, eData.endTime, eData.maxCount, eData.xNum, eData.yNum, eData.displayRegion))
 	, _data(sData.name, sData.genre, sData.type, sData.power, sData.chantTime, sData.buff, sData.state, sData.region, sData.attackNum)
-	, _isActiveTileAnime(false)
-	, _isActiveEffect(false)
+	, _TileAnimeComplete(false)
+	, _effectComplete(false)
 	, _attackNumAccum(0)
 {}
 
@@ -69,17 +69,17 @@ Skill::State Slash::execute(
 		AudioAsset(U"Sword01").playOneShot(0.7);
 
 	// キャラタイルのアニメ
-	if (!_isActiveTileAnime) {
+	if (!_TileAnimeComplete) {
 		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.05, 0.15 });
 		if (TiledGameObjectTexture::State::Complete == tileAnimeResult)
-			_isActiveTileAnime = true;
+			_TileAnimeComplete = true;
 	}
 
 	// エフェクト & スキル当たり判定
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
 	const int32 margin = 10;
 
-	if (!_isActiveEffect) {
+	if (!_effectComplete) {
 
 		switch (direction) {
 		case Direction::Down:
@@ -141,17 +141,17 @@ Skill::State Slash::execute(
 		}
 		
 		if (EffectAnime::State::Complete == effectResult)
-			_isActiveEffect = true;
+			_effectComplete = true;
 	}
 	
 	// 初期化処理
-	if (_isActiveTileAnime && _isActiveEffect) {
+	if (_TileAnimeComplete && _effectComplete) {
 		skillResult = Skill::State::Complete;
-		_isActiveTileAnime = false;
-		_isActiveEffect = false;
+		_TileAnimeComplete = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 	}
-	else if (!_isActiveTileAnime || !_isActiveEffect) {
+	else if (!_TileAnimeComplete || !_effectComplete) {
 		skillResult = Skill::State::Executing;
 	}
 
@@ -193,17 +193,17 @@ Skill::State SonicBlade::execute(
 		AudioAsset(U"Sword02").playOneShot(0.2);
 
 	// キャラタイルのアニメ
-	if (!_isActiveTileAnime) {
+	if (!_TileAnimeComplete) {
 		TiledGameObjectTexture::State tileAnimeResult = tiledTexture.attackAnime({ 0.1, 0.05, 0.55 });
 		if (TiledGameObjectTexture::State::Complete == tileAnimeResult)
-			_isActiveTileAnime = true;
+			_TileAnimeComplete = true;
 	}
 
 	// エフェクト & スキル当たり判定
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
 	const int32 margin = 120;
 
-	if (!_isActiveEffect) {
+	if (!_effectComplete) {
 
 		switch (direction) {
 		case Direction::Down:
@@ -259,17 +259,17 @@ Skill::State SonicBlade::execute(
 		}
 
 		if (EffectAnime::State::Complete == effectResult)
-			_isActiveEffect = true;
+			_effectComplete = true;
 	}
 
 	// 初期化処理
-	if (_isActiveTileAnime && _isActiveEffect) {
+	if (_TileAnimeComplete && _effectComplete) {
 		skillResult = Skill::State::Complete;
-		_isActiveTileAnime = false;
-		_isActiveEffect = false;
+		_TileAnimeComplete = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 	}
-	else if (!_isActiveTileAnime || !_isActiveEffect) {
+	else if (!_TileAnimeComplete || !_effectComplete) {
 		skillResult = Skill::State::Executing;
 	}
 
@@ -312,7 +312,7 @@ Skill::State BuildUp::execute(
 	const auto targetObj = FieldReferee::getInstance().getObj(target);
 	if (!targetObj) {							// nullptrならスキル終了
 		skillResult = Skill::State::Complete;
-		_isActiveEffect = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 		return skillResult;
 	}		
@@ -320,7 +320,7 @@ Skill::State BuildUp::execute(
 	// エフェクト & スキル当たり判定
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
 
-	if (!_isActiveEffect) {
+	if (!_effectComplete) {
 		const auto pos = targetObj->getPos();
 		const auto size = targetObj->getSize();
 
@@ -338,16 +338,16 @@ Skill::State BuildUp::execute(
 		}
 
 		if (EffectAnime::State::Complete == effectResult)
-			_isActiveEffect = true;
+			_effectComplete = true;
 	}
 
 	// 初期化処理
-	if (_isActiveEffect) {
+	if (_effectComplete) {
 		skillResult = Skill::State::Complete;
-		_isActiveEffect = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 	}
-	else if (!_isActiveEffect) {
+	else if (!_effectComplete) {
 		skillResult = Skill::State::Executing;
 	}
 
@@ -398,7 +398,7 @@ Skill::State Heal::execute(
 	const auto targetObj = FieldReferee::getInstance().getObj(target);
 	if (!targetObj) {								// nullptrならスキル終了
 		skillResult = Skill::State::Complete;
-		_isActiveEffect = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 		return skillResult;
 	}
@@ -406,7 +406,7 @@ Skill::State Heal::execute(
 	// エフェクト & スキル当たり判定
 	EffectAnime::State effectResult = EffectAnime::State::Complete;
 
-	if (!_isActiveEffect) {
+	if (!_effectComplete) {
 		const auto pos = targetObj->getPos();
 		const auto size = targetObj->getSize();
 
@@ -424,17 +424,17 @@ Skill::State Heal::execute(
 		}
 
 		if (EffectAnime::State::Complete == effectResult)
-			_isActiveEffect = true;
+			_effectComplete = true;
 	}
 
 	// 初期化処理
-	if (_isActiveEffect) {
+	if (_effectComplete) {
 		skillResult = Skill::State::Complete;
-		_isActiveEffect = false;
+		_effectComplete = false;
 		_attackNumAccum = 0;
 		_chantTimeAccum = 0;
 	}
-	else if (!_isActiveEffect) {
+	else if (!_effectComplete) {
 		skillResult = Skill::State::Executing;
 	}
 

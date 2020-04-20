@@ -43,6 +43,8 @@ enum class Group {
 	Enemys
 };
 
+extern Camera2D camera;
+extern Vec2 cameraPos;
 const int32 IGNORE = -9999999;
 const double HURTTIME = 0.3;
 const HSV HURT_COLOR = { 0, 0.5, 1, 1 };

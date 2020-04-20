@@ -1,7 +1,7 @@
 # include "Game.hpp"
 # include "FieldManager.h"
 
-Camera2D camera(Vec2(0, 0),1.5);
+Camera2D camera(Vec2(0, 0), 1.5);
 Vec2 cameraPos = { 0,0 };
 
 Game::Game(const InitData& init)
@@ -40,4 +40,6 @@ void Game::draw() const
 		const auto t = camera.createTransformer();
 		FieldManager::getInstance().draw();
 	}
+	Print << U"cameraCenter : " << camera.getCenter();
+	Print << U"cameraRegion : " << camera.getRegion();
 }

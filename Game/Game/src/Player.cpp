@@ -66,7 +66,7 @@ void Player::skill()
 		break;
 	case Skill::Data::Genre::AssistSomeone:
 		if( 0 == _targetHndl || Motion::Chanting_S1 == _motion || Motion::Chanting_S2 == _motion || Motion::Chanting_S3 == _motion)
-			setTarget({ Arg::center(_actor.pos.x, _actor.pos.y),Scene::Size() }, Group::Allys, _targetHndl);
+			setTarget({ camera.getRegion().x, camera.getRegion().y, camera.getRegion().w, camera.getRegion().h }, Group::Allys, _targetHndl);
 		
 		ret = _skills.at(index)->execute(_actor, _ability, Group::Allys, _targetHndl, _tiledTexture);
 		break;
@@ -184,6 +184,7 @@ void Player::draw()
 			target->getSize(),
 			10).drawFrame();
 	}
+
 	/*----------------------------------------------------------------------------*/
 	/*		テスト用															　*/
 	/*----------------------------------------------------------------------------*/

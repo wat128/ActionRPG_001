@@ -9,8 +9,6 @@ Game::Game(const InitData& init)
 {
 	//AudioAsset(U"MeridianChild").setLoop(true);
 	//AudioAsset(U"MeridianChild").play();
-
-	FieldManager::getInstance();
 }
 
 void Game::update()
@@ -40,6 +38,4 @@ void Game::draw() const
 		const auto t = camera.createTransformer();
 		FieldManager::getInstance().draw();
 	}
-	Print << U"cameraCenter : " << camera.getCenter();
-	Print << U"cameraRegion : " << camera.getRegion();
 }

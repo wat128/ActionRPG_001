@@ -265,7 +265,7 @@ namespace {		// 本ファイル内（Playerクラス）に使用限定関数
 		Array<uint32> handles;									// ターゲット選定用
 
 		if (fRef.exists(targetHndl, region, targetGroup)) {
-			if (!KeyA.down())
+			if (!KeyD.down() && !KeyS.down() && !KeyA.down())
 				return;
 
 			handles = fRef.getObjHandle(region, targetGroup);

@@ -1,4 +1,5 @@
 #include "Field.h"
+#include "Common.hpp"
 
 Field::Field() {};
 
@@ -95,11 +96,17 @@ void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
             validLayer.emplace_back(layer);
         }
     }
+    
+    // マップを表示している画面領域のみ描画する計算
+    const int32 cx = (camera.getRegion().x + _mapSize.x / 2) / _tileSize.x ;                            // マップ表示開始 : xインデックス
+    const int32 ex = (camera.getRegion().x + _mapSize.x / 2 + camera.getRegion().w) / _tileSize.x + 1;  // マップ表示終了 : xインデックス
+    const int32 cy = (camera.getRegion().y + _mapSize.y / 2) / _tileSize.y;                             // マップ表示開始 : yインデックス
+    const int32 ey = (camera.getRegion().y + _mapSize.y / 2 + camera.getRegion().h) / _tileSize.y + 1;  // マップ表示終了 : yインデックス
 
     for (const auto& layer : validLayer) {
         
-        for (int32 y = 0; y < layer.height; ++y) {
-            for (int32 x = 0; x < layer.width; ++x) {
+        for (int32 y = cy; y < ey; ++y) {
+            for (int32 x = cx; x < ex; ++x) {
 
                 const int32 index = y * layer.width + x;
                 if (0 >= layer.data[index]) {                       // マップデータがなければ次座標へ
@@ -108,8 +115,8 @@ void Field::draw(const bool& lower, const bool& upper, const bool& worldPos)
 
                 if (true == worldPos) {
                     findTileToDisplay(layer.data[index])
-                        .draw(x * _tileSize.x - layer.width / 2 * _tileSize.x,
-                              y * _tileSize.y - layer.height / 2 * _tileSize.y);
+                        .draw(x * _tileSize.x - _mapSize.x / 2,
+                              y * _tileSize.y - _mapSize.y / 2);
                 }
                 else {
                     findTileToDisplay(layer.data[index])

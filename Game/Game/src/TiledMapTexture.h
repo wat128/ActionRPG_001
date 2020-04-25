@@ -18,10 +18,14 @@ public:
 
     TextureRegion getTile(const int& index)
     {
-        const int x = index % _column;
-        const int y = index / _column;
+        const double x = index % _column;
+        const double y = index / _column;
 
-        return _texture(RectF(x * _tileSize.x, y * _tileSize.y, _tileSize));
+        // マップに黒い線（周辺タイルの色）がちらつくのを防ぐため、1タイルを-0.5ピクセル（周りを省く）し、その後タイルサイズにリサイズする
+        return _texture(RectF(  
+            (x * _tileSize.x) + 0.5,
+            (y * _tileSize.y) + 0.5,
+            _tileSize - Size(1, 1))).resized(_tileSize);
     }
 
     int32 column() const { return _column; }

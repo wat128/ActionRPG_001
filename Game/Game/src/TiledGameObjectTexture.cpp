@@ -88,7 +88,8 @@ TiledGameObjectTexture::State TiledGameObjectTexture::attackAnime(const Array<do
 
 TextureRegion TiledGameObjectTexture::getTile()
 {
-	return _texture(_currentPoint, _tileSize);
+	// 周辺タイルの表示ちらつきを防ぐため、1タイルを-0.5ピクセル（周りを省く）し、その後タイルサイズにリサイズする
+	return _texture(_currentPoint + Vec2(0.5, 0.5), _tileSize - Size(1, 1)).resized(_tileSize);
 }
 
 void TiledGameObjectTexture::initialize()

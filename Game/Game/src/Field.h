@@ -26,16 +26,18 @@ struct Layer {
 class Field
 {
 private:
+    const int32 _fieldId;
     Array<TiledMapTexture> _tiles;
     Array<Layer> _layers;
     Array<Rect> _collisions;
     Size _mapSize;
     Size _tileSize;
     Size _tileNumWH;
+
 public:
     Field();
 
-    Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos = true);
+    Field(const int32& fieldId,  const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos = true);
     
     void draw(const bool& lower = true, const bool& upper = true, const bool& worldPos = true);   // 下位上位レイヤー描画（デフォルト全レイヤー描画）
     

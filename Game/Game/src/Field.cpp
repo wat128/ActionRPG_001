@@ -1,9 +1,12 @@
 #include "Field.h"
 #include "Common.hpp"
 
-Field::Field() {};
+Field::Field()
+    : _fieldId(0)
+{};
 
-Field::Field(const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos)
+Field::Field(const int32& fieldId, const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos)
+    : _fieldId(fieldId)
 {
     // マップデータ読み込み
     const JSONReader mapData(mapDataPath);

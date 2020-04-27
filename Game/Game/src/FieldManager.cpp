@@ -6,7 +6,7 @@ FieldManager* FieldManager::_instance = nullptr;
 
 FieldManager::FieldManager()
 	: _fields()
-	, _currentField(U"はじまりの丘3_外")
+	, _currentFieldId(1)		// 暫定
 	, _allyManager()
 	, _enemyManager()
 	, _effectManager()
@@ -28,9 +28,10 @@ FieldManager::FieldManager()
 			tilePaths.emplace_back(Parse<FilePath>(fieldData[row][column]));
 		}
 
+		const int32 fieldId = Parse<int32>(fieldData[row][MAPID]);
 		_fields.emplace(
-			Parse<String>(fieldData[row][NAME]),
-			Field(tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
+			fieldId,
+			Field(fieldId, tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
 	}
 
 	// テスト用：ゲームオブジェクト生成
@@ -42,12 +43,12 @@ FieldManager::FieldManager()
 
 };
 
-void FieldManager::transition(const String& fieldName)
+void FieldManager::transition(const int32& fieldId)
 {
-	if (0 >= _fields.count(fieldName))
+	if (0 >= _fields.count(fieldId))
 		return;
 
-	_currentField = fieldName;
+	_currentFieldId = fieldId;
 }
 
 void FieldManager::update()

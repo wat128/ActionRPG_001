@@ -38,7 +38,12 @@ void Battler::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 
-	bool ret = FieldReferee::getInstance().canMove(movedCollision , _handle);
+	bool ret = false;
+	if(_isEnemy)
+		ret = FieldReferee::getInstance().canMove(movedCollision, Group::Enemys);
+	else
+		ret = FieldReferee::getInstance().canMove(movedCollision, Group::Allys);
+
 	if (ret)
 		_actor.setPos(_actor.pos + offset);
 

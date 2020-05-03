@@ -39,31 +39,37 @@ public:
 		}
 	}
 
-	// 使用上メモ：ignoreObj に 自身のハンドルをを渡すことで自身のコリジョン判定を省略する
+	// areaの領域にコリジョンが存在するかを判定する。
+	// 判定対象グループに呼び出し元アクターが所属するグループが含まれるなら、
+	// ignoreObjに自身のハンドルを渡すことで自身のコリジョンを判定対象から外せる
 	template <typename Shape>
-	bool canMove(const Shape& area, const uint32& ignoreObj) const
+	bool canMove(const Shape& area, const Group& ignoreTargetGroup = Group::Non, const uint32& ignoreObj = IGNORE) const
 	{
 
 		FieldManager& fieldMng = FieldManager::getInstance();
 		if(fieldMng.getCurrentField().withinCollision(area))
 			return false;
 
-		const Array<std::shared_ptr<GameObject>> allys = fieldMng.getAllys();
-		for (const auto& ally : allys) {
-			if (ally->_handle == ignoreObj)
-				continue;
+		if (ignoreTargetGroup != Group::Allys) {
+			const Array<std::shared_ptr<GameObject>> allys = fieldMng.getAllys();
+			for (const auto& ally : allys) {
+				if (ally->_handle == ignoreObj)
+					continue;
 
-			if (ally->withinCollisionForMove(area))
-				return false;
+				if (ally->withinCollisionForMove(area))
+					return false;
+			}
 		}
 
-		const Array<std::shared_ptr<GameObject>> enemys = fieldMng.getEnemys();
-		for (const auto& enemy : enemys) {
-			if (enemy->_handle == ignoreObj)
-				continue;
+		if (ignoreTargetGroup != Group::Enemys) {
+			const Array<std::shared_ptr<GameObject>> enemys = fieldMng.getEnemys();
+			for (const auto& enemy : enemys) {
+				if (enemy->_handle == ignoreObj)
+					continue;
 
-			if (enemy->withinCollisionForMove(area))
-				return false;
+				if (enemy->withinCollisionForMove(area))
+					return false;
+			}
 		}
 
 		return true;

@@ -48,9 +48,12 @@ enum class Direction {
 
 // 対象範囲
 enum class Group {
+	Non,
 	All,
 	Allys,
-	Enemys
+	Enemys,
+	Residents,
+	Items
 };
 
 extern Camera2D camera;

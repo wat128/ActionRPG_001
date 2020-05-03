@@ -35,7 +35,7 @@ Player::Player(const int32& value, const Vec2& pos)
 void Player::skill()
 {
 	Skill::State ret = Skill::State::Complete;
-	int32 index = -1;	// 暫定
+	int32 index = -1;
 
 	// 実行スキルの選定
 	if ((Motion::Excutable == _motion && KeyD.pressed())
@@ -115,7 +115,7 @@ void Player::move()
 		, _collisionForMove.x, _collisionForMove.y);
 	
 	auto& fieldRef = FieldReferee::getInstance();
-	bool ret = fieldRef.canMove(movedCollision, _handle);
+	bool ret = fieldRef.canMove(movedCollision, Group::Allys);
 	if (ret) {
 		_actor.setPos(_actor.pos + offset);
 		fieldRef.setActiveEvent(_actor);	// 移動後の領域にイベントがあれば設定。

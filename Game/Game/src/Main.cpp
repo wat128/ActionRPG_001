@@ -1,7 +1,10 @@
 ﻿
 # include "Common.hpp"
 # include "Title.hpp"
-# include "Game.hpp"
+# include "Map/Map01_1.hpp"
+# include "Map/Map01_2.hpp"
+# include "Map/Map01_3.hpp"
+# include "FieldManager.h"
 
 void AssetRegist();
 
@@ -16,13 +19,18 @@ void Main()
 	// シーンと遷移時の色を設定
 	MyApp manager;
 	manager
-		.add<Title>(State::Title)
-		.add<Game>(State::Game)
+		.add<Title>(SceneState::Title)
+		.add<Map01_1>(SceneState::Map01_1)
+		.add<Map01_2>(SceneState::Map01_2)
+		.add<Map01_3>(SceneState::Map01_3)
 		.setFadeColor(ColorF(1.0));
 
 	// （ゲームシーンから開始する場合はコメントを外す）
-	manager.init(State::Game);
+	manager.init(SceneState::Map01_1);
 	
+	// フィールドデータの作成
+	FieldManager::getInstance();
+
 	while (System::Update())
 	{
 		if (!manager.update())

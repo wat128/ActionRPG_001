@@ -70,81 +70,24 @@ public:
 	}
 
 	// ハンドル値をもつオブジェクトを取得する。なければnullptrを返す。
-	std::shared_ptr<GameObject> getObj(const uint32& handle) const
-	{
-		FieldManager& fieldMng = FieldManager::getInstance();
-
-		for (const auto& ally : fieldMng.getAllys()) {
-			if (ally->_handle == handle)
-				return ally;
-		}
-
-		for (const auto& enemy : fieldMng.getEnemys()) {
-			if (enemy->_handle == handle)
-				return enemy;
-		}
-
-		return nullptr;
-	}
+	std::shared_ptr<GameObject> getObj(const uint32& handle) const;
 
 	// region内にhandleをもつバトルオブジェクトが存在するかを取得する
-	bool exists(const uint32& handle, const RectF& region, const Group& targetGroup = Group::All)
-	{
-		FieldManager& fieldMng = FieldManager::getInstance();
-
-		if (Group::Allys == targetGroup || Group::All == targetGroup) {
-			for (const auto& ally : fieldMng.getAllys()) {
-				if (!region.intersects(ally->getPos()))
-					continue;
-
-				if (ally->_handle == handle)
-					return true;
-			}
-		}
-
-		if (Group::Enemys == targetGroup || Group::All == targetGroup) {
-			for (const auto& enemy : fieldMng.getEnemys()) {
-				if (!region.intersects(enemy->getPos()))
-					continue;
-
-				if (enemy->_handle == handle)
-					return true;
-			}
-		}
-
-		return false;
-	}
+	bool exists(const uint32& handle, const RectF& region, const Group& targetGroup);
 
 	// region内にいるバトルオブジェクトのハンドルリストを取得する
-	Array<uint32> getObjHandle(const RectF& region, const Group& targetGroup = Group::All) 
+	Array<uint32> getObjHandle(const RectF& region, const Group& targetGroup);
+
+	// 指定領域内にイベントがあれば実行中イベントに設定する。なければ何もしない。
+	inline void setActiveEvent(const RectF& region) 
 	{
-		Array<uint32> handles;
-		FieldManager& fieldMng = FieldManager::getInstance();
+		auto& fieldMng = FieldManager::getInstance();
+		const auto fieldId = fieldMng.getCurrentField().getFieldId();
 
-		if (Group::Allys == targetGroup || Group::All == targetGroup) {
-			for (const auto& ally : fieldMng.getAllys()) {
-				if (region.intersects(ally->getPos()))
-					handles.emplace_back(ally->_handle);
-			}
-		}
-
-		if (Group::Enemys == targetGroup || Group::All == targetGroup) {
-			for (const auto& enemy : fieldMng.getEnemys()) {
-				if (region.intersects(enemy->getPos()))
-					handles.emplace_back(enemy->_handle);
-			}
-		}
-		return handles;
+		fieldMng.setActiveEvent(fieldId, region);
 	}
 
-	void executeQueue()
-	{
-		for (auto actor : _queue) {
-			const int32& exp = std::get<0>(actor)->onDamage(std::get<1>(actor));
-			std::get<2>(actor)(exp);
-		}
-		_queue.clear();
-	}
+	void executeQueue();
 
 private:
 	FieldReferee();

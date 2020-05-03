@@ -2,12 +2,22 @@
 # pragma once
 # include <Siv3D.hpp> // OpenSiv3D v0.4.2
 
-// シーンの名前
-enum class State
+// シーンの名前	(シーン追加時はMapIdToSceneTableを更新すること)
+enum class SceneState
 {
+	Non,
 	Title,
-	Game
+	Map01_1,	// はじまりの丘（外）
+	Map01_2,	// はじまりの丘（自宅）
+	Map01_3		// はじまりの丘（小屋）
 };
+
+// シーン⇔マップIDの変換テーブル
+const struct MapIdToScene {
+	SceneState scene;
+	int32 mapId;
+};
+extern Array<MapIdToScene> MapIdToSceneTable;
 
 // ゲームデータ
 struct GameData
@@ -50,4 +60,13 @@ const double HURTTIME = 0.3;
 const HSV HURT_COLOR = { 0, 0.5, 1, 1 };
 
 // シーン管理クラス
-using MyApp = SceneManager<State, GameData>;
+using MyApp = SceneManager<SceneState, GameData>;
+
+
+/*----- 共通関数 -----*/
+
+// 現在のフィールドサイズからXYの限界値を算出し、カメラ位置を設定する
+void setCameraPos();
+
+// シーン遷移した際の初期処理を行う
+void initSceneTransition();

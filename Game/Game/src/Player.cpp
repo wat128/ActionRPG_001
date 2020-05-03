@@ -114,9 +114,12 @@ void Player::move()
 		, _actor.pos.y - _collisionForMove.y + offset.y
 		, _collisionForMove.x, _collisionForMove.y);
 	
-	bool ret = FieldReferee::getInstance().canMove(movedCollision, _handle);
-	if (ret)
+	auto& fieldRef = FieldReferee::getInstance();
+	bool ret = fieldRef.canMove(movedCollision, _handle);
+	if (ret) {
 		_actor.setPos(_actor.pos + offset);
+		fieldRef.setActiveEvent(_actor);	// 移動後の領域にイベントがあれば設定。
+	}
 
 	if (0 > offset.x)		_direction = Direction::Left;
 	else if (0 < offset.x)	_direction = Direction::Right;
@@ -251,6 +254,10 @@ void Player::draw()
 		Print << U"Hero_EXP :" << FieldManager::getInstance().getAllys().at(0)->getAbility().currentExp;
 		//Print << U"WolF_use_count :" << FieldManager::getInstance().getEnemys().at(0).use_count();
 		Print << U"Hero_attackBuffTime :" << FieldManager::getInstance().getAllys().at(0)->getAbility().attack.buffTime;
+		_actor.drawFrame();
+		RectF(-432, -240, 32, 48).drawFrame();	//1001
+		RectF(448, -176, 32, 64).drawFrame();	//1002
+		RectF(-112, 624, 144, 16).drawFrame();	//1003
 	}
 #endif
 }

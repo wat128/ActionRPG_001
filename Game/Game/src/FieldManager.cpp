@@ -10,6 +10,7 @@ FieldManager::FieldManager()
 	, _allyManager()
 	, _enemyManager()
 	, _effectManager()
+	, _eventManager()
 {
 	// フィールドマップデータ取得 & 生成
 	const int32 baseRow = 1;
@@ -31,13 +32,13 @@ FieldManager::FieldManager()
 		const int32 fieldId = Parse<int32>(fieldData[row][MAPID]);
 		_fields.emplace(
 			fieldId,
-			Field(fieldId, tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
+			Field(_eventManager, fieldId, tilePaths, Parse<FilePath>(fieldData[row][MAPDATA_PATH])));
 	}
 
 	// テスト用：ゲームオブジェクト生成
-	_allyManager.spawn<Player>(1, Vec2(170, -40));
-	_allyManager.spawn<Battler>(10, Vec2(100, 20));
-	_allyManager.spawn<Battler>(11, Vec2(-100, 100));
+	_allyManager.spawn<Player>(1, Vec2(0, 0));
+	//_allyManager.spawn<Battler>(10, Vec2(100, 20));
+	//_allyManager.spawn<Battler>(11, Vec2(-100, 100));
 	_enemyManager.spawn<Battler>(10, Vec2(50, 0));
 	_enemyManager.spawn<Battler>(11, Vec2(-100, 0));
 

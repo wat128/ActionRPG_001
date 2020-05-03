@@ -19,7 +19,7 @@ void Title::update()
 
 	if (m_startButton.leftClicked())
 	{
-		changeScene(State::Game);
+		changeScene(SceneState::Map01_1);
 	}
 
 	if (m_exitButton.leftClicked())

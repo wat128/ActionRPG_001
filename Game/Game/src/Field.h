@@ -1,5 +1,6 @@
 #pragma once
 # include "TiledMapTexture.h"
+# include "EventManager.hpp"
 
 struct Layer {
     Array<int32> data;
@@ -37,7 +38,7 @@ private:
 public:
     Field();
 
-    Field(const int32& fieldId,  const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos = true);
+    Field(EventManager& evMng, const int32& fieldId, const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos = true);
     
     void draw(const bool& lower = true, const bool& upper = true, const bool& worldPos = true);   // 下位上位レイヤー描画（デフォルト全レイヤー描画）
     
@@ -57,6 +58,8 @@ public:
     }
 
     TextureRegion findTileToDisplay(const int32& index);
+
+    inline int32 getFieldId() const { return _fieldId; };
 
     inline int32 cx() const { return -(_mapSize.x / 2); };
     inline int32 ex() const { return _mapSize.x / 2; };

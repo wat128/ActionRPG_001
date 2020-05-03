@@ -5,13 +5,18 @@ Field::Field()
     : _fieldId(0)
 {};
 
-Field::Field(const int32& fieldId, const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos)
+Field::Field(EventManager& evMng, const int32& fieldId, const Array<FilePath>& tileTexturePaths, const FilePath& mapDataPath, const bool& worldPos)
     : _fieldId(fieldId)
 {
     // マップデータ読み込み
     const JSONReader mapData(mapDataPath);
     if (!mapData)
         throw Error(U"Failed to read mapDataFile.json");
+
+    // 遷移イベントデータの読み込み
+    const CSVData transitionEventData(U"Asset/TransitionEventData.csv");
+    if (!transitionEventData)
+        throw Error(U"Failed to load TransitionEventData.csv");
 
     // 共通のマップ情報読み込み
     _mapSize = Size(
@@ -23,31 +28,84 @@ Field::Field(const int32& fieldId, const Array<FilePath>& tileTexturePaths, cons
 
     // 各レイヤーデータの読み込み
     for (const auto& layer : mapData[U"layers"].arrayView()) {
-        Layer temp;
-        for (const auto& tileData : layer[U"data"].arrayView()) {
-            temp.data.push_back(tileData.get<int32>());
+        
+        if (U"event" == layer[U"name"].getString()) {
+
+            // 遷移イベント生成
+            for (const auto& event : layer[U"objects"].arrayView()) {
+                int32 eventId = 0;
+                Event::Type type = Event::Type::Transition;
+                for (const auto& property : event[U"properties"].arrayView()) {
+
+                    if (U"EventID" == property[U"name"].getString()) {
+                        eventId = property[U"value"].get<int32>();
+                    }
+                    else if (U"Type" == property[U"name"].getString()) {
+                        if (1 == property[U"value"].get<int32>())
+                            type = Event::Type::Main;
+                        else if (2 == property[U"value"].get<int32>())
+                            type = Event::Type::Sub;
+                        else if (3 == property[U"value"].get<int32>())
+                            type = Event::Type::Transition;
+                    }
+                }
+
+                SceneState scene = SceneState::Non, toScene = SceneState::Non;
+                double toPosX = 0.0, toPosY = 0.0;
+                for (size_t row = 1; row < transitionEventData.rows(); ++row) {
+                    if (eventId != Parse<int32>(transitionEventData[row][0]))    // 同等のイベントIDを走査
+                        continue;
+
+                    for (const auto data : MapIdToSceneTable) {
+                        if (data.mapId == Parse<int32>(transitionEventData[row][3]))
+                            scene = data.scene;
+
+                        if (data.mapId == Parse<int32>(transitionEventData[row][4]))
+                            toScene = data.scene;
+                    }
+
+                    toPosX = Parse<double>(transitionEventData[row][5]);
+                    toPosY = Parse<double>(transitionEventData[row][6]);
+                    break;
+                }
+                
+                const double evPosX = event[U"x"].get<double>() - _mapSize.x / 2;
+                const double evPosY = event[U"y"].get<double>() - _mapSize.y / 2;
+
+                RectF region(evPosX, evPosY, event[U"width"].get<double>(), event[U"height"].get<double>());
+                evMng.registTransitionEvent(fieldId, Event(eventId, region, scene, toScene, Vec2(toPosX, toPosY), type));
+
+            }
         }
+        else {
 
-        temp.height = layer[U"height"].get<int32>();
-        temp.id = layer[U"id"].get<int32>();
-        temp.name = layer[U"name"].get<String>();
-        temp.opacity = layer[U"opacity"].get<int32>();
-        temp.type = layer[U"type"].get<String>();
-        temp.visible = layer[U"visible"].get<bool>();
-        temp.width = layer[U"width"].get<int32>();
-        temp.x = layer[U"x"].get<int32>();
-        temp.y = layer[U"y"].get<int32>();
+            // マップ生成
+            Layer temp;
+            for (const auto& tileData : layer[U"data"].arrayView()) {
+                temp.data.push_back(tileData.get<int32>());
+            }
 
-        for (const auto& property : layer[U"properties"].arrayView()){
-            if (U"Collision" == property[U"name"].getString())
-                temp.isCollisionLayer = property[U"value"].get<bool>();
-            if (U"Hide" == property[U"name"].getString())
-                temp.isHideLayer = property[U"value"].get<bool>();
-            if (U"Lower" == property[U"name"].getString())
-                temp.isLowerLayer = property[U"value"].get<bool>();
+            temp.height = layer[U"height"].get<int32>();
+            temp.id = layer[U"id"].get<int32>();
+            temp.name = layer[U"name"].get<String>();
+            temp.opacity = layer[U"opacity"].get<int32>();
+            temp.type = layer[U"type"].get<String>();
+            temp.visible = layer[U"visible"].get<bool>();
+            temp.width = layer[U"width"].get<int32>();
+            temp.x = layer[U"x"].get<int32>();
+            temp.y = layer[U"y"].get<int32>();
+
+            for (const auto& property : layer[U"properties"].arrayView()) {
+                if (U"Collision" == property[U"name"].getString())
+                    temp.isCollisionLayer = property[U"value"].get<bool>();
+                if (U"Hide" == property[U"name"].getString())
+                    temp.isHideLayer = property[U"value"].get<bool>();
+                if (U"Lower" == property[U"name"].getString())
+                    temp.isLowerLayer = property[U"value"].get<bool>();
+            }
+
+            _layers.push_back(temp);
         }
-
-        _layers.push_back(temp);
     }
 
     // コリジョンデータの読み込み

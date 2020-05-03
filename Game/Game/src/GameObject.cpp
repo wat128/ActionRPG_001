@@ -105,3 +105,8 @@ void GameObject::update()
 void GameObject::draw()
 {
 }
+
+void GameObject::setPos(const Vec2& toPos)
+{
+	_actor.setPos(toPos); 
+}

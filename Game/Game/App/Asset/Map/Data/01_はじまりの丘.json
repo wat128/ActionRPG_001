@@ -181,12 +181,23 @@
         {
          "draworder":"topdown",
          "id":10,
-         "name":"Event",
+         "name":"event",
          "objects":[
                 {
                  "height":16,
                  "id":1,
-                 "name":"toMap02",
+                 "name":"Map02_1",
+                 "properties":[
+                        {
+                         "name":"EventID",
+                         "type":"int",
+                         "value":1003
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"transition",
                  "visible":true,
@@ -197,7 +208,18 @@
                 {
                  "height":48,
                  "id":2,
-                 "name":"toHome",
+                 "name":"\u306f\u3058\u307e\u308a\u306e\u4e18_\u81ea\u5b85",
+                 "properties":[
+                        {
+                         "name":"EventID",
+                         "type":"int",
+                         "value":1001
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"transition",
                  "visible":true,
@@ -208,7 +230,18 @@
                 {
                  "height":64,
                  "id":3,
-                 "name":"toMonsterHousing",
+                 "name":"\u306f\u3058\u307e\u308a\u306e\u4e18_\u5c0f\u5c4b",
+                 "properties":[
+                        {
+                         "name":"EventID",
+                         "type":"int",
+                         "value":1002
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"transition",
                  "visible":true,

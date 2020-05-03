@@ -231,14 +231,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Battler.cpp" />
+    <ClCompile Include="src\Common.cpp" />
     <ClCompile Include="src\EffectAnime.cpp" />
     <ClCompile Include="src\EffectManager.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\Field.cpp" />
     <ClCompile Include="src\FieldManager.cpp" />
     <ClCompile Include="src\FieldReferee.cpp" />
-    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Map\Map01_1.cpp" />
+    <ClCompile Include="src\Map\Map01_2.cpp" />
+    <ClCompile Include="src\Map\Map01_3.cpp" />
     <ClCompile Include="src\ObjData.cpp" />
     <ClCompile Include="src\ObjectBase.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -251,12 +255,15 @@
     <ClInclude Include="src\Battler.h" />
     <ClInclude Include="src\Common.hpp" />
     <ClInclude Include="src\EffectManager.h" />
+    <ClInclude Include="src\EventManager.hpp" />
     <ClInclude Include="src\Field.h" />
     <ClInclude Include="src\FieldManager.h" />
     <ClInclude Include="src\FieldReferee.h" />
-    <ClInclude Include="src\Game.hpp" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GameObjectManager.h" />
+    <ClInclude Include="src\Map\Map01_1.hpp" />
+    <ClInclude Include="src\Map\Map01_2.hpp" />
+    <ClInclude Include="src\Map\Map01_3.hpp" />
     <ClInclude Include="src\ObjData.h" />
     <ClInclude Include="src\ObjectBase.h" />
     <ClInclude Include="src\Player.h" />
@@ -265,6 +272,7 @@
     <ClInclude Include="src\TiledGameObjectTexture.h" />
     <ClInclude Include="src\TiledMapTexture.h" />
     <ClInclude Include="src\Title.hpp" />
+    <ClInclude Include="src\Event.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

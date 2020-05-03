@@ -33,10 +33,10 @@ void Battler::move()
 	Vec2 offset = Vec2(R - L, D - U)
 		.setLength((Scene::DeltaTime() + 2.5) + speed * 0.003);
 
-	const RectF movedCollision(						// 移動した場合の衝突判定用
-		_actor.pos.x - _collisionForMove.x / 2 + offset.x
-		, _actor.pos.y - _collisionForMove.y + offset.y
-		, _collisionForMove.x, _collisionForMove.y);
+	const RectF movedCollision(							// 移動した場合の衝突判定用
+		CollisionForMove().x + offset.x
+		, CollisionForMove().y + offset.y
+		, _collisionForMoveSize);
 
 	bool ret = false;
 	if(_isEnemy)
@@ -89,19 +89,16 @@ void Battler::draw()
 #if 1
 	{
 		// テスト用：移動用コリジョン
-		RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
+		CollisionForMove().drawFrame();
 
 		// テスト用：ベース座標
 		Circle(_actor.pos, 2).draw(Palette::Red);
 
-		if (0 == _collision.y) {
-			// テスト用：コリジョン(Circle)
-			Circle(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision.x).drawFrame(0.5, Palette::Orange);
-		}
-		else {
-			// テスト用：コリジョン(RectF)
-			RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision).drawFrame(0.5, Palette::Orange);
-		}
+		// テスト用：コリジョン
+		if (0 == _collisionSize.y)
+			Collision<Circle>().drawFrame(0.5, Palette::Orange);
+		else
+			Collision<RectF>().drawFrame(0.5, Palette::Orange);
 	}
 #endif
 }

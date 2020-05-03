@@ -109,16 +109,16 @@ void Player::move()
 	Vec2 offset = Vec2(KeyRight.pressed() - KeyLeft.pressed(), KeyDown.pressed() - KeyUp.pressed())
 		.setLength((Scene::DeltaTime() + 2.5) + speed * 0.003);
 
-	const RectF movedCollision(						// 移動した場合の衝突判定用
-		_actor.pos.x - _collisionForMove.x / 2 + offset.x
-		, _actor.pos.y - _collisionForMove.y + offset.y
-		, _collisionForMove.x, _collisionForMove.y);
+	const RectF movedCollision(							// 移動した場合の衝突判定用
+		CollisionForMove().x + offset.x
+		, CollisionForMove().y + offset.y
+		, _collisionForMoveSize);
 	
 	auto& fieldRef = FieldReferee::getInstance();
 	bool ret = fieldRef.canMove(movedCollision, Group::Allys);
 	if (ret) {
 		_actor.setPos(_actor.pos + offset);
-		fieldRef.setActiveEvent(_actor);	// 移動後の領域にイベントがあれば設定。
+		fieldRef.setActiveEvent(CollisionForMove());	// 移動後の領域にイベントがあれば設定。
 	}
 
 	if (0 > offset.x)		_direction = Direction::Left;
@@ -127,7 +127,7 @@ void Player::move()
 	else if (0 < offset.y)	_direction = Direction::Down;
 
 	if (offset.x != 0 || offset.y != 0) 
-		_tiledTexture.walkAnime(_direction, 0.2);	// 暫定(歩行アニメーションレート)
+		_tiledTexture.walkAnime(_direction, 0.2);		// 暫定(歩行アニメーションレート)
 }
 
 void Player::update()
@@ -194,13 +194,13 @@ void Player::draw()
 #if 1
 	{
 		// テスト用：移動用コリジョン
-		RectF(_actor.pos.x - _collisionForMove.x / 2, _actor.pos.y - _collisionForMove.y, _collisionForMove).drawFrame();
+		CollisionForMove().drawFrame();
 
 		// テスト用：ベース座標
 		Circle(_actor.pos, 2).draw(Palette::Red);
 
 		// テスト用：コリジョン
-		RectF(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collision).drawFrame(0.5, Palette::Orange);
+		Collision<RectF>().drawFrame(0.5, Palette::Orange);
 
 		// テスト用：ソードスキル１の領域確認用
 
@@ -254,10 +254,10 @@ void Player::draw()
 		Print << U"Hero_EXP :" << FieldManager::getInstance().getAllys().at(0)->getAbility().currentExp;
 		//Print << U"WolF_use_count :" << FieldManager::getInstance().getEnemys().at(0).use_count();
 		Print << U"Hero_attackBuffTime :" << FieldManager::getInstance().getAllys().at(0)->getAbility().attack.buffTime;
-		_actor.drawFrame();
-		RectF(-432, -240, 32, 48).drawFrame();	//1001
-		RectF(448, -176, 32, 64).drawFrame();	//1002
-		RectF(-112, 624, 144, 16).drawFrame();	//1003
+
+		RectF(-432, -240, 32, 48).drawFrame();	// EventID : 1001
+		RectF(448, -176, 32, 64).drawFrame();	// EventID : 1002
+		RectF(-112, 624, 144, 16).drawFrame();	// EventID : 1003
 	}
 #endif
 }

@@ -22,8 +22,8 @@ public:
 	inline Size textureWalkTileXYNum(const int32& value) const	{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureWalkTileXYNum)]); }
 	inline Size textureAttackTileXYNum(const int32& value) const{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureAttackTileXYNum)]); }
 	inline Size textureTileWH(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureTileWH)]); }
-	inline Size collision(const int32& value) const				{ return Parse<Size>(_data[value][static_cast <int32>(Info::Collision)]); }
-	inline Size collisionForMove(const int32& value) const		{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionForMove)]); }
+	inline Size collisionSize(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionSize)]); }
+	inline Size collisionForMoveSize(const int32& value) const	{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionForMoveSize)]); }
 	inline String type(const int32& value) const				{ return Parse<String>(_data[value][static_cast <int32>(Info::Type)]); }
 	
 	// 戦闘系オブジェクト
@@ -59,8 +59,8 @@ private:
 		TextureWalkTileXYNum,		// １キャラの移動モーションタイル数
 		TextureAttackTileXYNum,		// １キャラの攻撃モーションタイル数
 		TextureTileWH,				// １タイルのサイズ
-		Collision,					// コリジョン（攻撃・話すetc...）
-		CollisionForMove,			// 移動用コリジョン
+		CollisionSize,				// コリジョン領域（攻撃・話すetc...）
+		CollisionForMoveSize,		// 移動用コリジョン領域
 		Type,						
 		Level,						
 		CurrentExp,					

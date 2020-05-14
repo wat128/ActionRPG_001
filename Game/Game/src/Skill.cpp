@@ -88,7 +88,7 @@ Skill::State Slash::execute(
 
 			if (data.attackNum > _attackNumAccum) {
 				const Circle skillRegion(
-					actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 - margin, data.region.x);
+					actor.pos.x, actor.pos.y - actor.h / 2 + actor.w / 4 + margin, data.region.x);
 
 				FieldReferee::getInstance().hitConfirm(skillRegion, targetGroup, data, func);
 				++_attackNumAccum;

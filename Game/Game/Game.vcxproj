@@ -243,6 +243,7 @@
     <ClCompile Include="src\Map\Map01_1.cpp" />
     <ClCompile Include="src\Map\Map01_2.cpp" />
     <ClCompile Include="src\Map\Map01_3.cpp" />
+    <ClCompile Include="src\Map\Map02_1.cpp" />
     <ClCompile Include="src\ObjData.cpp" />
     <ClCompile Include="src\ObjectBase.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="src\Map\Map01_1.hpp" />
     <ClInclude Include="src\Map\Map01_2.hpp" />
     <ClInclude Include="src\Map\Map01_3.hpp" />
+    <ClInclude Include="src\Map\Map02_1.hpp" />
     <ClInclude Include="src\ObjData.h" />
     <ClInclude Include="src\ObjectBase.h" />
     <ClInclude Include="src\Player.h" />

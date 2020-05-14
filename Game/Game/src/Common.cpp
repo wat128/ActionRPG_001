@@ -9,6 +9,7 @@ Array<MapIdToScene> MapIdToSceneTable = {
 	{ SceneState::Map01_1, 1 },
 	{ SceneState::Map01_2, 2 },
 	{ SceneState::Map01_3, 3 },
+	{ SceneState::Map02_1, 4 },
 
 };
 

@@ -425,6 +425,9 @@
     <ClCompile Include="src\Map\Map01_3.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="src\Map\Map02_1.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Title.hpp">
@@ -492,6 +495,9 @@
     </ClInclude>
     <ClInclude Include="src\Event.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Map\Map02_1.hpp">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

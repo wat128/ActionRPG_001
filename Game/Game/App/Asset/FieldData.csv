@@ -3,3 +3,4 @@ mapId,name,mapDataPath,texturePath01,texturePath02,texturePath03,texturePath04,t
 1,‚Í‚¶‚Ü‚è‚Ì‹u,Asset/Map/Data/01_‚Í‚¶‚Ü‚è‚Ì‹u.json,Asset/Map/Texture/BF-Town-A2.png,Asset/Map/Texture/BF-Town-B.png,Asset/Map/Texture/BF-Town-ForestA5.png,Asset/Map/Texture/BF-Town-ForestC.png,Asset/Map/Texture/BrightForest-A5.png,Asset/Map/Texture/Tent-F.png,Asset/Map/Texture/!Door-FTown01.png,,
 2,‚Í‚¶‚Ü‚è‚Ì‹u_©‘î,Asset/Map/Data/01_‚Í‚¶‚Ü‚è‚Ì‹u_©‘î.json,Asset/Map/Texture/Bath-A2.png,Asset/Map/Texture/Bath-A4.png,Asset/Map/Texture/ST-Town-I01.png,,,,,,
 3,‚Í‚¶‚Ü‚è‚Ì‹u_¬‰®,Asset/Map/Data/01_‚Í‚¶‚Ü‚è‚Ì‹u_¬‰®.json,Asset/Map/Texture/BF-Town-A2.png,Asset/Map/Texture/Bath-A4.png,,,,,,,
+4,Ã‚©‚ÈR“¹_1,Asset/Map/Data/02_Ã‚©‚ÈR“¹_1.json,Asset/Map/Texture/BF-Town-A2.png,Asset/Map/Texture/BrightForest-A5.png,Asset/Map/Texture/BF-Town-B.png,,,,,,

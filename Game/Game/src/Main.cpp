@@ -4,6 +4,7 @@
 # include "Map/Map01_1.hpp"
 # include "Map/Map01_2.hpp"
 # include "Map/Map01_3.hpp"
+# include "Map/Map02_1.hpp"
 # include "FieldManager.h"
 
 void AssetRegist();
@@ -23,6 +24,7 @@ void Main()
 		.add<Map01_1>(SceneState::Map01_1)
 		.add<Map01_2>(SceneState::Map01_2)
 		.add<Map01_3>(SceneState::Map01_3)
+		.add<Map02_1>(SceneState::Map02_1)
 		.setFadeColor(ColorF(1.0));
 
 	// （ゲームシーンから開始する場合はコメントを外す）

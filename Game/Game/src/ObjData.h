@@ -23,7 +23,9 @@ public:
 	inline Size textureAttackTileXYNum(const int32& value) const{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureAttackTileXYNum)]); }
 	inline Size textureTileWH(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::TextureTileWH)]); }
 	inline Size collisionSize(const int32& value) const			{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionSize)]); }
+	inline Vec2 collisionMargin(const int32& value) const		{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionMargin)]); }
 	inline Size collisionForMoveSize(const int32& value) const	{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionForMoveSize)]); }
+	inline Vec2 collisionForMoveMargin(const int32& value) const{ return Parse<Size>(_data[value][static_cast <int32>(Info::CollisionForMoveMargin)]); }
 	inline String type(const int32& value) const				{ return Parse<String>(_data[value][static_cast <int32>(Info::Type)]); }
 	
 	// 戦闘系オブジェクト
@@ -60,7 +62,9 @@ private:
 		TextureAttackTileXYNum,		// １キャラの攻撃モーションタイル数
 		TextureTileWH,				// １タイルのサイズ
 		CollisionSize,				// コリジョン領域（攻撃・話すetc...）
+		CollisionMargin,			// コリジョン領域開始位置調整用（デフォルト：XYキャラ中央）
 		CollisionForMoveSize,		// 移動用コリジョン領域
+		CollisionForMoveMargin,		// 移動用コリジョン開始位置調整用（デフォルト：X中央, Y底辺）
 		Type,						
 		Level,						
 		CurrentExp,					

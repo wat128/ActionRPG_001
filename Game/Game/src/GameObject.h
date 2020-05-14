@@ -55,12 +55,26 @@ public:
 	Shape Collision() const
 	{ 
 		if (0 == _collisionSize.y)	// Circle
-			return Shape(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collisionSize.x);
+			return Shape(
+				Arg::center(
+					(_actor.pos.x + _collisionMargin.x),
+					(_actor.pos.y - _actor.h / 2) + _collisionMargin.y),
+				_collisionSize.x);
 		else						// RectF
-			return Shape(Arg::center(_actor.pos.x, _actor.pos.y - _actor.h / 2), _collisionSize);
+			return Shape(
+				Arg::center(
+					(_actor.pos.x + _collisionMargin.x),
+					(_actor.pos.y - _actor.h / 2) + _collisionMargin.y),
+				_collisionSize);
 	}
 
-	inline RectF CollisionForMove() const { return RectF(_actor.pos.x - _collisionForMoveSize.x / 2, _actor.pos.y - _collisionForMoveSize.y, _collisionForMoveSize); }
+	inline RectF CollisionForMove() const
+	{
+		return RectF(
+			(_actor.pos.x - _collisionForMoveSize.x / 2) + _collisionForMoveMargin.x,
+			(_actor.pos.y - _collisionForMoveSize.y) + _collisionForMoveMargin.y,
+			_collisionForMoveSize); 
+	}
 
 protected:
 	RectF _actor;
@@ -70,7 +84,9 @@ protected:
 	TiledGameObjectTexture _tiledTexture;
 	Direction _direction;
 	const Size _collisionSize;
+	const Vec2 _collisionMargin;
 	const Size _collisionForMoveSize;
+	const Vec2 _collisionForMoveMargin;
 	Ability _ability;
 
 	double _HurtTime;

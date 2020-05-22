@@ -34,6 +34,8 @@ private:
     Size _mapSize;
     Size _tileSize;
     Size _tileNumWH;
+    Array<std::pair<int32, double>> _enemysData; // 出現エネミーデータ（エネミーID, 出現確率）
+    Array<Vec2> _enemyAppearancePos;            // エネミー出現座標
 
 public:
     Field();
@@ -59,8 +61,10 @@ public:
 
     TextureRegion findTileToDisplay(const int32& index);
 
-    inline int32 getFieldId() const { return _fieldId; };
+    // 出現モンスターのデータを出現確率から計算し返す。型:<エネミーID, 出現位置>
+    Array<std::pair<int32, Vec2>> getSpawnEnemyData();
 
+    inline int32 getFieldId() const { return _fieldId; };
     inline int32 cx() const { return -(_mapSize.x / 2); };
     inline int32 ex() const { return _mapSize.x / 2; };
     inline int32 cy() const { return -(_mapSize.y / 2); };

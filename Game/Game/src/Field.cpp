@@ -77,6 +77,36 @@ Field::Field(EventManager& evMng, const int32& fieldId, const Array<FilePath>& t
 
             }
         }
+        else if (U"enemy" == layer[U"name"].getString()) {
+
+            // 敵出現座標取得
+            for (const auto& enemy : layer[U"objects"].arrayView()) {
+                const Vec2 enemyScreenPos(enemy[U"x"].get<double>(), enemy[U"y"].get<double>());
+                
+                // ワールド座標に変換して保持する
+                _enemyAppearancePos.emplace_back(
+                    enemyScreenPos.x - _mapSize.x / 2,
+                    enemyScreenPos.y - _mapSize.y / 2);
+            }
+
+            // 出現する敵情報の取得
+            const CSVData enemyData(U"Asset/AppearanceEnemyData.csv");
+            if (!enemyData)
+                throw Error(U"Failed to load AppearanceEnemyData.csv");
+
+            int32 enemyValue = 0;
+            double rate = 0.0;
+            for (size_t column = 2; column < enemyData.columns(fieldId);) {
+                if (enemyData[fieldId][column].isEmpty())
+                    break;
+
+                enemyValue = Parse<int32>(enemyData[fieldId][column]);
+                ++column;
+                rate = Parse<double>(enemyData[fieldId][column]);
+                ++column;
+                _enemysData.emplace_back(std::make_pair(enemyValue, rate));
+            }
+        }
         else {
 
             // マップ生成
@@ -222,4 +252,23 @@ TextureRegion Field::findTileToDisplay(const int32& index)
         }
         offset += tile.sum();
     }
+}
+
+Array<std::pair<int32, Vec2>> Field::getSpawnEnemyData()
+{
+    Array<int32> enemysId;
+    Array<double> rates;
+    for (const auto& enemyData : _enemysData) {
+        enemysId.emplace_back(enemyData.first);
+        rates.emplace_back(enemyData.second);
+    }
+    DiscreteDistribution spawnRate(rates);
+    
+    Array<std::pair<int32, Vec2>> spawnEnemysData;  // <enemyId, pos>
+    for (const auto& enemyPos : _enemyAppearancePos) {
+        spawnEnemysData.emplace_back(
+            std::make_pair(DiscreteSample(enemysId, spawnRate), enemyPos));
+    }
+
+    return spawnEnemysData;
 }

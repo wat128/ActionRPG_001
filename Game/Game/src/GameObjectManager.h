@@ -43,6 +43,11 @@ public:
 	
 	inline Array<std::shared_ptr<GameObject>> getObjects() const { return _objects;}
 
+	inline void clearObjects()
+	{
+		_objects.clear();
+	}
+
 private:
 	Array<std::shared_ptr<GameObject>> _objects;
 };

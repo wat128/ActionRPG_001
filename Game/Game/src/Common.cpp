@@ -56,7 +56,8 @@ void initSceneTransition()
 		}
 		setCameraPos();
 		
-		// Enemy‚ÌÁ‹‚Æ¶¬
+		fieldManager.clearEnemys();
+		fieldManager.spawnEnemys();
 
 		fieldManager.initActiveEvent();
 	}

@@ -22,6 +22,9 @@ public:
 	inline Array<std::shared_ptr<GameObject>> getAllys() const { return _allyManager.getObjects(); };
 	inline Array<std::shared_ptr<GameObject>> getEnemys() const { return _enemyManager.getObjects(); };
 
+	inline void clearEnemys() { _enemyManager.clearObjects(); }
+	void spawnEnemys();
+
 	bool chkActiveEvent() { return _eventManager.chkActiveEvent(); }	// EventManagerの関数コメント参照必須
 	Event getActiveEvent() { return _eventManager.getActiveEvent(); }	// EventManagerの関数コメント参照必須
 	bool setActiveEvent(const int32& fieldId, const RectF& region) { return _eventManager.setActiveEvent(fieldId, region); }
